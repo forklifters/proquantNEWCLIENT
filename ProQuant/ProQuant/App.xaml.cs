@@ -1,32 +1,57 @@
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Globalization;
+using System.Threading;
+
+using System.Threading.Tasks;
+using Refit;
+using Plugin.Connectivity;
 
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
 namespace ProQuant
 {
-	public partial class App : Application
-	{
-		public App ()
-		{
-			InitializeComponent();
+    public partial class App : Application
+    {
+        public App()
+        {
+            InitializeComponent();
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
+            //MainPage = new NavigationPage(new JobSpecific());
+            MainPage = new NavigationPage(new Splash())
+            {
+                BarBackgroundColor = Color.FromHex("#fe0000"),
+                BarTextColor = Color.White
+            };
+        }
 
-			MainPage = new MainPage();
-		}
+        protected override void OnStart()
+        {
+            // Handle when your app starts
+        }
 
-		protected override void OnStart ()
-		{
-			// Handle when your app starts
-		}
+        public static bool CheckConnection()
+        {
+            if (CrossConnectivity.Current.IsConnected != true)
+            {
+                return false;
+            }
+            else return true;
+        }
 
-		protected override void OnSleep ()
-		{
-			// Handle when your app sleeps
-		}
+        public static void ExitApp()
+        {
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
+        }
 
-		protected override void OnResume ()
-		{
-			// Handle when your app resumes
-		}
-	}
+        protected override void OnSleep()
+        {
+            // Handle when your app sleeps
+        }
+
+        protected override void OnResume()
+        {
+            // Handle when your app resumes
+        }
+    }
 }

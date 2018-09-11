@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProQuant.JobSpecific">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="White">
+            <StackLayout Orientation="Vertical"
+                         Padding="20,8,20,20">
+                <!--ID AND PAID-->
+                <Label x:Name="IDLabel"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="Black"/>
+                <Label x:Name="SJLabel" FontSize="12"
+                       FontAttributes="Bold"/>
+                <Image x:Name="Paid" Source="PAID.PNG"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal"
+                         Padding="20,0,20,0">
+                <!--ADDRESS VALUE AND STATUS-->
+                <StackLayout Orientation="Vertical"
+                             HorizontalOptions="Start">
+                    <!--ADDRESS-->
+                    <Label x:Name="Add1"
+                           Text="Add1"/>
+                    <Label x:Name="Add2"
+                           Text="Add2"/>
+                    <Label x:Name="Add3"
+                           Text="Add3"/>
+                    <Label x:Name="Add4"
+                           Text="Add4"/>
+                    <Label x:Name="AddPC"
+                           Text="AddPC"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical"
+                             HorizontalOptions="EndAndExpand">
+                    <!--Status-->
+                    <StackLayout HorizontalOptions="End">
+                        <Label x:Name="Status"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               Text="STATUS"/>
+                    </StackLayout>
+
+                    <StackLayout HorizontalOptions="Start">
+                        <Label x:Name="Description"
+                               FontAttributes="Bold"
+                               TextColor="Black"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout>
+                <!--PAY BUTTON-->
+                <Button x:Name="PayButton"
+                        Clicked="PayButton_Clicked"/>
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center">
+                <!--SEND PDF AND EXTRA BUTTONS-->
+                <Button Text="Send PDF"
+                        x:Name="SendPDFButton"
+                        Clicked="SendPDFButton_Clicked"/>
+                <Button Text="Call Us"
+                        x:Name="CallUsButton"
+                        Clicked="CallUsButton_Clicked_1"/>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

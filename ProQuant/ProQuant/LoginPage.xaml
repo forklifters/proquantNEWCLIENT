@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProQuant.LoginPage">
+    <ContentPage.Content >
+        <StackLayout Padding="20,30,20,30" BackgroundColor="White">
+            <StackLayout Padding="30,0,30,20">
+                <Image HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   x:Name="SplashImage"
+                   Source="Proquant_logo.PNG"
+                   Aspect="AspectFill"/>
+            </StackLayout>
+
+            <Label x:Name="Tester"/>
+
+            <Entry Placeholder="Email"
+                   PlaceholderColor="Gray"
+                   x:Name="EmailEntry"
+                   Keyboard="Email"/>
+
+            <Entry Placeholder="Password"
+                   IsPassword="True"
+                   PlaceholderColor="Gray"
+                   x:Name="PassEntry"
+                   />
+
+            <Button Text="Log in"
+                    Clicked="LogInClicked"/>
+
+            <StackLayout Orientation="Vertical"
+                         HorizontalOptions="Center"
+                         VerticalOptions="StartAndExpand">
+                <StackLayout>
+                    <Button Text="Sign Up"
+                    Clicked="SignUpClicked"/>
+                </StackLayout>
+
+            </StackLayout>
+
+
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="End"
+                         HorizontalOptions="Center">
+                <Button Text="Forgot Password"
+                        Clicked="ForgotPasswordClicked"/>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
