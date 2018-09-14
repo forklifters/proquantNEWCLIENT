@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProQuant.LoginPage">
-    <ContentPage.Content >
-        <StackLayout Padding="20,30,20,30" BackgroundColor="White">
+             x:Class="ProQuant.LoginPage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <StackLayout Padding="20,75,20,30" BackgroundColor="White">
             <StackLayout Padding="30,0,30,20">
                 <Image HorizontalOptions="Center"
                    VerticalOptions="Center"

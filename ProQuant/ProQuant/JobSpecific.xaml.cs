@@ -85,7 +85,7 @@ namespace ProQuant
 
         private async void PayButton_Clicked(object sender, EventArgs e)
         {
-            await ConnectionCheck();
+            ConnectionCheck();
             var response = await DisplayAlert(String.Format("Total: £{0}", Total),
                                                 String.Format("Our Price: £{0} \n" +
                                                                 "Vat: £{1} \n",
@@ -103,14 +103,17 @@ namespace ProQuant
                 string subjobnumber = _jobcell.SubJobNumber;
 
                 string payrequest = String.Format("/api/api/5?id=id$~{0}~cmd$~getpaylink~{1}~{2}", MainCnx.ID, jobnumber, subjobnumber);
-
-                await ConnectionCheck();
+                
+                
+                ConnectionCheck();
                 if (connected == true)
                 {
                     try
                     {
-                        string paylink = await GetJob(payrequest, MainCnx.Token); //return link isnt working.
-                                                                                  //string paylink = "https://www.google.com";
+                        //string paylink = GetJob(payrequest, MainCnx.Token).Result; //return link isnt working.
+                        string paylink = await Client.GET(MainCnx.Token, payrequest);                                                          //string paylink = "https://www.google.com";
+                        
+
 
                         if (paylink[0] == '"')
                         {
@@ -176,7 +179,7 @@ namespace ProQuant
             string subjobnumber = _jobcell.SubJobNumber;
             string key = string.Format("/api/api/5?id=id$~{0}~cmd$~emailpdfs~{1}~{2}~{3}", MainCnx.ID, jobnumber, subjobnumber, "oliver.filmer@proquantestimating.co.uk"); //replace this with builder email.
 
-            await ConnectionCheck();
+            ConnectionCheck();
             if (connected == true)
             {
                 string response = await GetJob(key, MainCnx.Token);
@@ -193,7 +196,7 @@ namespace ProQuant
         //    return response;
         //}
 
-        public async Task ConnectionCheck()
+        public async void ConnectionCheck()
         {
             bool Connected = App.CheckConnection();
             if (Connected == false)
@@ -207,13 +210,14 @@ namespace ProQuant
 
         async Task<string> GetJob(string key, string token)
         {
-            await ConnectionCheck();
+            ConnectionCheck();
             if (connected == true)
             {
                 //string auth = "Bearer " + token;
                 //var nsAPI = RestService.For<IMakeUpApi>("https://proq.remotewebaccess.com:58330");
                 //var response = await nsAPI.GetKey(key, auth);
-                var response = Client.GET(token, key).Result;
+                var response = await Client.GET(token, key);
+                var x = response;
                 return response;
             }
             return null;

@@ -52,7 +52,9 @@
                 </StackLayout>
             </StackLayout>
 
-            <StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand"/>
+
+            <StackLayout Padding="0,0,0,20">
                 <!--PAY BUTTON-->
                 <Button x:Name="PayButton"
                         Clicked="PayButton_Clicked"/>
@@ -60,7 +62,8 @@
             </StackLayout>
 
             <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="Center">
+                         HorizontalOptions="Center"
+                         Padding="0,0,0,40">
                 <!--SEND PDF AND EXTRA BUTTONS-->
                 <Button Text="Send PDF"
                         x:Name="SendPDFButton"

@@ -90,7 +90,7 @@ namespace ProQuant
 
                     //################################################################
                     //WHEN NOT TESTING COMMENT THESE LINES OUT AND REPLACE WITH BELOW
-                    string user = "wayne_mcgrath1@hotmail.com"; //change to EmailEntry.Text                           //when not testing comment these lines out.
+                    string user = "egbbuilders@aol.com"; //change to EmailEntry.Text                           //when not testing comment these lines out.
                     string pass = "proQuant97"; //change to PassEntry.Text
                     string response = await Client.GET_Token(tokenKey, "Basic", user, pass);
                     List<string> tokenInfo = GetTokenInfo(response).Result;

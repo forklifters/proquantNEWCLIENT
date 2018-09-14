@@ -36,8 +36,8 @@ namespace ProQuant
             string encodedUP = Base64Encode(user + ":" + pass);
             //string auth = "Basic " + encodedUP;
 
-
-            string add = $"https://proq.remotewebaccess.com:58330{key}";
+            string add = $"https://proq.remotewebaccess.com:58328{key}";
+            //string add = $"https://proq.remotewebaccess.com:58330{key}";
             HttpClient _client = new HttpClient();
 
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(authType, encodedUP);
@@ -54,7 +54,9 @@ namespace ProQuant
         public static async Task<string> GET(string token, string key)
         {
 
-            string add = $"https://proq.remotewebaccess.com:58330{key}";
+            string add = $"https://proq.remotewebaccess.com:58328{key}";
+            //string add = $"https://proq.remotewebaccess.com:58330{key}"; - OLD API
+
             HttpClient _getClient = new HttpClient();
             
 

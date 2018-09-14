@@ -20,6 +20,9 @@ namespace ProQuant
         public int jobEndNumber = 5;
         public Connection Maincnx;
         public bool firstLoad = true;
+        SearchBar searchbar;
+
+
 
 
 
@@ -27,7 +30,7 @@ namespace ProQuant
         public main(Connection cnx)
         {
             InitializeComponent();
-            updateList(cnx);
+            updateList(cnx, null);
             Maincnx = cnx;
             firstLoad = false;
             ConnectionCheck();
@@ -46,7 +49,7 @@ namespace ProQuant
             connected = true;
         }
 
-        async Task<string> GetJob(string key, string token)
+        public async Task<string> GetJob(string key, string token)
         {
             ConnectionCheck();
             if (connected == true)
@@ -68,15 +71,21 @@ namespace ProQuant
             string jobKey = String.Format("/api/api/5?id=id$~{0}~cmd$~getjob~{1}~{2}", cnx.ID, listStart, listEnd);
 
             string jsonRaw = "";
-            
-            
+
+
             jsonRaw = await Client.GET(cnx.Token, jobKey);
 
-            
-            
-            
-            var x = JobsFromJson.FromJson(jsonRaw);
 
+
+
+            var x = JobsFromJson.FromJson(jsonRaw);
+            List<Job> Jobs = JsonDictionaryToJob(x);
+
+            return Jobs;
+        }
+
+        public static List<Job> JsonDictionaryToJob(List<Dictionary<string, string>> x)
+        {
             List<Job> Jobs = new List<Job>();
 
 
@@ -136,13 +145,23 @@ namespace ProQuant
             return Jobs;
         }
 
-        async void updateList(Connection cnx)
+        async void updateList(Connection cnx, List<Job> _Jobs)
         {
+            List<Job> Jobs = new List<Job>(); ;
+            if(_Jobs == null)
+            {
+                Jobs = await GetContent(jobStartNumber, jobEndNumber, cnx);
+            }
+            else
+            {
+                Jobs = _Jobs;
+            }
+            
 
-            List<Job> Jobs = await GetContent(jobStartNumber, jobEndNumber, cnx);
 
             List<JobCell> Cells = new List<JobCell>();
 
+            
 
 
             foreach (Job job in Jobs)
@@ -168,6 +187,13 @@ namespace ProQuant
                 HorizontalTextAlignment = TextAlignment.Center
             };
 
+            searchbar = new SearchBar()
+            {
+                Placeholder = "Search by Job Reference Number:",
+                SearchCommand = new Command(() => { SearchJob(searchbar.Text); })
+            };
+
+            
 
             ListView listView = new ListView()
             {
@@ -268,6 +294,7 @@ namespace ProQuant
                 Children =
                 {
                     jobHeader,
+                    searchbar,
                     listView,
                     buttonStack
                 }
@@ -280,7 +307,7 @@ namespace ProQuant
             {
                 jobStartNumber = 0;
                 jobEndNumber = 10;
-                updateList(Maincnx);
+                updateList(Maincnx, null);
 
 
             }
@@ -288,7 +315,7 @@ namespace ProQuant
             {
                 jobStartNumber -= 10;
                 jobEndNumber -= 10;
-                updateList(Maincnx);
+                updateList(Maincnx, null);
             }
         }
 
@@ -297,7 +324,7 @@ namespace ProQuant
 
             jobStartNumber += 10;
             jobEndNumber += 10;
-            updateList(Maincnx);
+            updateList(Maincnx, null);
             //have to add in a end of available jobs check.
         }
 
@@ -323,13 +350,13 @@ namespace ProQuant
             {
                 await DisplayAlert("No Info", "No Further Information", "ok");
                 Console.WriteLine("RETURNED: no jobs");
-                updateList(Maincnx);
+                updateList(Maincnx, null);
             }
             else if (rawJson[0] != '[')
             {
                 await DisplayAlert("No Info", "No Further Information", "ok");
                 Console.WriteLine("RETURNED: Improper Format");
-                updateList(Maincnx);
+                updateList(Maincnx, null);
             }
             else
             {
@@ -490,15 +517,39 @@ namespace ProQuant
         }
 
 
+        public async void SearchJob(string JobNumber)
+        {
+            
+            List<Job> jobs = new List<Job>();
+            
+            ConnectionCheck();
+            string key = string.Format("/api/api/5?id=id$~{0}~cmd$~getjob~{1}~spec", Maincnx.ID, JobNumber);
+            string rawJson = await GetJob(key, Maincnx.Token);
+            if(rawJson[0] == '[')
+            {
+               var x = JobsFromJson.FromJson(rawJson);
+                jobs = JsonDictionaryToJob(x);
+                updateList(Maincnx, jobs);
+            }
+            else
+            {
+                await DisplayAlert("No Data", "There seems to be nothing here, if there should be, please call us.", "Ok");
+            }
+            
+        }
+
+
         protected override void OnAppearing()
         {
             if (firstLoad == false)
             {
-                updateList(Maincnx);
+                updateList(Maincnx, null);
             }
 
             base.OnAppearing();
         }
+
+
 
 
 
