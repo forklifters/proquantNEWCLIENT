@@ -16,8 +16,6 @@ namespace ProQuant
     public partial class main : TabbedPage
     {
         bool connected = false;
-        public int jobStartNumber = 0;
-        public int jobEndNumber = 5;
         public Connection Maincnx;
         public bool firstLoad = true;
         SearchBar searchbar;
@@ -150,7 +148,12 @@ namespace ProQuant
             List<Job> Jobs = new List<Job>(); ;
             if(_Jobs == null)
             {
-                Jobs = await GetContent(jobStartNumber, jobEndNumber, cnx);
+                JobAmounts jobamounts = await GetAmounts(cnx);
+                if (!string.IsNullOrEmpty(jobamounts.jobs))
+                {
+                    int endNumber = Int32.Parse(jobamounts.jobs);
+                    Jobs = await GetContent(0, endNumber, cnx);
+                }    
             }
             else
             {
@@ -262,32 +265,6 @@ namespace ProQuant
 
             this.Padding = new Thickness(10, 20, 10, 5);
 
-            Button next = new Button()
-            {
-                Text = "Next",
-            };
-
-            Button prev = new Button()
-            {
-                Text = "Prev"
-            };
-
-            next.Clicked += Next_Clicked;
-            prev.Clicked += Prev_Clicked;
-
-
-
-            StackLayout buttonStack = new StackLayout()
-            {
-                Orientation = StackOrientation.Horizontal,
-                HorizontalOptions = LayoutOptions.Center,
-                Children =
-                {
-                    prev,
-                    next
-                }
-
-            };
 
             Tab1.Content = new StackLayout
             {
@@ -296,37 +273,21 @@ namespace ProQuant
                     jobHeader,
                     searchbar,
                     listView,
-                    buttonStack
+                    
                 }
             };
         }
 
-        private void Prev_Clicked(object sender, EventArgs e)
+        private async Task<JobAmounts> GetAmounts(Connection cnx)
         {
-            if (jobStartNumber < 10)
-            {
-                jobStartNumber = 0;
-                jobEndNumber = 10;
-                updateList(Maincnx, null);
+            string key = string.Format("/api/api/5?id=id$~{0}~cmd$~getjobnums", cnx.ID);
+            var jsonRaw = await Client.GET(cnx.Token, key);
 
+            JobAmounts jobAmounts = JobAmounts.FromJson(jsonRaw);
+            return jobAmounts;
 
-            }
-            else
-            {
-                jobStartNumber -= 10;
-                jobEndNumber -= 10;
-                updateList(Maincnx, null);
-            }
         }
 
-        private void Next_Clicked(object sender, EventArgs e)
-        {
-
-            jobStartNumber += 10;
-            jobEndNumber += 10;
-            updateList(Maincnx, null);
-            //have to add in a end of available jobs check.
-        }
 
         public async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -377,13 +338,13 @@ namespace ProQuant
                         sj.Subjob = Convert.ToInt32(i["subjob"]);
                     }
 
-                    if (i["sent"] == "")
+                    if (i["esent"] == "")
                     {
                         sj.Sent = 0;
                     }
                     else
                     {
-                        sj.Sent = Convert.ToInt32(i["sent"]);
+                        sj.Sent = Convert.ToInt32(i["esent"]);
                     }
 
                     sj.Status = i["status"];
@@ -405,6 +366,11 @@ namespace ProQuant
                 {
 
                     Job job = new Job();
+                    if (_sj.Description == "none")
+                    {
+                        _sj.Description = "";
+                    }
+
                     if (_sj.GrossValue == null || _sj.GrossValue == "")
                     {
                         if (_item.grossValue == null || _item.grossValue == 0)

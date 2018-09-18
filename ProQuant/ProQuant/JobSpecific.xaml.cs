@@ -101,6 +101,10 @@ namespace ProQuant
 
                 string jobnumber = _jobcell.job.job.ToString();
                 string subjobnumber = _jobcell.SubJobNumber;
+                if (string.IsNullOrEmpty(subjobnumber))
+                {
+                    subjobnumber = "0";
+                }
 
                 string payrequest = String.Format("/api/api/5?id=id$~{0}~cmd$~getpaylink~{1}~{2}", MainCnx.ID, jobnumber, subjobnumber);
                 
@@ -111,26 +115,21 @@ namespace ProQuant
                     try
                     {
                         //string paylink = GetJob(payrequest, MainCnx.Token).Result; //return link isnt working.
-                        string paylink = await Client.GET(MainCnx.Token, payrequest);                                                          //string paylink = "https://www.google.com";
+                        string message = await Client.GET(MainCnx.Token, payrequest);
+
+                        PayLinkJsonParse PayLinkJson = PayLinkJsonParse.FromJson(message);
+                        var xx = PayLinkJson;
+
+                        if (string.IsNullOrEmpty(PayLinkJson.Error))
+                        {
+                            Uri link = new Uri(PayLinkJson.Message, UriKind.Absolute);
+                            await Browser.OpenAsync(link, BrowserLaunchMode.SystemPreferred);
+                        }
+                        else
+                        {
+                            await DisplayAlert("ERROR", PayLinkJson.Error, "Ok");
+                        }
                         
-
-
-                        if (paylink[0] == '"')
-                        {
-                            paylink = paylink.Substring(1);
-
-                        }
-                        if (paylink[paylink.Length - 1] == '"')
-                        {
-                            paylink = paylink.Substring(0, paylink.Length - 1);
-
-                        }
-
-                        Uri link = new Uri(paylink, UriKind.Absolute);
-
-
-
-                        await Browser.OpenAsync(link, BrowserLaunchMode.SystemPreferred);
                     }
                     catch (UriFormatException Ex)
                     {

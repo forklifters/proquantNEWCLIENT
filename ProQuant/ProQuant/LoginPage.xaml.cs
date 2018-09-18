@@ -93,7 +93,9 @@ namespace ProQuant
                     string user = "egbbuilders@aol.com"; //change to EmailEntry.Text                           //when not testing comment these lines out.
                     string pass = "proQuant97"; //change to PassEntry.Text
                     string response = await Client.GET_Token(tokenKey, "Basic", user, pass);
-                    List<string> tokenInfo = GetTokenInfo(response).Result;
+                    TokenInfoJsonParse tokenInfo = TokenInfoJsonParse.FromJson(response);
+                    
+                    
                     
 
                     //################################################################
@@ -103,13 +105,19 @@ namespace ProQuant
                     //string response = await Client.GET_Token(tokenKey, "Basic", cnx.User, cnx.Pass);
                     //List<string> tokenInfo = GetTokenInfo(response).Result;
                     
-                    cnx.Token = tokenInfo[0];
-                    cnx.ID = tokenInfo[1];
-                    cnx.Name = tokenInfo[2];
+                    cnx.Token = tokenInfo.Token;
+                    cnx.ID = tokenInfo.Id;
+                    cnx.Name = tokenInfo.Name;
+                    cnx.TokenInfoJsonProps = tokenInfo;
 
-                    if (tokenInfo[0] != "failed")
+
+                    if (string.IsNullOrEmpty(tokenInfo.Error))
                     {
                         go();
+                    }
+                    else
+                    {
+                        await DisplayAlert("ERROR", tokenInfo.Error, "Ok");
                     }
 
                     busy = false;
@@ -128,40 +136,6 @@ namespace ProQuant
                     BarBackgroundColor = Color.FromHex("#fe0000"),
                     BarTextColor = Color.White
                 });
-            }
-        }
-
-        async Task<List<string>> GetTokenInfo(string response)
-        {
-
-            //Token Format = "\"Token=/MlLmCETCEuwmBs2GX6rkQ==~id=2534~name=EGB Builders \""
-
-            Console.WriteLine("GOT RESPONSE");
-
-            if (response.Contains("error unautherised user"))
-            {
-                Console.WriteLine("## BAD RESPONSE ---##--- UNAUTH USER ##");
-
-                //display pop up
-                await DisplayAlert("Login Failed", "Your Email or Password has not been recognised", "Ok");
-
-                List<string> tokenInfoList = new List<string>()
-                {
-                    "failed",
-                    "failed",
-                    "failed"
-                };
-                return tokenInfoList;
-            }
-            else
-            {
-                Console.WriteLine("GOOD RESPONSE");
-                List<string> tokenInfoList = TokenResponse.TokenParse(response);
-                //0 - token
-                //1 - id
-                //2 - name
-                return tokenInfoList;
-
             }
         }
 
