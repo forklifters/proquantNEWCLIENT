@@ -19,6 +19,8 @@ namespace ProQuant
         public Connection Maincnx;
         public bool firstLoad = true;
         SearchBar searchbar;
+        List<JobCell> _Cells = new List<JobCell>();
+        string searchBarText;
 
 
 
@@ -28,6 +30,10 @@ namespace ProQuant
         public main(Connection cnx)
         {
             InitializeComponent();
+            if (firstLoad == true)
+            {
+                searchBarText = "";
+            }
             updateList(cnx, null);
             Maincnx = cnx;
             firstLoad = false;
@@ -143,47 +149,52 @@ namespace ProQuant
             return Jobs;
         }
 
-        async void updateList(Connection cnx, List<Job> _Jobs)
+        async void updateList(Connection cnx, List<JobCell> JOBCELLS)
         {
             List<Job> Jobs = new List<Job>(); ;
-            if(_Jobs == null)
+            List<JobCell> Cells = new List<JobCell>();
+
+
+            if (JOBCELLS == null)
             {
                 JobAmounts jobamounts = await GetAmounts(cnx);
                 if (!string.IsNullOrEmpty(jobamounts.jobs))
                 {
                     int endNumber = Int32.Parse(jobamounts.jobs);
                     Jobs = await GetContent(0, endNumber, cnx);
-                }    
+                }
+
+                foreach (Job job in Jobs)
+                {
+                    JobCell cell = new JobCell();
+
+                    cell.JobNumber = job.job.ToString();
+                    cell.Add1 = job.add1;
+                    cell.JobColor = StatusSorter.JobNumberColor(job);
+                    cell.Status = StatusSorter.StatusText(job);
+                    cell.StatusColor = StatusSorter.StatusColor(job);
+                    cell.CellColor = StatusSorter.CellColor(job);
+                    cell.job = job;
+                    Cells.Add(cell);
+
+                    _Cells = Cells;
+
+                }
+
             }
             else
             {
-                Jobs = _Jobs;
+                Cells = JOBCELLS;
             }
+            
+            
             
 
 
-            List<JobCell> Cells = new List<JobCell>();
-
-            
-
-
-            foreach (Job job in Jobs)
-            {
-                JobCell cell = new JobCell();
-
-                cell.JobNumber = job.job.ToString();
-                cell.Add1 = job.add1;
-                cell.JobColor = StatusSorter.JobNumberColor(job);
-                cell.Status = StatusSorter.StatusText(job);
-                cell.StatusColor = StatusSorter.StatusColor(job);
-                cell.CellColor = StatusSorter.CellColor(job);
-                cell.job = job;
-                Cells.Add(cell);
-            }
 
             Label jobHeader = new Label
             {
-                Text = Jobs[0].buildername,
+                Text = Maincnx.Name,
                 TextColor = Color.Black,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center,
@@ -192,13 +203,15 @@ namespace ProQuant
 
             searchbar = new SearchBar()
             {
-                Placeholder = "Search by Job Reference Number:",
-                SearchCommand = new Command(() => { SearchJob(searchbar.Text); })
+                Placeholder = "Search:",
+                Text = searchBarText
             };
 
-            
+            searchbar.SearchButtonPressed += Searchbar_SearchButtonPressed;
 
-            ListView listView = new ListView()
+        
+
+        ListView listView = new ListView()
             {
                 HasUnevenRows = true,
                 BackgroundColor = Color.White,
@@ -277,6 +290,195 @@ namespace ProQuant
                 }
             };
         }
+
+        private void Searchbar_SearchButtonPressed(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(searchbar.Text) && !string.IsNullOrWhiteSpace(searchbar.Text))
+            {
+                searchBarText = searchbar.Text;
+                string text = searchbar.Text.ToLower();
+                string y;
+
+
+                List<JobCell> List = new List<JobCell>();
+
+                foreach (JobCell cell in _Cells)
+                {
+                    bool addToList = false;
+                    JobCell x = cell;
+                    if (!string.IsNullOrEmpty(x.Add1))
+                    {
+                        y = x.Add1.ToLower();
+                        if (y.Contains(text))
+                        {
+                            addToList = true;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(x.Add2))
+                    {
+                        y = x.Add2.ToLower();
+                        if (y.Contains(text))
+                        {
+                            addToList = true;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(x.Add3))
+                    {
+                        y = x.Add3.ToLower();
+                        if (y.Contains(text))
+                        {
+                            addToList = true;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(x.Add4))
+                    {
+                        y = x.Add4.ToLower();
+                        if (y.Contains(text))
+                        {
+                            addToList = true;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(x.AddPC))
+                    {
+                        y = x.AddPC.ToLower();
+                        if (y.Contains(text))
+                        {
+                            addToList = true;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(x.Description))
+                    {
+                        y = x.Description.ToLower();
+                        if (y.Contains(text))
+                        {
+                            addToList = true;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(x.JobNumber))
+                    {
+                        y = x.JobNumber;
+                        if (y.Contains(text))
+                        {
+                            addToList = true;
+                        }
+                    }
+
+                    if (addToList == true)
+                    {
+                        List.Add(cell);
+                    }
+                }
+
+                updateList(Maincnx, List);
+            }
+            else
+            {
+                updateList(Maincnx, null);
+                searchBarText = "";
+            }
+        }
+
+        //private void ONTEXTCHANGEEVENT(object sender, TextChangedEventArgs e)
+        //{
+        //    if(!string.IsNullOrEmpty(e.NewTextValue) && !string.IsNullOrWhiteSpace(e.NewTextValue))
+        //    {
+        //        searchBarText = e.NewTextValue;
+        //        string text = e.NewTextValue.ToLower();
+        //        string y;
+                
+                
+        //        List<JobCell> List = new List<JobCell>();
+
+        //        foreach (JobCell cell in _Cells)
+        //        {
+        //            bool addToList = false;
+        //            JobCell x = cell;
+        //            if (!string.IsNullOrEmpty(x.Add1))
+        //            {
+        //                y = x.Add1.ToLower();
+        //                if (y.Contains(text))
+        //                {
+        //                    addToList = true;
+        //                }
+        //            }
+                    
+        //            if (!string.IsNullOrEmpty(x.Add2))
+        //            {
+        //                y = x.Add2.ToLower();
+        //                if (y.Contains(text))
+        //                {
+        //                    addToList = true;
+        //                }
+        //            }
+                    
+        //            if (!string.IsNullOrEmpty(x.Add3))
+        //            {
+        //                y = x.Add3.ToLower();
+        //                if (y.Contains(text))
+        //                {
+        //                    addToList = true;
+        //                }
+        //            }
+                    
+        //            if (!string.IsNullOrEmpty(x.Add4))
+        //            {
+        //                y = x.Add4.ToLower();
+        //                if (y.Contains(text))
+        //                {
+        //                    addToList = true;
+        //                }
+        //            }
+
+        //            if (!string.IsNullOrEmpty(x.AddPC))
+        //            {
+        //                y = x.AddPC.ToLower();
+        //                if (y.Contains(text))
+        //                {
+        //                    addToList = true;
+        //                }
+        //            }
+
+        //            if (!string.IsNullOrEmpty(x.Description))
+        //            {
+        //                y = x.Description.ToLower();
+        //                if (y.Contains(text))
+        //                {
+        //                    addToList = true;
+        //                }
+        //            }
+
+        //            if (!string.IsNullOrEmpty(x.JobNumber))
+        //            {
+        //                y = x.JobNumber;
+        //                if (y.Contains(text))
+        //                {
+        //                    addToList = true;
+        //                }
+        //            }
+
+        //            if (addToList == true)
+        //            {
+        //                List.Add(cell);
+        //            }
+        //        }
+
+        //        updateList(Maincnx, List);
+        //        searchbar.Focus();
+        //    }
+        //    else
+        //    {
+        //        updateList(Maincnx, null);
+        //        searchBarText = "";
+        //        searchbar.Focus();
+        //    }
+
+        //}
 
         private async Task<JobAmounts> GetAmounts(Connection cnx)
         {
@@ -483,28 +685,6 @@ namespace ProQuant
         }
 
 
-        public async void SearchJob(string JobNumber)
-        {
-            
-            List<Job> jobs = new List<Job>();
-            
-            ConnectionCheck();
-            string key = string.Format("/api/api/5?id=id$~{0}~cmd$~getjob~{1}~spec", Maincnx.ID, JobNumber);
-            string rawJson = await GetJob(key, Maincnx.Token);
-            if(rawJson[0] == '[')
-            {
-               var x = JobsFromJson.FromJson(rawJson);
-                jobs = JsonDictionaryToJob(x);
-                updateList(Maincnx, jobs);
-            }
-            else
-            {
-                await DisplayAlert("No Data", "There seems to be nothing here, if there should be, please call us.", "Ok");
-            }
-            
-        }
-
-
         protected override void OnAppearing()
         {
             if (firstLoad == false)
@@ -514,15 +694,5 @@ namespace ProQuant
 
             base.OnAppearing();
         }
-
-
-
-
-
-
-
-
-
-
     }
 }
