@@ -43,7 +43,7 @@ namespace ProQuant
             connected = true;
         }
 
-        private void SignUpClicked(object sender, EventArgs e)
+        private async void SignUpClicked(object sender, EventArgs e)
         {
             ConnectionCheck();
             if (connected == true)
@@ -51,7 +51,14 @@ namespace ProQuant
                 if (busy == false)
                 {
                     busy = true;
-                    //add methods
+                    await Navigation.PushAsync(new Register()
+                    {
+                        Title = "Sign Up"
+                    });
+                   
+
+                   
+
 
 
                     busy = false;
@@ -90,10 +97,10 @@ namespace ProQuant
 
                     //################################################################
                     //WHEN NOT TESTING COMMENT THESE LINES OUT AND REPLACE WITH BELOW
-                    string user = "egbbuilders@aol.com"; //change to EmailEntry.Text                           //when not testing comment these lines out.
-                    string pass = "proQuant97"; //change to PassEntry.Text
-                    string response = await Client.GET_Token(tokenKey, "Basic", user, pass);
-                    TokenInfoJsonParse tokenInfo = TokenInfoJsonParse.FromJson(response);
+                    //string user = "egbbuilders@aol.com"; //change to EmailEntry.Text                           //when not testing comment these lines out.
+                    //string pass = "proQuant97"; //change to PassEntry.Text
+                    //string response = await Client.GET_Token(tokenKey, "Basic", user, pass);
+                    //TokenInfoJsonParse tokenInfo = TokenInfoJsonParse.FromJson(response);
                     
                     
                     
@@ -102,13 +109,19 @@ namespace ProQuant
 
                     //VV this works when not testing uncomment this and comment the user and other stuff
 
-                    //string response = await Client.GET_Token(tokenKey, "Basic", cnx.User, cnx.Pass);
-                    //List<string> tokenInfo = GetTokenInfo(response).Result;
-                    
+                    string response = await Client.GET_Token(tokenKey, "Basic", cnx.User, cnx.Pass);
+                    TokenInfoJsonParse tokenInfo = TokenInfoJsonParse.FromJson(response);
+
                     cnx.Token = tokenInfo.Token;
                     cnx.ID = tokenInfo.Id;
                     cnx.Name = tokenInfo.Name;
                     cnx.TokenInfoJsonProps = tokenInfo;
+
+                    if (!string.IsNullOrEmpty(tokenInfo.Temp))
+                    {
+                        //FORCE CHANGE PASSWORD
+                        await Navigation.PushModalAsync(new ChangePassword(tokenInfo), true);
+                    }
 
 
                     if (string.IsNullOrEmpty(tokenInfo.Error))

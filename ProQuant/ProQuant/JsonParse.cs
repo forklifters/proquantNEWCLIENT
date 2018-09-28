@@ -67,6 +67,20 @@ namespace ProQuant
         public static JobAmounts FromJson(string json) => JsonConvert.DeserializeObject<JobAmounts>(json, ProQuant.Converter.Settings);
     }
 
+    public partial class RegisterResponse
+    {
+        [JsonProperty("message")]
+        public string message { get; set; }
+
+        [JsonProperty("error")]
+        public string error { get; set; }
+    }
+
+    public partial class RegisterResponse
+    {
+        public static RegisterResponse FromJson(string json) => JsonConvert.DeserializeObject<RegisterResponse>(json, ProQuant.Converter.Settings);
+    }
+
     public class JobsFromJson
     {
         public static List<Dictionary<string, string>> FromJson(string json) => JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json, ProQuant.Converter.Settings);

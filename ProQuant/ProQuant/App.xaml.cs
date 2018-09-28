@@ -17,11 +17,11 @@ namespace ProQuant
         {
             InitializeComponent();
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
-            //MainPage = new NavigationPage(new JobSpecific());
+            //MainPage = new NavigationPage(new Register());
             MainPage = new NavigationPage(new Splash())
             {
                 BarBackgroundColor = Color.FromHex("#fe0000"),
-                BarTextColor = Color.White
+                BarTextColor = Color.White,
             };
         }
 

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProQuant.Register">
+    <ContentPage.Content>
+        <StackLayout Margin="0,20,0,20"
+                     HorizontalOptions="StartAndExpand">
+            <StackLayout Padding="0,0,0,20"
+                         VerticalOptions="FillAndExpand">
+                <StackLayout BackgroundColor="Blue">
+                    <Label Text="Existing Customers"
+                           HorizontalTextAlignment="Center"
+                           TextColor="White"
+                           FontSize="Medium"/>
+                </StackLayout>
+                
+                <StackLayout VerticalOptions="StartAndExpand"
+                             Padding="20,20,20,0">
+                    <Entry x:Name="EmailBar"
+                   HorizontalOptions="FillAndExpand"
+                   Placeholder="Email Address:"/>
+                    <StackLayout Padding="20,0,20,0">
+                        <Button Text="Register"
+                        Clicked="RegisterButton"
+                        BackgroundColor="Red"
+                        TextColor="White"/>
+                    </StackLayout>
+                    <Label Text="An Email will be sent to this email with login instructions. If you don't receive your email, please contact the office."
+                       FontSize="Small"/>
+
+                </StackLayout>
+
+                <StackLayout VerticalOptions="End" Padding="0,0,0,20">
+                    <StackLayout BackgroundColor="Blue">
+                        <Label Text="New Customers with no jobs on our systems"
+                               HorizontalTextAlignment="Center"
+                           TextColor="White"
+                           FontSize="Medium"/>
+                    </StackLayout>
+                    <StackLayout Padding="20,0,20,0">
+                        <Label Text="Please call the office so we can set up your account"/>
+                        <StackLayout Padding="20,0,20,0">
+                            <Button TextColor="White"
+                            BackgroundColor="Blue"
+                            FontSize="Small"
+                            Text="Call Us"
+                            Clicked="CallOffice"/>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+
+
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

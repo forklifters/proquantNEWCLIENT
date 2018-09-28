@@ -204,10 +204,11 @@ namespace ProQuant
             searchbar = new SearchBar()
             {
                 Placeholder = "Search:",
-                Text = searchBarText
+                Text = searchBarText,
+                SearchCommand = new Command(() => { Searchbar_SearchButtonPressed(searchbar.Text); })
             };
 
-            searchbar.SearchButtonPressed += Searchbar_SearchButtonPressed;
+            
 
         
 
@@ -291,14 +292,30 @@ namespace ProQuant
             };
         }
 
-        private void Searchbar_SearchButtonPressed(object sender, EventArgs e)
+        private void Searchbar_SearchButtonPressed(string Text)
         {
-            if (!string.IsNullOrEmpty(searchbar.Text) && !string.IsNullOrWhiteSpace(searchbar.Text))
-            {
-                searchBarText = searchbar.Text;
-                string text = searchbar.Text.ToLower();
-                string y;
+            //SearchBar search = sender as SearchBar;
+            
 
+
+            if (!string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Text))
+            {
+
+                string _text = "";
+
+                try
+                {
+                    searchBarText = Text;
+                    _text = Text.ToLower();
+                    
+                }
+                catch(NullReferenceException)
+                {
+                    Console.WriteLine("CAUGHT THE EXCEPTION 1");
+                }
+
+                int indexer = 0;
+                List<int> indexerList = new List<int>();
 
                 List<JobCell> List = new List<JobCell>();
 
@@ -306,76 +323,233 @@ namespace ProQuant
                 {
                     bool addToList = false;
                     JobCell x = cell;
-                    if (!string.IsNullOrEmpty(x.Add1))
+                    if (!string.IsNullOrEmpty(x.Add1) && !string.IsNullOrWhiteSpace(x.Add1))
                     {
-                        y = x.Add1.ToLower();
-                        if (y.Contains(text))
+                        indexer++;
+                        string y = "";
+                        try
+                        {
+                            y = x.Add1.ToLower();
+                        }
+                        catch (NullReferenceException)
+                        {
+                            indexerList.Add(indexer);
+                            Console.WriteLine("CAUGHT AT " + indexer);
+                        }
+                        Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
+                        
+
+                        if (y.Contains(_text))
                         {
                             addToList = true;
                         }
                     }
 
-                    if (!string.IsNullOrEmpty(x.Add2))
+                    if (!string.IsNullOrEmpty(x.Add2) && !string.IsNullOrWhiteSpace(x.Add2))
                     {
-                        y = x.Add2.ToLower();
-                        if (y.Contains(text))
+                        indexer++;
+                        string y = "";
+                        try
+                        {
+                            y = x.Add2.ToLower();
+                        }
+                        catch (NullReferenceException)
+                        {
+                            indexerList.Add(indexer);
+                            Console.WriteLine("CAUGHT AT " + indexer);
+                        }
+                        Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
+                        
+
+                        if (y.Contains(_text))
                         {
                             addToList = true;
                         }
+                        //indexer++;
+                        //string y = x.Add2.ToLower();
+                        //Console.WriteLine(indexer + "     " + "Add2" + "     " + y + "\n");
+                        //indexerList.Add(indexer);
+                        //if (y.Contains(text))
+                        //{
+                        //    addToList = true;
+                        //}
                     }
 
-                    if (!string.IsNullOrEmpty(x.Add3))
+                    if (!string.IsNullOrEmpty(x.Add3) && !string.IsNullOrWhiteSpace(x.Add3))
                     {
-                        y = x.Add3.ToLower();
-                        if (y.Contains(text))
+                        indexer++;
+                        string y = "";
+                        try
+                        {
+                            y = x.Add3.ToLower();
+                        }
+                        catch (NullReferenceException)
+                        {
+                            indexerList.Add(indexer);
+                            Console.WriteLine("CAUGHT AT " + indexer);
+                        }
+                        Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
+                        
+
+                        if (y.Contains(_text))
                         {
                             addToList = true;
                         }
+                        //indexer++;
+                        //string y = x.Add3.ToLower();
+                        //Console.WriteLine(indexer + "     " + "Add3" + "     " + y + "\n");
+                        //indexerList.Add(indexer);
+                        //if (y.Contains(text))
+                        //{
+                        //    addToList = true;
+                        //}
                     }
 
-                    if (!string.IsNullOrEmpty(x.Add4))
+                    if (!string.IsNullOrEmpty(x.Add4) && !string.IsNullOrWhiteSpace(x.Add4))
                     {
-                        y = x.Add4.ToLower();
-                        if (y.Contains(text))
+                        indexer++;
+                        string y = "";
+                        try
+                        {
+                            y = x.Add4.ToLower();
+                        }
+                        catch (NullReferenceException)
+                        {
+                            indexerList.Add(indexer);
+                            Console.WriteLine("CAUGHT AT " + indexer);
+                        }
+                        Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
+                        
+
+                        if (y.Contains(_text))
                         {
                             addToList = true;
                         }
+                        //indexer++;
+                        //string y = x.Add4.ToLower();
+                        //Console.WriteLine(indexer + "     " + "Add4" + "     " + y + "\n");
+                        //indexerList.Add(indexer);
+                        //if (y.Contains(text))
+                        //{
+                        //    addToList = true;
+                        //}
                     }
 
-                    if (!string.IsNullOrEmpty(x.AddPC))
+                    if (!string.IsNullOrEmpty(x.AddPC) && !string.IsNullOrWhiteSpace(x.AddPC))
                     {
-                        y = x.AddPC.ToLower();
-                        if (y.Contains(text))
+                        indexer++;
+                        string y = "";
+                        try
+                        {
+                            y = x.AddPC.ToLower();
+                        }
+                        catch (NullReferenceException)
+                        {
+                            indexerList.Add(indexer);
+                            Console.WriteLine("CAUGHT AT " + indexer);
+                        }
+                        Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
+                        
+
+                        if (y.Contains(_text))
                         {
                             addToList = true;
                         }
+                        //indexer++;
+                        //string y = x.AddPC.ToLower();
+                        //Console.WriteLine(indexer + "     " + "AddPC" + "     " + y + "\n");
+                        //indexerList.Add(indexer);
+                        //if (y.Contains(text))
+                        //{
+                        //    addToList = true;
+                        //}
                     }
 
-                    if (!string.IsNullOrEmpty(x.Description))
+                    if (!string.IsNullOrEmpty(x.Description) && !string.IsNullOrWhiteSpace(x.Description))
                     {
-                        y = x.Description.ToLower();
-                        if (y.Contains(text))
+                        indexer++;
+                        string y = "";
+                        try
+                        {
+                            y = x.Description.ToLower();
+                        }
+                        catch (NullReferenceException)
+                        {
+                            indexerList.Add(indexer);
+                            Console.WriteLine("CAUGHT AT " + indexer);
+                        }
+                        Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
+                        
+
+                        if (y.Contains(_text))
                         {
                             addToList = true;
                         }
+                        //indexer++;
+                        //string y = x.Description.ToLower();
+                        //Console.WriteLine(indexer + "     " + "Description" + "     " + y + "\n");
+                        //indexerList.Add(indexer);
+                        //if (y.Contains(text))
+                        //{
+                        //    addToList = true;
+                        //}
                     }
 
-                    if (!string.IsNullOrEmpty(x.JobNumber))
+                    if (!string.IsNullOrEmpty(x.JobNumber) && !string.IsNullOrWhiteSpace(x.JobNumber))
                     {
-                        y = x.JobNumber;
-                        if (y.Contains(text))
+                        indexer++;
+                        string y = "";
+                        try
+                        {
+                            y = x.JobNumber.ToLower();
+                        }
+                        catch (NullReferenceException)
+                        {
+                            indexerList.Add(indexer);
+                            Console.WriteLine("CAUGHT AT " + indexer);
+                        }
+                        Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
+                        
+
+                        if (y.Contains(_text))
                         {
                             addToList = true;
                         }
+                        //indexer++;
+                        //string y = x.JobNumber.ToLower();
+                        //Console.WriteLine(indexer + "     " + "JobNumber" + "     " + y + "\n");
+                        //indexerList.Add(indexer);
+                        //if (y.Contains(text))
+                        //{
+                        //    addToList = true;
+                        //}
                     }
 
                     if (addToList == true)
                     {
-                        List.Add(cell);
+                        try
+                        {
+                            List.Add(cell);
+                        }
+                        catch (NullReferenceException)
+                        {
+
+                            Console.WriteLine("Found Putting in Cell");
+                        }
+                       
                     }
                 }
+                var osf = List;
+                try
+                {
+                    updateList(Maincnx, List);
+                }
+                catch (NullReferenceException)
+                {
 
-                updateList(Maincnx, List);
+                    Console.WriteLine("ITS DEFINETLY HAPPENING DURING UPDATING");
+                }
+                
             }
             else
             {

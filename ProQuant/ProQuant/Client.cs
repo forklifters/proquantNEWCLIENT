@@ -78,6 +78,25 @@ namespace ProQuant
             return content;
         }
 
+        public static async Task<string> GETnoAuth(string key)
+        {
+
+            string add = $"https://pqapi.co.uk:58330{key}";
+            //string add = $"https://proq.remotewebaccess.com:58330{key}"; - OLD API
+
+            HttpClient _getClient = new HttpClient();
+
+            var response = await _getClient.GetAsync(add);
+
+            response.EnsureSuccessStatusCode();
+
+            string content = await response.Content.ReadAsStringAsync();
+            string x = content;
+
+
+            return content;
+        }
+
         public static string Base64Encode(string plainText)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
