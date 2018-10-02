@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 using Refit;
 using Newtonsoft.Json;
@@ -60,6 +61,11 @@ namespace ProQuant
             {
 
                 var response = await Client.GET(token, key);
+                if (response == "errorerrorerror")
+                {
+                    await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                    return null;
+                }
                 //string auth = "Bearer " + token;
                 //var nsAPI = RestService.For<IMakeUpApi>("https://proq.remotewebaccess.com:58330");
                 //var response = await nsAPI.GetKey(key, auth);
@@ -78,6 +84,13 @@ namespace ProQuant
 
 
             jsonRaw = await Client.GET(cnx.Token, jobKey);
+            if (jsonRaw == "errorerrorerror")
+            {
+                await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+
+                //make sure that if you do return null here it doesnt break the app.
+                return null;
+            }
 
 
 
@@ -162,6 +175,15 @@ namespace ProQuant
                 {
                     int endNumber = Int32.Parse(jobamounts.jobs);
                     Jobs = await GetContent(0, endNumber, cnx);
+                    if(Jobs == null)
+                    {
+                        await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.", "Ok");
+                        return;
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Error", "There has been an issue retreiving your job count. Please try again.", "Ok");
                 }
 
                 foreach (Job job in Jobs)
@@ -659,6 +681,12 @@ namespace ProQuant
         {
             string key = string.Format("/api/api/5?id=id$~{0}~cmd$~getjobnums", cnx.ID);
             var jsonRaw = await Client.GET(cnx.Token, key);
+            if (jsonRaw == "errorerrorerror")
+            {
+                await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                //Make sure that if you return null here it doesnt break the app.
+                return null;
+            }
 
             JobAmounts jobAmounts = JobAmounts.FromJson(jsonRaw);
             return jobAmounts;
@@ -869,6 +897,40 @@ namespace ProQuant
             }
 
             base.OnAppearing();
+        }
+
+
+
+        private async void ChangePasswordButtonClicked(object sender, EventArgs e)
+        {
+            //go to change password page.
+            await Navigation.PushModalAsync(new ChangePassword(Maincnx.TokenInfoJsonProps));
+        }
+
+        private async void ContactUsButtonClicked(object sender, EventArgs e)
+        {
+            //call the office
+            try
+            {
+                //CHANGE TO REQUEST NUMBER
+                PhoneDialer.Open("+441625420821");
+            }
+            catch (FeatureNotSupportedException ex)
+            {
+                await DisplayAlert("ERROR", "Dialer feature not supported.", "OK");
+                return;
+
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+
+        private void LogOutButtonClicked(object sender, EventArgs e)
+        {
+            //Warning Message
+            //Log out
         }
     }
 }

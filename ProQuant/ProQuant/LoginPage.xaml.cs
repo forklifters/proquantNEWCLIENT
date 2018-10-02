@@ -110,6 +110,12 @@ namespace ProQuant
                     //VV this works when not testing uncomment this and comment the user and other stuff
 
                     string response = await Client.GET_Token(tokenKey, "Basic", cnx.User, cnx.Pass);
+                    if(response == "errorerrorerror")
+                    {
+                        await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                        busy = false;
+                        return;
+                    }
                     TokenInfo tokenInfo = TokenInfo.FromJson(response);
 
                     cnx.Token = tokenInfo.Token;
@@ -121,6 +127,7 @@ namespace ProQuant
                     {
                         //FORCE CHANGE PASSWORD
                         await Navigation.PushModalAsync(new ChangePassword(tokenInfo), true);
+                        PassEntry.Text = "";
                         go();
                     }
                     else

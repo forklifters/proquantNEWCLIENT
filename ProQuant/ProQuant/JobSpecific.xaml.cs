@@ -111,6 +111,11 @@ namespace ProQuant
                     {
                         //string paylink = GetJob(payrequest, MainCnx.Token).Result; //return link isnt working.
                         string message = await Client.GET(MainCnx.Token, payrequest);
+                        if (message == "errorerrorerror")
+                        {
+                            await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                            return;
+                        }
 
                         PayLinkJsonParse PayLinkJson = PayLinkJsonParse.FromJson(message);
                         var xx = PayLinkJson;
@@ -177,6 +182,10 @@ namespace ProQuant
             if (connected == true)
             {
                 string response = await GetJob(key, MainCnx.Token);
+                if (string.IsNullOrEmpty(response))
+                {
+                    await DisplayAlert("Error", "There has been an issue sending this pdf. Please try again.", "Ok");
+                }
                 await DisplayAlert("PDF Sent!", "Email containing PDF has been sent to the email associated with this account", "Ok");
             }
         }
@@ -210,7 +219,14 @@ namespace ProQuant
                 //string auth = "Bearer " + token;
                 //var nsAPI = RestService.For<IMakeUpApi>("https://proq.remotewebaccess.com:58330");
                 //var response = await nsAPI.GetKey(key, auth);
+
+                //IMPLEMENT A REFRESH BUTTON ON A TOOLBAR
                 var response = await Client.GET(token, key);
+                if (response == "errorerrorerror")
+                {
+                    await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                    return null;
+                }
                 var x = response;
                 return response;
             }
@@ -221,11 +237,12 @@ namespace ProQuant
         {
             try
             {
+                //CHANGE TO REQUEST NUMBER
                 PhoneDialer.Open("+441625420821");
             }
             catch (FeatureNotSupportedException ex)
             {
-                await DisplayAlert("ERROR", "FEATURE DIALER NOT SUPPORTED", "OK");
+                await DisplayAlert("ERROR", "Dialer feature not supported.", "OK");
                 return;
 
             }

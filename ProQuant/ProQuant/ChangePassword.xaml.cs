@@ -59,10 +59,15 @@ namespace ProQuant
                 string user = tokenInfo.Email;
 
                 //do all formating password checks before this.
-                string passwordkey = string.Format("{0}:{1}", tokenInfo.Temp, NewPassword.Text);
+                string passwordkey = string.Format("{0}:{1}", OldPassword.Text, NewPassword.Text);
 
                 ConnectionCheck();
                 var response = await Client.GETChangePassword(passwordkey, user, key);
+                if (response == "errorerrorerror")
+                {
+                    await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                    return;
+                }
                 //do a check to see if it came back ok, or try catch exceptions here.
 
                 TokenInfo newTokenInfo = TokenInfo.FromJson(response);
@@ -74,6 +79,7 @@ namespace ProQuant
                 cnx.TokenInfoJsonProps = newTokenInfo;
 
                 LoginPage.cnx = cnx;
+                await DisplayAlert("Password Changed", "Your password has been changed.", "Ok");
                 await Navigation.PopModalAsync(true);
             }
         }

@@ -26,6 +26,11 @@ namespace ProQuant
             //do a regex check on the email here
             string key = string.Format("/api/api/5?id=id$~9999~cmd$~register~{0}", email);
             var response = await Client.GETnoAuth(key);
+            if (response == "errorerrorerror")
+            {
+                await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                return;
+            }
 
             if (!string.IsNullOrWhiteSpace(response))
             {

@@ -22,11 +22,18 @@ namespace ProQuant
 
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(authType, encodedUP);
 
-            HttpResponseMessage response = await _client.GetAsync(add);
-            response.EnsureSuccessStatusCode();
+            string content;
+            try
+            {
+                HttpResponseMessage response = await _client.GetAsync(add);
+                response.EnsureSuccessStatusCode();
 
-            string content = await response.Content.ReadAsStringAsync();
-            var x = content;
+                content = await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException)
+            {
+                content = "errorerrorerror";
+            }
 
             return content;
         }
@@ -42,12 +49,19 @@ namespace ProQuant
 
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(authType, encodedUP);
 
-            var response = await _client.GetAsync(add, HttpCompletionOption.ResponseContentRead);
-            response.EnsureSuccessStatusCode();
+            string content;
+            try
+            {
+                var response = await _client.GetAsync(add, HttpCompletionOption.ResponseContentRead);
+                response.EnsureSuccessStatusCode();
 
-            string content = await response.Content.ReadAsStringAsync();
-            string x = content;
-
+                content = await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException)
+            {
+                content = "errorerrorerror";
+            }
+            
             return content;
         }
 
@@ -63,12 +77,17 @@ namespace ProQuant
 
             _getClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            var response = await _getClient.GetAsync(add);
-            
-            response.EnsureSuccessStatusCode();
-
-            string content = await response.Content.ReadAsStringAsync();
-            string x = content;
+            string content;
+            try
+            {
+                var response = await _getClient.GetAsync(add);
+                response.EnsureSuccessStatusCode();
+                content = await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException)
+            {
+                content = "errorerrorerror";
+            }
 
             return content;
         }
@@ -82,13 +101,19 @@ namespace ProQuant
 
             HttpClient _getClient = new HttpClient();
 
-            var response = await _getClient.GetAsync(add);
+            string content;
+            try
+            {
+                var response = await _getClient.GetAsync(add);
+                response.EnsureSuccessStatusCode();
 
-            response.EnsureSuccessStatusCode();
+                content = await response.Content.ReadAsStringAsync();
 
-            string content = await response.Content.ReadAsStringAsync();
-            string x = content;
-
+            }
+            catch (HttpRequestException)
+            {
+                content = "errorerrorerror";
+            }
 
             return content;
         }
@@ -105,14 +130,19 @@ namespace ProQuant
 
 
             _getClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", _passwordKey);
-            
-            var sjbd = 0;
 
-            var response = await _getClient.GetAsync(add);
-            response.EnsureSuccessStatusCode();
+            string content;
+            try
+            {
+                var response = await _getClient.GetAsync(add);
+                response.EnsureSuccessStatusCode();
 
-            string content = await response.Content.ReadAsStringAsync();
-            string x = content;
+                content = await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException)
+            {
+                content = "errorerrorerror";
+            }
 
             return content;
         }
