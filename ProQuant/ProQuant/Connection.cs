@@ -12,6 +12,6 @@ namespace ProQuant
 
         public string ID { get; set; }
         public string Name { get; set; }
-        public TokenInfoJsonParse TokenInfoJsonProps { get; set; }
+        public TokenInfo TokenInfoJsonProps { get; set; }
     }
 }

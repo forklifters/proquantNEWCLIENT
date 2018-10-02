@@ -166,15 +166,16 @@ namespace ProQuant
 
                 foreach (Job job in Jobs)
                 {
-                    JobCell cell = new JobCell();
-
-                    cell.JobNumber = job.job.ToString();
-                    cell.Add1 = job.add1;
-                    cell.JobColor = StatusSorter.JobNumberColor(job);
-                    cell.Status = StatusSorter.StatusText(job);
-                    cell.StatusColor = StatusSorter.StatusColor(job);
-                    cell.CellColor = StatusSorter.CellColor(job);
-                    cell.job = job;
+                    JobCell cell = new JobCell
+                    {
+                        JobNumber = job.job.ToString(),
+                        Add1 = job.add1,
+                        JobColor = StatusSorter.JobNumberColor(job),
+                        Status = StatusSorter.StatusText(job),
+                        StatusColor = StatusSorter.StatusColor(job),
+                        CellColor = StatusSorter.CellColor(job),
+                        job = job
+                    };
                     Cells.Add(cell);
 
                     _Cells = Cells;
@@ -820,31 +821,32 @@ namespace ProQuant
 
                 if (subjobs.Count == 1)
                 {
-                    JobCell _job = new JobCell();
+                    JobCell _job = new JobCell
+                    {
+                        JobColor = StatusSorter.JobNumberColor(subjobs[0]),
+                        Status = StatusSorter.StatusText(subjobs[0]),
+                        StatusColor = StatusSorter.StatusColor(subjobs[0]),
+                        CellColor = StatusSorter.CellColor(subjobs[0]),
+                        Add1 = subjobs[0].add1,
+                        Add2 = subjobs[0].add2,
+                        Add3 = subjobs[0].add3,
+                        Add4 = subjobs[0].add4,
+                        AddPC = subjobs[0].addpc,
+                        Awarded = subjobs[0].awarded,
+                        Builder = subjobs[0].buildername,
+                        Created = subjobs[0].created,
+                        Description = subjobs[0].description,
+                        JobNumber = subjobs[0].job.ToString(),
+                        SentCount = subjobs[0].sentcount,
+                        GrossValue = subjobs[0].grossValue,
+                        NetValue = subjobs[0].netValue,
+                        VatValue = subjobs[0].vatValue,
+                        noSubs = true,
 
-                    _job.JobColor = StatusSorter.JobNumberColor(subjobs[0]);
-                    _job.Status = StatusSorter.StatusText(subjobs[0]);
-                    _job.StatusColor = StatusSorter.StatusColor(subjobs[0]);
-                    _job.CellColor = StatusSorter.CellColor(subjobs[0]);
-                    _job.Add1 = subjobs[0].add1;
-                    _job.Add2 = subjobs[0].add2;
-                    _job.Add3 = subjobs[0].add3;
-                    _job.Add4 = subjobs[0].add4;
-                    _job.AddPC = subjobs[0].addpc;
-                    _job.Awarded = subjobs[0].awarded;
-                    _job.Builder = subjobs[0].buildername;
-                    _job.Created = subjobs[0].created;
-                    _job.Description = subjobs[0].description;
-                    _job.JobNumber = subjobs[0].job.ToString();
-                    _job.SentCount = subjobs[0].sentcount;
-                    _job.GrossValue = subjobs[0].grossValue;
-                    _job.NetValue = subjobs[0].netValue;
-                    _job.VatValue = subjobs[0].vatValue;
-                    _job.noSubs = true;
 
 
-
-                    _job.job = _item;
+                        job = _item
+                    };
 
 
                     await Navigation.PushAsync(new JobSpecific(cnx, _job));

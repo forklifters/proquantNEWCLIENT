@@ -13,7 +13,7 @@ namespace ProQuant
         public static async Task<string> client(string authType, string user, string pass)
         {
             string encodedUP = Base64Encode(user + ":" + pass);
-            string auth = "Basic " + encodedUP;
+            //string auth = "Basic " + encodedUP;
 
             string key = "/api/api/5?id=cmd$~gettoken";
             string add = $"https://pqapi.co.uk:58330{key}";
@@ -51,6 +51,7 @@ namespace ProQuant
             return content;
         }
 
+
         public static async Task<string> GET(string token, string key)
         {
 
@@ -68,15 +69,10 @@ namespace ProQuant
 
             string content = await response.Content.ReadAsStringAsync();
             string x = content;
-            Console.WriteLine("#######################################################\n" +
-                              "#######################################################\n" +
-                              "###############       GOT CONTENT       ###############\n" +
-                              "#######################################################\n" +
-                              "#######################################################");
 
-            
             return content;
         }
+
 
         public static async Task<string> GETnoAuth(string key)
         {
@@ -96,6 +92,31 @@ namespace ProQuant
 
             return content;
         }
+
+
+        public static async Task<string> GETChangePassword(string passwordKey, string user, string key)
+        {
+
+            string add = $"https://pqapi.co.uk:58330{key}";
+            string _passwordKey = Base64Encode(user + ":" + passwordKey);
+            //string add = $"https://proq.remotewebaccess.com:58330{key}"; - OLD API
+
+            HttpClient _getClient = new HttpClient();
+
+
+            _getClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", _passwordKey);
+            
+            var sjbd = 0;
+
+            var response = await _getClient.GetAsync(add);
+            response.EnsureSuccessStatusCode();
+
+            string content = await response.Content.ReadAsStringAsync();
+            string x = content;
+
+            return content;
+        }
+
 
         public static string Base64Encode(string plainText)
         {

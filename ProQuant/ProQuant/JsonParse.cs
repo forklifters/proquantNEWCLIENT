@@ -7,7 +7,7 @@ using Newtonsoft.Json.Converters;
 
 namespace ProQuant
 {
-    public partial class TokenInfoJsonParse
+    public partial class TokenInfo
     {
         [JsonProperty("token")]
         public string Token { get; set; }
@@ -31,9 +31,9 @@ namespace ProQuant
         public string Temp { get; set; }
     }
 
-    public partial class TokenInfoJsonParse
+    public partial class TokenInfo
     {
-        public static TokenInfoJsonParse FromJson(string json) => JsonConvert.DeserializeObject<TokenInfoJsonParse>(json, ProQuant.Converter.Settings);
+        public static TokenInfo FromJson(string json) => JsonConvert.DeserializeObject<TokenInfo>(json, ProQuant.Converter.Settings);
     }
 
     public partial class PayLinkJsonParse

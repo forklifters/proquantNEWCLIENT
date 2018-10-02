@@ -1,15 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProQuant.Register">
+             x:Class="ProQuant.Register"
+             BackgroundColor="White">
     <ContentPage.Content>
         <StackLayout Margin="0,20,0,20"
-                     HorizontalOptions="StartAndExpand">
+                     HorizontalOptions="FillAndExpand"
+                     Padding="0">
             <StackLayout Padding="0,0,0,20"
-                         VerticalOptions="FillAndExpand">
-                <StackLayout BackgroundColor="Blue">
+                         VerticalOptions="FillAndExpand"
+                         HorizontalOptions="FillAndExpand">
+                <StackLayout BackgroundColor="Blue"
+                             HorizontalOptions="FillAndExpand">
                     <Label Text="Existing Customers"
                            HorizontalTextAlignment="Center"
+                           HorizontalOptions="CenterAndExpand"
                            TextColor="White"
                            FontSize="Medium"/>
                 </StackLayout>
@@ -19,26 +24,34 @@
                     <Entry x:Name="EmailBar"
                    HorizontalOptions="FillAndExpand"
                    Placeholder="Email Address:"/>
-                    <StackLayout Padding="20,0,20,0">
+                    <StackLayout Padding="20,0,20,20">
                         <Button Text="Register"
                         Clicked="RegisterButton"
                         BackgroundColor="Red"
                         TextColor="White"/>
                     </StackLayout>
-                    <Label Text="An Email will be sent to this email with login instructions. If you don't receive your email, please contact the office."
-                       FontSize="Small"/>
-
+                    <Label Text="An Email will be sent to this email with login instructions."
+                           HorizontalTextAlignment="Center"
+                       FontSize="Small"
+                           Margin="0"/>
+                    <Label Text="If you don't receive your email, please contact the office."
+                           HorizontalTextAlignment="Center"
+                       FontSize="Small"
+                       Margin="0"/>
                 </StackLayout>
 
-                <StackLayout VerticalOptions="End" Padding="0,0,0,20">
-                    <StackLayout BackgroundColor="Blue">
+                <StackLayout VerticalOptions="End" Padding="0,0,0,20"
+                             HorizontalOptions="FillAndExpand">
+                    <StackLayout BackgroundColor="Blue"
+                                 HorizontalOptions="FillAndExpand">
                         <Label Text="New Customers with no jobs on our systems"
                                HorizontalTextAlignment="Center"
                            TextColor="White"
                            FontSize="Medium"/>
                     </StackLayout>
                     <StackLayout Padding="20,0,20,0">
-                        <Label Text="Please call the office so we can set up your account"/>
+                        <Label Text="Please call the office so we can set up your account"
+                               HorizontalTextAlignment="Center"/>
                         <StackLayout Padding="20,0,20,0">
                             <Button TextColor="White"
                             BackgroundColor="Blue"

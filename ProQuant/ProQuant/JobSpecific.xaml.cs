@@ -76,11 +76,6 @@ namespace ProQuant
             }
 
 
-
-
-
-
-
         }
 
         private async void PayButton_Clicked(object sender, EventArgs e)

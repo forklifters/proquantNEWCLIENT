@@ -110,7 +110,7 @@ namespace ProQuant
                     //VV this works when not testing uncomment this and comment the user and other stuff
 
                     string response = await Client.GET_Token(tokenKey, "Basic", cnx.User, cnx.Pass);
-                    TokenInfoJsonParse tokenInfo = TokenInfoJsonParse.FromJson(response);
+                    TokenInfo tokenInfo = TokenInfo.FromJson(response);
 
                     cnx.Token = tokenInfo.Token;
                     cnx.ID = tokenInfo.Id;
@@ -121,17 +121,32 @@ namespace ProQuant
                     {
                         //FORCE CHANGE PASSWORD
                         await Navigation.PushModalAsync(new ChangePassword(tokenInfo), true);
-                    }
-
-
-                    if (string.IsNullOrEmpty(tokenInfo.Error))
-                    {
                         go();
                     }
                     else
                     {
-                        await DisplayAlert("ERROR", tokenInfo.Error, "Ok");
+                        if (string.IsNullOrEmpty(tokenInfo.Error))
+                        {
+                            go();
+                        }
+                        else
+                        {
+                            if (tokenInfo.Error.Contains("error unautherised user"))
+                            {
+                                await DisplayAlert("User Not Recognised",
+                                    "Your Email and/or Password has not been recognised.\n\n" +
+                                    "If you were using a temporary password it may have expired.\n\n" +
+                                    "If problems persist, try signing up again, or call us", "Ok");
+                            }
+                            else
+                            {
+                                await DisplayAlert("ERROR", tokenInfo.Error, "Ok");
+                            }
+                        }
                     }
+
+
+                    
 
                     busy = false;
                 }
