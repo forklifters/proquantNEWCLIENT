@@ -84,6 +84,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)256.png" />
     <Content Include="$(MSBuildThisFileDirectory)Proquant_logo.PNG" />
   </ItemGroup>
   <ItemGroup>

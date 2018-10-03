@@ -251,5 +251,32 @@ namespace ProQuant
                 return;
             }
         }
+
+        private void AwardedPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            var selected = picker.SelectedItem;
+            switch (selected)
+            {
+                case "Won":
+                    AwardedPicker.TextColor = Color.Green;
+                    //update server with won
+                    break;
+
+                case "Lost":
+                    AwardedPicker.TextColor = Color.Red;
+                    //update server with lost
+                    break;
+
+                case "Neither":
+                    AwardedPicker.TextColor = Color.Black;
+                    //update server with Not a Tender
+                    break;
+
+                default:
+                    AwardedPicker.TextColor = Color.Black;
+                    break;
+            }
+        }
     }
 }

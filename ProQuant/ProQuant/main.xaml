@@ -5,6 +5,9 @@
             NavigationPage.HasBackButton="False">
     <ContentPage Title="Jobs" x:Name="Tab1" BackgroundColor="White">
         <!--job list-->
+        <ContentPage.ToolbarItems>
+            <ToolbarItem Name="Refresh" Order="Primary" Icon="RefreshLogo.png" Priority="1" Clicked="RefreshClicked" />
+        </ContentPage.ToolbarItems>
 
 
 
@@ -12,8 +15,6 @@
 
     <ContentPage Title="Customise" BackgroundColor="White">
         
-
-
     </ContentPage>
 
     <ContentPage Title="Account" BackgroundColor="White">

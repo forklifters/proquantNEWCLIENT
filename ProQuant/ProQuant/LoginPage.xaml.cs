@@ -90,6 +90,7 @@ namespace ProQuant
                     busy = true;
                     cnx.User = EmailEntry.Text;
                     cnx.Pass = PassEntry.Text;
+                    PassEntry.Text = "";
 
                     string tokenKey = "/api/api/5?id=cmd$~gettoken";
 
@@ -101,10 +102,6 @@ namespace ProQuant
                     //string pass = "proQuant97"; //change to PassEntry.Text
                     //string response = await Client.GET_Token(tokenKey, "Basic", user, pass);
                     //TokenInfoJsonParse tokenInfo = TokenInfoJsonParse.FromJson(response);
-                    
-                    
-                    
-
                     //################################################################
 
                     //VV this works when not testing uncomment this and comment the user and other stuff
@@ -170,6 +167,7 @@ namespace ProQuant
                 {
                     BarBackgroundColor = Color.FromHex("#fe0000"),
                     BarTextColor = Color.White
+                    
                 });
             }
         }

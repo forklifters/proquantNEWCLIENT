@@ -35,6 +35,7 @@ namespace ProQuant
             EmailLabel.Text = tokenInfo.Email;
             if (!string.IsNullOrWhiteSpace(tokenInfo.Temp))
             {
+                BackButton.IsEnabled = false;
                 OldPassword.Text = tokenInfo.Temp;
                 OldPassword.IsEnabled = false;
             }           
@@ -82,6 +83,11 @@ namespace ProQuant
                 await DisplayAlert("Password Changed", "Your password has been changed.", "Ok");
                 await Navigation.PopModalAsync(true);
             }
+        }
+
+        private async void Back_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync(true);
         }
     }
 }

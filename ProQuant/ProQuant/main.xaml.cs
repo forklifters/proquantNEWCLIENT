@@ -177,13 +177,13 @@ namespace ProQuant
                     Jobs = await GetContent(0, endNumber, cnx);
                     if(Jobs == null)
                     {
-                        await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.", "Ok");
+                        await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.\n\nIf this keeps happening please restart the app.", "Ok");
                         return;
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Error", "There has been an issue retreiving your job count. Please try again.", "Ok");
+                    await DisplayAlert("Error", "There has been an issue retreiving your job count. Please try again.\n\nIf this keeps happening please restart the app.", "Ok");
                 }
 
                 foreach (Job job in Jobs)
@@ -209,9 +209,9 @@ namespace ProQuant
             {
                 Cells = JOBCELLS;
             }
-            
-            
-            
+
+
+
 
 
 
@@ -220,6 +220,7 @@ namespace ProQuant
                 Text = Maincnx.Name,
                 TextColor = Color.Black,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontAttributes = FontAttributes.Bold,
                 HorizontalOptions = LayoutOptions.Center,
                 HorizontalTextAlignment = TextAlignment.Center
             };
@@ -228,6 +229,7 @@ namespace ProQuant
             {
                 Placeholder = "Search:",
                 Text = searchBarText,
+                CancelButtonColor = Color.Red,
                 SearchCommand = new Command(() => { Searchbar_SearchButtonPressed(searchbar.Text); })
             };
 
@@ -927,10 +929,44 @@ namespace ProQuant
             }
         }
 
-        private void LogOutButtonClicked(object sender, EventArgs e)
+        private async void LogOutButtonClicked(object sender, EventArgs e)
         {
             //Warning Message
-            //Log out
+            bool logout = await DisplayAlert("Logout", "Do you wish to logout?", "Yes", "No");
+
+            if(logout == true)
+            {
+                //is it id dependant?
+                string key = "/api/api/5?id=id$~9999~cmd$~logout";
+                //string key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~logout";
+
+                string response = await Client.GET(Maincnx.Token, key);
+                if(response == "errorerrorerror")
+                {
+                    await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                    return;
+                }
+
+
+                if (response.Contains("error unautherised user"))
+                {
+                    await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                }
+                else
+                {
+                    //CHECK THAT THIS ACTUALLY WORKS
+                    await DisplayAlert("Logged Off", "You have been logged off", "Ok");
+                    await Navigation.PopAsync();
+                }
+
+
+            }
+        }
+
+        private async void RefreshClicked(object sender, EventArgs e)
+        {
+            searchbar.Text = "";
+            updateList(Maincnx, null);
         }
     }
 }

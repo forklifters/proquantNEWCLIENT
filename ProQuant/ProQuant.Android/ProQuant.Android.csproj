@@ -122,6 +122,7 @@
     <AndroidResource Include="Resources\drawable\pq.jpg" />
     <AndroidResource Include="Resources\drawable\PQICONxhd.png" />
     <AndroidResource Include="Resources\drawable\Proquant_logo.PNG" />
+    <AndroidResource Include="Resources\drawable\RefreshLogo.png" />
     <Content Include="Resources\mipmap-anydpi-v26\Icon.png" />
     <Content Include="Resources\drawable-hdpi\iconPQ.png" />
     <Content Include="Resources\drawable\ic_launcher.png" />

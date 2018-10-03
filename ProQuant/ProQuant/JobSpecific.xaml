@@ -42,36 +42,43 @@
                                FontAttributes="Bold"
                                FontSize="Medium"
                                Text="STATUS"/>
+                        
                     </StackLayout>
 
                     <StackLayout HorizontalOptions="Start">
                         <Label x:Name="Description"
                                FontAttributes="Bold"
                                TextColor="Black"/>
+                        <Picker x:Name="AwardedPicker" Title="Awarded?" SelectedIndexChanged="AwardedPicker_SelectedIndexChanged">
+                            <Picker.Items>
+                                <x:String>Won</x:String>
+                                <x:String>Lost</x:String>
+                                <x:String>Neither</x:String>
+                            </Picker.Items>
+                        </Picker>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
 
             <StackLayout VerticalOptions="StartAndExpand"/>
-
             <StackLayout Padding="0,0,0,20">
-                <!--PAY BUTTON-->
-                <Button x:Name="PayButton"
+                    <!--PAY BUTTON-->
+                    <Button x:Name="PayButton"
                         Clicked="PayButton_Clicked"/>
 
-            </StackLayout>
+                </StackLayout>
 
-            <StackLayout Orientation="Horizontal"
+                <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
                          Padding="0,0,0,40">
-                <!--SEND PDF AND EXTRA BUTTONS-->
-                <Button Text="Send PDF"
+                    <!--SEND PDF AND EXTRA BUTTONS-->
+                    <Button Text="Send PDF"
                         x:Name="SendPDFButton"
                         Clicked="SendPDFButton_Clicked"/>
-                <Button Text="Call Us"
+                    <Button Text="Call Us"
                         x:Name="CallUsButton"
                         Clicked="CallUsButton_Clicked_1"/>
-            </StackLayout>
+                </StackLayout>
 
         </StackLayout>
     </ContentPage.Content>
