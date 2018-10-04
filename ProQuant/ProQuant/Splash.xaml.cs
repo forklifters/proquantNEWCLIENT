@@ -15,6 +15,7 @@ namespace ProQuant
     {
 
 
+
         public Splash()
         {
             InitializeComponent();
@@ -32,6 +33,12 @@ namespace ProQuant
         {
 
             await Navigation.PushAsync(new LoginPage());
+        }
+
+        protected override void OnDisappearing()
+        {
+            Navigation.RemovePage(this);
+            base.OnDisappearing();
         }
     }
 }

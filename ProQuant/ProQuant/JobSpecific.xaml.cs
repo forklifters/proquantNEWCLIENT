@@ -12,33 +12,48 @@ using System.Net;
 
 namespace ProQuant
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class JobSpecific : ContentPage
     {
         bool connected;
-        Double Price;
-        Double Total;
-        Double VatVal;
-        JobCell _jobcell;
+        bool loaded = false;
+        bool toRefresh = false;
+        bool _comingFromSubjob = false;
 
-        Connection MainCnx;
+        double Price;
+        double Total;
+        double VatVal;
+        string _JobNumber;
+
 
         JobCell jx;
+        JobCell _jobcell;
+        Connection MainCnx;
 
-
-
-        public JobSpecific(Connection cnx, JobCell job)
+        public JobSpecific(Connection cnx, JobCell job, bool comingFromSubjob)
         {
             InitializeComponent();
+            _comingFromSubjob = comingFromSubjob;
             jx = job;
             updateView(job);
             MainCnx = cnx;
             _jobcell = job;
+            loaded = true;
         }
 
+        protected async override void OnDisappearing()
+        {
+            if(toRefresh == true && _comingFromSubjob == true)
+            {
+                await Navigation.PushAsync(new main(MainCnx)
+                {
+                    BarBackgroundColor = Color.FromHex("#fe0000"),
+                    BarTextColor = Color.White
 
-
-
+                });
+            }     
+            base.OnDisappearing();
+        }
 
         private void updateView(JobCell job)
         {
@@ -47,8 +62,10 @@ namespace ProQuant
                 SendPDFButton.IsEnabled = false;
             }
 
+            _JobNumber = job.job.job.ToString();
             IDLabel.Text = string.Format("Job: {0}", job.job.job.ToString());
             SJLabel.Text = string.Format("Subjob: {0}", job.SubJobNumber);
+
             Add1.Text = job.job.add1;
             Add2.Text = job.job.add2;
             Add3.Text = job.job.add3;
@@ -58,6 +75,28 @@ namespace ProQuant
             Total = job.GrossValue;
             Price = job.NetValue;
             VatVal = job.VatValue;
+            var awarded = job.job.awarded;
+
+            switch (awarded)
+            {
+                case "Won":
+                    {
+                        AwardedPicker.SelectedIndex = 0;
+                        AwardedPicker.TextColor = Color.Green;
+                        break;
+                    }
+                case "Lost":
+                    {
+                        AwardedPicker.SelectedIndex = 1;
+                        AwardedPicker.TextColor = Color.Red;
+                        break;
+                    }
+                default:
+                    {
+                        AwardedPicker.SelectedIndex = -1;
+                        break;
+                    }
+            }
 
 
 
@@ -102,8 +141,8 @@ namespace ProQuant
                 }
 
                 string payrequest = String.Format("/api/api/5?id=id$~{0}~cmd$~getpaylink~{1}~{2}", MainCnx.ID, jobnumber, subjobnumber);
-                
-                
+
+
                 ConnectionCheck();
                 if (connected == true)
                 {
@@ -129,7 +168,7 @@ namespace ProQuant
                         {
                             await DisplayAlert("ERROR", PayLinkJson.Error, "Ok");
                         }
-                        
+
                     }
                     catch (UriFormatException Ex)
                     {
@@ -252,31 +291,51 @@ namespace ProQuant
             }
         }
 
-        private void AwardedPicker_SelectedIndexChanged(object sender, EventArgs e)
+        private async void AwardedPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Picker picker = sender as Picker;
-            var selected = picker.SelectedItem;
-            switch (selected)
+            if (loaded == true)
             {
-                case "Won":
-                    AwardedPicker.TextColor = Color.Green;
-                    //update server with won
-                    break;
+                Picker picker = sender as Picker;
+                string effect = "";
+                string key = "";
+                var selected = picker.SelectedItem;
+                toRefresh = true;
 
-                case "Lost":
-                    AwardedPicker.TextColor = Color.Red;
-                    //update server with lost
-                    break;
+            
+                switch (selected)
+                {
+                    case "Won":
+                        AwardedPicker.TextColor = Color.Green;
+                        effect = "Won";
+                        key = $"/api/api/5?id=id$~{MainCnx.ID}~cmd$~setawarded~{effect}~{_JobNumber}~0";
+                        break;
 
-                case "Neither":
-                    AwardedPicker.TextColor = Color.Black;
-                    //update server with Not a Tender
-                    break;
+                    case "Lost":
+                        AwardedPicker.TextColor = Color.Red;
+                        effect = "Lost";
+                        key = $"/api/api/5?id=id$~{MainCnx.ID}~cmd$~setawarded~{effect}~{_JobNumber}~0";
+                        break;
 
-                default:
-                    AwardedPicker.TextColor = Color.Black;
-                    break;
+                    case "Neither":
+                        AwardedPicker.TextColor = Color.Black;
+                        effect = "";
+                        key = $"/api/api/5?id=id$~{MainCnx.ID}~cmd$~setawarded~{effect}~{_JobNumber}~0";
+                        break;
+
+                    default:
+                        AwardedPicker.TextColor = Color.Black;
+                        break;
+                }
+
+                var response = await Client.GET(MainCnx.Token, key);
+                if(response == "errorerrorerror")
+                {
+                    await DisplayAlert("Error", "There was some difficulty contacting the server, please try again", "Ok.");
+                }
+                
+
             }
         }
+
     }
 }

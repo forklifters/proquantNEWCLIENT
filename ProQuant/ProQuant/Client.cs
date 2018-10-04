@@ -83,6 +83,7 @@ namespace ProQuant
                 var response = await _getClient.GetAsync(add);
                 response.EnsureSuccessStatusCode();
                 content = await response.Content.ReadAsStringAsync();
+                var x = content;
             }
             catch (HttpRequestException)
             {

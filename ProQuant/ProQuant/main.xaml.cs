@@ -17,6 +17,7 @@ namespace ProQuant
     public partial class main : TabbedPage
     {
         bool connected = false;
+        bool toRefresh = false;
         public Connection Maincnx;
         public bool firstLoad = true;
         SearchBar searchbar;
@@ -879,7 +880,7 @@ namespace ProQuant
                     };
 
 
-                    await Navigation.PushAsync(new JobSpecific(cnx, _job));
+                    await Navigation.PushAsync(new JobSpecific(cnx, _job, false));
 
                 }
                 else
@@ -897,7 +898,6 @@ namespace ProQuant
             {
                 updateList(Maincnx, null);
             }
-
             base.OnAppearing();
         }
 
@@ -958,10 +958,9 @@ namespace ProQuant
                     await DisplayAlert("Logged Off", "You have been logged off", "Ok");
                     await Navigation.PopAsync();
                 }
-
-
             }
         }
+
 
         private async void RefreshClicked(object sender, EventArgs e)
         {

@@ -263,7 +263,7 @@ namespace ProQuant
 
         private async void go(JobCell _job)
         {
-            await Navigation.PushAsync(new JobSpecific(MainCnx, _job));
+            await Navigation.PushAsync(new JobSpecific(MainCnx, _job, true));
 
         }
 
