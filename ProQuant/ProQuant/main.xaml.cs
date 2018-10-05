@@ -17,16 +17,13 @@ namespace ProQuant
     public partial class main : TabbedPage
     {
         bool connected = false;
-        bool toRefresh = false;
+        bool searchBarRefreshed = false;
         public Connection Maincnx;
         public bool firstLoad = true;
+        ListView listView;
         SearchBar searchbar;
         List<JobCell> _Cells = new List<JobCell>();
         string searchBarText;
-
-
-
-
 
 
         public main(Connection cnx)
@@ -163,7 +160,7 @@ namespace ProQuant
             return Jobs;
         }
 
-        async void updateList(Connection cnx, List<JobCell> JOBCELLS)
+        async Task updateList(Connection cnx, List<JobCell> JOBCELLS)
         {
             List<Job> Jobs = new List<Job>(); ;
             List<JobCell> Cells = new List<JobCell>();
@@ -230,15 +227,13 @@ namespace ProQuant
             {
                 Placeholder = "Search:",
                 Text = searchBarText,
-                CancelButtonColor = Color.Red,
-                SearchCommand = new Command(() => { Searchbar_SearchButtonPressed(searchbar.Text); })
+                CancelButtonColor = Color.Red
             };
 
-            
+            searchbar.SearchButtonPressed += SearchBarButtonPressedChanged;
+            searchbar.TextChanged += Searchbar_TextChanged;
 
-        
-
-        ListView listView = new ListView()
+            listView = new ListView()
             {
                 HasUnevenRows = true,
                 BackgroundColor = Color.White,
@@ -318,11 +313,10 @@ namespace ProQuant
             };
         }
 
-        private void Searchbar_SearchButtonPressed(string Text)
+        public List<JobCell> FormListFromText(string Text)
         {
-            //SearchBar search = sender as SearchBar;
-            
-
+         
+            //Could also index origional list of jobs and use that to decide which to display, instead of creating another temp list.
 
             if (!string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Text))
             {
@@ -333,9 +327,9 @@ namespace ProQuant
                 {
                     searchBarText = Text;
                     _text = Text.ToLower();
-                    
+
                 }
-                catch(NullReferenceException)
+                catch (NullReferenceException)
                 {
                     Console.WriteLine("CAUGHT THE EXCEPTION 1");
                 }
@@ -363,7 +357,7 @@ namespace ProQuant
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
                         Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
-                        
+
 
                         if (y.Contains(_text))
                         {
@@ -385,20 +379,12 @@ namespace ProQuant
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
                         Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
-                        
+
 
                         if (y.Contains(_text))
                         {
                             addToList = true;
                         }
-                        //indexer++;
-                        //string y = x.Add2.ToLower();
-                        //Console.WriteLine(indexer + "     " + "Add2" + "     " + y + "\n");
-                        //indexerList.Add(indexer);
-                        //if (y.Contains(text))
-                        //{
-                        //    addToList = true;
-                        //}
                     }
 
                     if (!string.IsNullOrEmpty(x.Add3) && !string.IsNullOrWhiteSpace(x.Add3))
@@ -415,20 +401,12 @@ namespace ProQuant
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
                         Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
-                        
+
 
                         if (y.Contains(_text))
                         {
                             addToList = true;
                         }
-                        //indexer++;
-                        //string y = x.Add3.ToLower();
-                        //Console.WriteLine(indexer + "     " + "Add3" + "     " + y + "\n");
-                        //indexerList.Add(indexer);
-                        //if (y.Contains(text))
-                        //{
-                        //    addToList = true;
-                        //}
                     }
 
                     if (!string.IsNullOrEmpty(x.Add4) && !string.IsNullOrWhiteSpace(x.Add4))
@@ -445,20 +423,12 @@ namespace ProQuant
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
                         Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
-                        
+
 
                         if (y.Contains(_text))
                         {
                             addToList = true;
                         }
-                        //indexer++;
-                        //string y = x.Add4.ToLower();
-                        //Console.WriteLine(indexer + "     " + "Add4" + "     " + y + "\n");
-                        //indexerList.Add(indexer);
-                        //if (y.Contains(text))
-                        //{
-                        //    addToList = true;
-                        //}
                     }
 
                     if (!string.IsNullOrEmpty(x.AddPC) && !string.IsNullOrWhiteSpace(x.AddPC))
@@ -475,20 +445,12 @@ namespace ProQuant
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
                         Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
-                        
+
 
                         if (y.Contains(_text))
                         {
                             addToList = true;
                         }
-                        //indexer++;
-                        //string y = x.AddPC.ToLower();
-                        //Console.WriteLine(indexer + "     " + "AddPC" + "     " + y + "\n");
-                        //indexerList.Add(indexer);
-                        //if (y.Contains(text))
-                        //{
-                        //    addToList = true;
-                        //}
                     }
 
                     if (!string.IsNullOrEmpty(x.Description) && !string.IsNullOrWhiteSpace(x.Description))
@@ -505,20 +467,12 @@ namespace ProQuant
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
                         Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
-                        
+
 
                         if (y.Contains(_text))
                         {
                             addToList = true;
                         }
-                        //indexer++;
-                        //string y = x.Description.ToLower();
-                        //Console.WriteLine(indexer + "     " + "Description" + "     " + y + "\n");
-                        //indexerList.Add(indexer);
-                        //if (y.Contains(text))
-                        //{
-                        //    addToList = true;
-                        //}
                     }
 
                     if (!string.IsNullOrEmpty(x.JobNumber) && !string.IsNullOrWhiteSpace(x.JobNumber))
@@ -535,20 +489,12 @@ namespace ProQuant
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
                         Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
-                        
+
 
                         if (y.Contains(_text))
                         {
                             addToList = true;
                         }
-                        //indexer++;
-                        //string y = x.JobNumber.ToLower();
-                        //Console.WriteLine(indexer + "     " + "JobNumber" + "     " + y + "\n");
-                        //indexerList.Add(indexer);
-                        //if (y.Contains(text))
-                        //{
-                        //    addToList = true;
-                        //}
                     }
 
                     if (addToList == true)
@@ -562,123 +508,59 @@ namespace ProQuant
 
                             Console.WriteLine("Found Putting in Cell");
                         }
-                       
+
                     }
                 }
-                var osf = List;
-                try
-                {
-                    updateList(Maincnx, List);
-                }
-                catch (NullReferenceException)
-                {
 
-                    Console.WriteLine("ITS DEFINETLY HAPPENING DURING UPDATING");
-                }
-                
+                var osf = List;
+                return List;
+
             }
             else
             {
                 updateList(Maincnx, null);
-                searchBarText = "";
+                return null;
             }
         }
 
-        //private void ONTEXTCHANGEEVENT(object sender, TextChangedEventArgs e)
-        //{
-        //    if(!string.IsNullOrEmpty(e.NewTextValue) && !string.IsNullOrWhiteSpace(e.NewTextValue))
-        //    {
-        //        searchBarText = e.NewTextValue;
-        //        string text = e.NewTextValue.ToLower();
-        //        string y;
-                
-                
-        //        List<JobCell> List = new List<JobCell>();
+        private async void Searchbar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(e.NewTextValue == "" && e.OldTextValue.Length > 0)
+            {
+                if(searchBarRefreshed == false)
+                {
+                    searchBarRefreshed = true;
+                    searchBarText = "";
+                    await updateList(Maincnx, null);
+                    searchbar.Focus();
+                }
+            }
 
-        //        foreach (JobCell cell in _Cells)
-        //        {
-        //            bool addToList = false;
-        //            JobCell x = cell;
-        //            if (!string.IsNullOrEmpty(x.Add1))
-        //            {
-        //                y = x.Add1.ToLower();
-        //                if (y.Contains(text))
-        //                {
-        //                    addToList = true;
-        //                }
-        //            }
-                    
-        //            if (!string.IsNullOrEmpty(x.Add2))
-        //            {
-        //                y = x.Add2.ToLower();
-        //                if (y.Contains(text))
-        //                {
-        //                    addToList = true;
-        //                }
-        //            }
-                    
-        //            if (!string.IsNullOrEmpty(x.Add3))
-        //            {
-        //                y = x.Add3.ToLower();
-        //                if (y.Contains(text))
-        //                {
-        //                    addToList = true;
-        //                }
-        //            }
-                    
-        //            if (!string.IsNullOrEmpty(x.Add4))
-        //            {
-        //                y = x.Add4.ToLower();
-        //                if (y.Contains(text))
-        //                {
-        //                    addToList = true;
-        //                }
-        //            }
+            if (e.NewTextValue.Length > 0)
+            {
+                searchBarRefreshed = false;
+            }
+        }
 
-        //            if (!string.IsNullOrEmpty(x.AddPC))
-        //            {
-        //                y = x.AddPC.ToLower();
-        //                if (y.Contains(text))
-        //                {
-        //                    addToList = true;
-        //                }
-        //            }
+        public void SearchBarButtonPressedChanged (object sender, EventArgs e)
+        {
+            listView.BeginRefresh();
+            SearchBar SearchBarSender = sender as SearchBar;
+            string Text = SearchBarSender.Text;
+            List<JobCell> List = FormListFromText(Text);
 
-        //            if (!string.IsNullOrEmpty(x.Description))
-        //            {
-        //                y = x.Description.ToLower();
-        //                if (y.Contains(text))
-        //                {
-        //                    addToList = true;
-        //                }
-        //            }
+            if(List != null && List.Count > 0)
+            {
+                listView.ItemsSource = List;
+            }
+            else
+            {
+                updateList(Maincnx, null);
+            }
 
-        //            if (!string.IsNullOrEmpty(x.JobNumber))
-        //            {
-        //                y = x.JobNumber;
-        //                if (y.Contains(text))
-        //                {
-        //                    addToList = true;
-        //                }
-        //            }
+            listView.EndRefresh();
 
-        //            if (addToList == true)
-        //            {
-        //                List.Add(cell);
-        //            }
-        //        }
-
-        //        updateList(Maincnx, List);
-        //        searchbar.Focus();
-        //    }
-        //    else
-        //    {
-        //        updateList(Maincnx, null);
-        //        searchBarText = "";
-        //        searchbar.Focus();
-        //    }
-
-        //}
+        }
 
         private async Task<JobAmounts> GetAmounts(Connection cnx)
         {
@@ -891,18 +773,6 @@ namespace ProQuant
             }
         }
 
-
-        protected override void OnAppearing()
-        {
-            if (firstLoad == false)
-            {
-                updateList(Maincnx, null);
-            }
-            base.OnAppearing();
-        }
-
-
-
         private async void ChangePasswordButtonClicked(object sender, EventArgs e)
         {
             //go to change password page.
@@ -965,7 +835,16 @@ namespace ProQuant
         private async void RefreshClicked(object sender, EventArgs e)
         {
             searchbar.Text = "";
-            updateList(Maincnx, null);
+            await updateList(Maincnx, null);
+        }
+
+        protected override void OnAppearing()
+        {
+            if (firstLoad == false)
+            {
+                updateList(Maincnx, null);
+            }
+            base.OnAppearing();
         }
     }
 }
