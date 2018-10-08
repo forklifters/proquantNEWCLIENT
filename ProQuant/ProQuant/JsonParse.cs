@@ -81,6 +81,38 @@ namespace ProQuant
         public static RegisterResponse FromJson(string json) => JsonConvert.DeserializeObject<RegisterResponse>(json, ProQuant.Converter.Settings);
     }
 
+    public partial class Settings
+    {
+        [JsonProperty("key")]
+        public string key { get; set; }
+
+        [JsonProperty("description")]
+        public string description { get; set; }
+
+        [JsonProperty("uom")]
+        public string uom { get; set; }
+
+        [JsonProperty("original")]
+        public string original { get; set; }
+
+        [JsonProperty("pqdefault")]
+        public string pqdefault { get; set; }
+
+        [JsonProperty("value")]
+        public string value { get; set; }
+
+        [JsonProperty("min")]
+        public string min { get; set; }
+
+        [JsonProperty("max")]
+        public string max { get; set; }
+    }
+
+    public partial class Settings
+    {
+        public static Settings[] FromJson(string json) => JsonConvert.DeserializeObject<Settings[]>(json, ProQuant.Converter.Settings);
+    }
+
     public class JobsFromJson
     {
         public static List<Dictionary<string, string>> FromJson(string json) => JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json, ProQuant.Converter.Settings);

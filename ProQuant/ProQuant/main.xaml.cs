@@ -807,8 +807,8 @@ namespace ProQuant
             if(logout == true)
             {
                 //is it id dependant?
-                string key = "/api/api/5?id=id$~9999~cmd$~logout";
-                //string key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~logout";
+                
+                string key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~logout";
 
                 string response = await Client.GET(Maincnx.Token, key);
                 if(response == "errorerrorerror")
@@ -817,7 +817,7 @@ namespace ProQuant
                     return;
                 }
 
-
+                
                 if (response.Contains("error unautherised user"))
                 {
                     await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nIf this keeps happening please restart the app.", "Ok");
@@ -845,6 +845,55 @@ namespace ProQuant
                 updateList(Maincnx, null);
             }
             base.OnAppearing();
+        }
+
+        private async void SettingsClicked(object sender, EventArgs e)
+        {
+            //Get Settings
+            string key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~getestimatingsettings";
+            var response = await Client.GET(Maincnx.Token, key);
+            if (response == "errorerrorerror")
+            {
+                await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                return;
+            }
+
+            Settings[] receivedEstSettings = Settings.FromJson(response);
+            List<Settings> EstSettings = new List<Settings>();
+
+            foreach(Settings setting in receivedEstSettings)
+            {
+                EstSettings.Add(setting);
+            }
+
+
+
+            //Go To Settings Page as a navigation page with list.
+
+        }
+
+        private async void MaterialsClicked(object sender, EventArgs e)
+        {
+            //Get Materials
+            string key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~getmaterialsettings";
+            var response = await Client.GET(Maincnx.Token, key);
+            if (response == "errorerrorerror")
+            {
+                await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                return;
+            }
+
+            Settings[] receivedMatSettings = Settings.FromJson(response);
+            List<Settings> MatSettings = new List<Settings>();
+
+            foreach (Settings setting in receivedMatSettings)
+            {
+                MatSettings.Add(setting);
+            }
+
+
+            //Go to materials page as a navigation page with list.
+
         }
     }
 }

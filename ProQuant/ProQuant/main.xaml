@@ -2,9 +2,10 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProQuant.main"
-            NavigationPage.HasBackButton="False">
+            NavigationPage.HasBackButton="False"
+            BackgroundColor="White">
+    <!--JOBS-->
     <ContentPage Title="Jobs" x:Name="Tab1" BackgroundColor="White">
-        <!--job list-->
         <ContentPage.ToolbarItems>
             <ToolbarItem Name="Refresh" Order="Primary" Icon="RefreshLogo.png" Priority="1" Clicked="RefreshClicked" />
         </ContentPage.ToolbarItems>
@@ -13,25 +14,44 @@
 
     </ContentPage>
 
+    <!--CUSTOMISE-->
     <ContentPage Title="Customise" BackgroundColor="White">
-        
+        <StackLayout VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="FillAndExpand"
+                         Padding="0,20,0,0">
+                <Button Text="Settings"
+                        TextColor="White"
+                        BackgroundColor="Red"
+                        Clicked="SettingsClicked"
+                        VerticalOptions="Center"/>
+            </StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand">
+                <Button Text="Materials"
+                        TextColor="White"
+                        BackgroundColor="Red"
+                        Clicked="MaterialsClicked"
+                        VerticalOptions="Center"/>
+            </StackLayout>
+        </StackLayout>
+
     </ContentPage>
 
+    <!--ACCOUNT-->
     <ContentPage Title="Account" BackgroundColor="White">
         <StackLayout Padding="20,20,20,20"
                      HorizontalOptions="CenterAndExpand"
                      VerticalOptions="CenterAndExpand">
-            <!--Contact us-->
+            
             <Button Text="Contact Us"
                     BackgroundColor="Red"
                     TextColor="White"
                     Clicked="ContactUsButtonClicked"/>
-            <!--Change Password-->
+            
             <Button Text="Change Password"
                 BackgroundColor="Red"
                 TextColor="White"
                     Clicked="ChangePasswordButtonClicked"/>
-            <!--Log Out-->
+            
             <Button Text="Log Out"
                     BackgroundColor="LightGray"
                     TextColor="DarkRed"
