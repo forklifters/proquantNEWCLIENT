@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProQuant.SettingSpecific"
+             BackgroundColor="White">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <!--Header-->
+                <Label x:Name="Description"
+                       FontAttributes="Bold"/>
+            </StackLayout>
+            <StackLayout>
+                <!--ORIGIONAL AND UPDATE-->
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout>
+                        <Label Text="Origional Value ="/>
+                    </StackLayout>
+                    <StackLayout>
+                         <Label x:Name="OrigionalValue"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout>
+                        <Label Text="New Value ="/>
+                    </StackLayout>
+                    <StackLayout>
+                        <Entry x:Name="NewValue"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout>
+                <!--Update Button-->
+                <Button Text="Change"
+                        BackgroundColor="Green"
+                        TextColor="White"
+                        Clicked="UpdateClicked"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -26,6 +26,7 @@ namespace ProQuant
         string searchBarText;
 
 
+
         public main(Connection cnx)
         {
             InitializeComponent();
@@ -37,7 +38,11 @@ namespace ProQuant
             Maincnx = cnx;
             firstLoad = false;
             ConnectionCheck();
+
+            
         }
+
+        
 
         public async void ConnectionCheck()
         {
@@ -762,12 +767,10 @@ namespace ProQuant
                     };
 
 
-                    await Navigation.PushAsync(new JobSpecific(cnx, _job, false));
-
+                    await Navigation.PushAsync(new JobSpecific(cnx, _job, false));      
                 }
                 else
                 {
-
                     await Navigation.PushAsync(new Subjobs_List(cnx, subjobs, _item));
                 }
             }
@@ -867,6 +870,7 @@ namespace ProQuant
             }
 
 
+            await Navigation.PushAsync(new Settings(Maincnx, EstSettings, "Estimating Settings"));
 
             //Go To Settings Page as a navigation page with list.
 
@@ -890,6 +894,8 @@ namespace ProQuant
             {
                 MatSettings.Add(setting);
             }
+
+            await Navigation.PushAsync(new Settings(Maincnx, MatSettings, "Material Settings"));
 
 
             //Go to materials page as a navigation page with list.
