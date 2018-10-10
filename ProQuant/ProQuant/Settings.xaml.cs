@@ -18,25 +18,28 @@ namespace ProQuant
         string searchBarText;
         ListView listView;
         string Header;
-        List<Settings> UpdatedSettings;
+        List<SettingsObject> UpdatedSettings;
+        bool firstLoad = true;
 
-		public Settings (Connection cnx, List<Settings> settings, string header)
+		public Settings (Connection cnx, List<SettingsObject> settings, string header)
 		{
 			InitializeComponent ();
             Maincnx = cnx;
+            Header = header;
             UpdatedSettings = settings;
             updateList(settings);
-            Header = header;
+            firstLoad = false;
+            
 
 		}
 
-        public void updateList(List<Settings> settings)
+        public void updateList(List<SettingsObject> settings)
         {
             //if settings Text = settings, if materials Text = materials.
             Label jobHeader = new Label
             {
                 Text = Header,
-                TextColor = Color.Black,
+                TextColor = Color.Red,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 FontAttributes = FontAttributes.Bold,
                 HorizontalOptions = LayoutOptions.Center,
@@ -127,6 +130,7 @@ namespace ProQuant
 
             this.Content = new StackLayout
             {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
                 Children =
                 {
                     jobHeader,
@@ -138,17 +142,20 @@ namespace ProQuant
 
         private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            Settings settings = e.SelectedItem as Settings;
+            SettingsObject settings = e.SelectedItem as SettingsObject;
             await gotoSpecificPage(settings);
+            
+
 
         }
 
-        private async Task gotoSpecificPage(Settings settings)
+        private async Task gotoSpecificPage(SettingsObject settings)
         {
-            SettingSpecific settingSpecific = new SettingSpecific(settings);
+            //This needs fixing... there is an exception being thrown... gotta find out from where
+            SettingSpecific settingSpecific = new SettingSpecific(settings, Maincnx);
             await Navigation.PushAsync(settingSpecific);
 
-            MessagingCenter.Subscribe<SettingSpecific, Settings>(settingSpecific, "send", (sender, arg) =>
+            MessagingCenter.Subscribe<SettingSpecific, SettingsObject>(settingSpecific, "send", (sender, arg) =>
             {
                 for (int i = 0; i < UpdatedSettings.Count; i++)
                 {
@@ -159,6 +166,15 @@ namespace ProQuant
                     }
                 }
             });
+        }
+
+        protected override void OnAppearing()
+        {
+            if (firstLoad == false)
+            {
+                updateList(UpdatedSettings);
+            }
+            base.OnAppearing();
         }
     }
     

@@ -861,10 +861,10 @@ namespace ProQuant
                 return;
             }
 
-            Settings[] receivedEstSettings = Settings.FromJson(response);
-            List<Settings> EstSettings = new List<Settings>();
+            SettingsObject[] receivedEstSettings = SettingsObject.FromJson(response);
+            List<SettingsObject> EstSettings = new List<SettingsObject>();
 
-            foreach(Settings setting in receivedEstSettings)
+            foreach(SettingsObject setting in receivedEstSettings)
             {
                 EstSettings.Add(setting);
             }
@@ -887,10 +887,10 @@ namespace ProQuant
                 return;
             }
 
-            Settings[] receivedMatSettings = Settings.FromJson(response);
-            List<Settings> MatSettings = new List<Settings>();
+            SettingsObject[] receivedMatSettings = SettingsObject.FromJson(response);
+            List<SettingsObject> MatSettings = new List<SettingsObject>();
 
-            foreach (Settings setting in receivedMatSettings)
+            foreach (SettingsObject setting in receivedMatSettings)
             {
                 MatSettings.Add(setting);
             }

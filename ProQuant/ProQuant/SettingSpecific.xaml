@@ -25,8 +25,13 @@
                         <Label Text="New Value ="/>
                     </StackLayout>
                     <StackLayout>
-                        <Entry x:Name="NewValue"/>
+                        <Entry x:Name="NewValue"
+                               TextChanged="NewValue_TextChanged"/>
                     </StackLayout>
+                </StackLayout>
+                <StackLayout>
+                    <Label x:Name="Warning"
+                           TextColor="Red"/>
                 </StackLayout>
             </StackLayout>
             <StackLayout>

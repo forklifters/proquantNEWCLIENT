@@ -96,12 +96,9 @@ namespace ProQuant
 
 
 
-                    //################################################################
-                    //WHEN NOT TESTING COMMENT THESE LINES OUT AND REPLACE WITH BELOW
-                    //string user = "egbbuilders@aol.com"; //change to EmailEntry.Text                           //when not testing comment these lines out.
-                    //string pass = "proQuant97"; //change to PassEntry.Text
-                    //string response = await Client.GET_Token(tokenKey, "Basic", user, pass);
-                    //TokenInfoJsonParse tokenInfo = TokenInfoJsonParse.FromJson(response);
+                    //################################################################ 
+                    cnx.User = "oliver.filmer@proquantestimating.co.uk";                  //when not testing comment these lines out.
+                    cnx.Pass = "password";  
                     //################################################################
 
                     //VV this works when not testing uncomment this and comment the user and other stuff

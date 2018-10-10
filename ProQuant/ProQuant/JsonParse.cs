@@ -81,7 +81,7 @@ namespace ProQuant
         public static RegisterResponse FromJson(string json) => JsonConvert.DeserializeObject<RegisterResponse>(json, ProQuant.Converter.Settings);
     }
 
-    public partial class Settings
+    public partial class SettingsObject
     {
         [JsonProperty("key")]
         public string key { get; set; }
@@ -108,9 +108,9 @@ namespace ProQuant
         public string max { get; set; }
     }
 
-    public partial class Settings
+    public partial class SettingsObject
     {
-        public static Settings[] FromJson(string json) => JsonConvert.DeserializeObject<Settings[]>(json, ProQuant.Converter.Settings);
+        public static SettingsObject[] FromJson(string json) => JsonConvert.DeserializeObject<SettingsObject[]>(json, ProQuant.Converter.Settings);
     }
 
     public class JobsFromJson
@@ -120,7 +120,7 @@ namespace ProQuant
 
     public static class Serialize
     {
-        public static string ToJson(this List<Dictionary<string, string>> self) => JsonConvert.SerializeObject(self, ProQuant.Converter.Settings);
+        public static string ToJson(this SettingsObject[] self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 
     internal static class Converter
