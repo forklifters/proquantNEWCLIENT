@@ -113,6 +113,18 @@ namespace ProQuant
         public static SettingsObject[] FromJson(string json) => JsonConvert.DeserializeObject<SettingsObject[]>(json, ProQuant.Converter.Settings);
     }
 
+    public class SettingsCapsule
+    {
+        public OutgoingCommand cmd { get; set; }
+        public TokenInfo user { get; set; }
+        public SettingsObject[] settings { get; set; }
+    }
+
+    public class OutgoingCommand
+    {
+        public string command { get; set; }
+    }
+
     public class JobsFromJson
     {
         public static List<Dictionary<string, string>> FromJson(string json) => JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json, ProQuant.Converter.Settings);

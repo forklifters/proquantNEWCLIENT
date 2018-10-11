@@ -152,7 +152,7 @@ namespace ProQuant
         private async Task gotoSpecificPage(SettingsObject settings)
         {
             //This needs fixing... there is an exception being thrown... gotta find out from where
-            SettingSpecific settingSpecific = new SettingSpecific(settings, Maincnx);
+            SettingSpecific settingSpecific = new SettingSpecific(settings, Maincnx, Header);
             await Navigation.PushAsync(settingSpecific);
 
             MessagingCenter.Subscribe<SettingSpecific, SettingsObject>(settingSpecific, "send", (sender, arg) =>

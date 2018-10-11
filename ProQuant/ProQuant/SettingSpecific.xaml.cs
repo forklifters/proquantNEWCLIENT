@@ -16,10 +16,12 @@ namespace ProQuant
 	{
         SettingsObject _setting;
         Connection Maincnx;
+        string _type;
 
-		public SettingSpecific (SettingsObject setting, Connection cnx)
+		public SettingSpecific (SettingsObject setting, Connection cnx, string type)
 		{
 			InitializeComponent ();
+            _type = type;
             _setting = setting;
             Maincnx = cnx;
             Start();
@@ -123,24 +125,47 @@ namespace ProQuant
             
         }
 
-        private async void PostSetting(Connection maincnx, SettingsObject setting)
+        public async void PostSetting(Connection maincnx, SettingsObject setting)
         {
             List<SettingsObject> OGSettingList = new List<SettingsObject>();
             
             OGSettingList.Add(setting);
-            SettingsObject[] OGSettings = OGSettingList.ToArray();
+        
+            SettingsCapsule outgoing = new SettingsCapsule();
+            OutgoingCommand command = new OutgoingCommand();
 
-            var OGSettingsJson = JsonConvert.SerializeObject(OGSettings, Formatting.None, new JsonSerializerSettings()
-                                                                                          {
-                                                                                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                                                                                          });
-            var x = OGSettingsJson;
+            outgoing.settings = OGSettingList.ToArray();
+            outgoing.user = Maincnx.TokenInfoJsonProps;
 
+            string key = "";
+            if (_type == "Estimating Settings")
+            {
+                //REMEMBER WE NEED TO IMPLEMENT MD format;
+                key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~putestimatingsettings";
+                command.command = "postsettings";
+ 
+            }
+            else if (_type == "Material Settings")
+            {
+                key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~putmaterialsettings";
+                command.command = "postmaterials";
+            }
+            else
+            {
+                await DisplayAlert("Error", "There has been an error communticating with our server\n\n" +
+                                            "Please call us and state:\n\n" +
+                                             "\"Error Code: SS####\"", "Ok");
+                return;
+            }
 
+            outgoing.cmd = command;
 
-
-
-
+            var outgoingJson = JsonConvert.SerializeObject(outgoing, Formatting.None, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            var response = await Client.Post(Maincnx.Token, key, outgoingJson);
+            var x = response;
 
             MessagingCenter.Send<SettingSpecific, SettingsObject>(this, "send", _setting);
         }

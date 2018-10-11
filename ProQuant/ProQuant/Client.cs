@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
+using System.IO;
 
 namespace ProQuant
 {
@@ -94,6 +95,34 @@ namespace ProQuant
         }
 
 
+        public static async Task<string> Post(string token, string key, string jsonContent)
+        {
+
+            string add = $"https://pqapi.co.uk:58330{key}";
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(add);
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Accept = "application/json";
+            httpWebRequest.Method = "POST";
+            httpWebRequest.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {token}");
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                streamWriter.Write(jsonContent);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+            
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+                var x = result;
+
+                return result;
+            }       
+        }
+
+
         public static async Task<string> GETnoAuth(string key)
         {
 
@@ -147,6 +176,8 @@ namespace ProQuant
 
             return content;
         }
+
+
 
 
         public static string Base64Encode(string plainText)
