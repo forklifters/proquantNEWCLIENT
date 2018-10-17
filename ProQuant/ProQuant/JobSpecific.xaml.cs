@@ -39,7 +39,7 @@ namespace ProQuant
             MainCnx = cnx;
             _jobcell = job;
             loaded = true;
-            var xjbd; 
+            
         }
 
         protected async override void OnDisappearing()
