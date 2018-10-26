@@ -2,51 +2,50 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProQuant.LoginPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             BackgroundImage="LoginBackround.png">
     <ContentPage.Content>
-        <StackLayout Padding="20,75,20,30" BackgroundColor="White">
-            <StackLayout Padding="30,0,30,20">
+        <AbsoluteLayout>
+            <!--<StackLayout Padding="30,0,30,20">
                 <Image HorizontalOptions="Center"
                    VerticalOptions="Center"
                    x:Name="SplashImage"
                    Source="Proquant_logo.PNG"
                    Aspect="AspectFill"/>
-            </StackLayout>
+            </StackLayout>-->
 
             <Label x:Name="Tester"/>
 
             <Entry Placeholder="Email"
-                   PlaceholderColor="Gray"
+                   PlaceholderColor="White"
+                   TextColor="White"
                    x:Name="EmailEntry"
-                   Keyboard="Email"/>
+                   Keyboard="Email"
+                   AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds=".5,.5,.8,.07"  
+                   />
 
             <Entry Placeholder="Password"
                    IsPassword="True"
-                   PlaceholderColor="Gray"
+                   TextColor="White"
+                   PlaceholderColor="White"
                    x:Name="PassEntry"
+                   AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds=".5,.57,.8,.07" 
                    />
 
             <Button Text="Log in"
-                    Clicked="LogInClicked"/>
+                    Clicked="LogInClicked"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.65,.8,.07" />
 
-            <StackLayout Orientation="Vertical"
-                         HorizontalOptions="Center"
-                         VerticalOptions="StartAndExpand">
-                <StackLayout>
-                    <Button Text="Sign Up"
-                    Clicked="SignUpClicked"/>
-                </StackLayout>
-
-            </StackLayout>
-
-
-            <StackLayout Orientation="Vertical"
-                         VerticalOptions="End"
-                         HorizontalOptions="Center">
-                <Button Text="Forgot Password"
-                        Clicked="ForgotPasswordClicked"/>
-            </StackLayout>
-
-        </StackLayout>
+            
+                
+            <Button Text="Sign Up"
+                    Clicked="SignUpClicked"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.75,.5,.07" />
+                
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

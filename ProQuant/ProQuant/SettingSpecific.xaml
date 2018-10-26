@@ -4,7 +4,8 @@
              x:Class="ProQuant.SettingSpecific"
              BackgroundColor="White">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout VerticalOptions="StartAndExpand"
+                     HorizontalOptions="StartAndExpand">
             <StackLayout>
                 <!--Header-->
                 <Label x:Name="Description"
@@ -12,29 +13,33 @@
             </StackLayout>
             <StackLayout>
                 <!--ORIGIONAL AND UPDATE-->
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="StartAndExpand">
                     <StackLayout>
                         <Label Text="Origional Value ="/>
                     </StackLayout>
-                    <StackLayout>
+                    <StackLayout HorizontalOptions="EndAndExpand">
                          <Label x:Name="OrigionalValue"/>
                     </StackLayout>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="StartAndExpand">
                     <StackLayout>
                         <Label Text="New Value ="/>
                     </StackLayout>
-                    <StackLayout>
+                    <StackLayout HorizontalOptions="EndAndExpand">
                         <Entry x:Name="NewValue"
                                TextChanged="NewValue_TextChanged"/>
                     </StackLayout>
                 </StackLayout>
-                <StackLayout>
+                <StackLayout Padding="0,20,0,0"
+                             HorizontalOptions="CenterAndExpand">
                     <Label x:Name="Warning"
                            TextColor="Red"/>
                 </StackLayout>
             </StackLayout>
-            <StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="CenterAndExpand">
                 <!--Update Button-->
                 <Button Text="Change"
                         BackgroundColor="Green"

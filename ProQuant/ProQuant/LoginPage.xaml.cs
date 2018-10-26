@@ -73,12 +73,6 @@ namespace ProQuant
             return true;
         }
 
-        private void ForgotPasswordClicked(object sender, EventArgs e)
-        {
-            ConnectionCheck();
-
-            //pop up?
-        }
 
         private async void LogInClicked(object sender, EventArgs e)
         {
