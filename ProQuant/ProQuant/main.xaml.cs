@@ -38,8 +38,6 @@ namespace ProQuant
             Maincnx = cnx;
             firstLoad = false;
             ConnectionCheck();
-
-            
         }
 
         
@@ -167,6 +165,12 @@ namespace ProQuant
 
         async Task updateList(Connection cnx, List<JobCell> JOBCELLS)
         {
+            this.BarBackgroundColor = Color.FromHex("#B80000");
+            settingsButton.BackgroundColor = Color.FromHex("#B80000");
+            materialsButton.BackgroundColor = Color.FromHex("#B80000");
+            contactButton.BackgroundColor = Color.FromHex("#B80000");
+            passwordButton.BackgroundColor = Color.FromHex("#B80000");
+
             List<Job> Jobs = new List<Job>(); ;
             List<JobCell> Cells = new List<JobCell>();
 
@@ -213,7 +217,7 @@ namespace ProQuant
                 Cells = JOBCELLS;
             }
 
-
+            
 
 
 
@@ -316,6 +320,9 @@ namespace ProQuant
                     
                 }
             };
+
+            
+           
         }
 
         public List<JobCell> FormListFromText(string Text)

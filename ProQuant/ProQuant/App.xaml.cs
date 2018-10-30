@@ -20,7 +20,7 @@ namespace ProQuant
             //MainPage = new NavigationPage(new Register());
             MainPage = new NavigationPage(new Splash())
             {
-                BarBackgroundColor = Color.FromHex("#fe0000"),
+                BarBackgroundColor = Color.FromHex("#B80000"),
                 BarTextColor = Color.White,
             };
         }

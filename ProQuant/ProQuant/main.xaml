@@ -19,14 +19,16 @@
         <StackLayout VerticalOptions="FillAndExpand">
             <StackLayout VerticalOptions="FillAndExpand"
                          Padding="0,20,0,0">
-                <Button Text="Settings"
+                <Button x:Name="settingsButton"
+                        Text="Settings"
                         TextColor="White"
                         BackgroundColor="Red"
                         Clicked="SettingsClicked"
                         VerticalOptions="Center"/>
             </StackLayout>
             <StackLayout VerticalOptions="FillAndExpand">
-                <Button Text="Materials"
+                <Button x:Name="materialsButton"
+                        Text="Materials"
                         TextColor="White"
                         BackgroundColor="Red"
                         Clicked="MaterialsClicked"
@@ -42,14 +44,16 @@
                      HorizontalOptions="CenterAndExpand"
                      VerticalOptions="CenterAndExpand">
             
-            <Button Text="Contact Us"
-                    BackgroundColor="Red"
+            <Button x:Name="contactButton"
+                    Text="Contact Us"
+                    
                     TextColor="White"
                     Clicked="ContactUsButtonClicked"/>
             
-            <Button Text="Change Password"
-                BackgroundColor="Red"
-                TextColor="White"
+            <Button x:Name="passwordButton" 
+                    Text="Change Password"
+                    BackgroundColor="Red"
+                    TextColor="White"
                     Clicked="ChangePasswordButtonClicked"/>
             
             <Button Text="Log Out"

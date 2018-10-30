@@ -5,5 +5,5 @@
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<application android:label="ProQuant.Android"></application>
+	<application android:label="ProQuant.Android" android:icon="@drawable/iconicon"></application>
 </manifest>
