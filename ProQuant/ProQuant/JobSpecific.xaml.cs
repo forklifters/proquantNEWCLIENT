@@ -33,12 +33,14 @@ namespace ProQuant
         public JobSpecific(Connection cnx, JobCell job, bool comingFromSubjob)
         {
             InitializeComponent();
+            BackgroundColor = Color.FromHex("#B80000");
             _comingFromSubjob = comingFromSubjob;
             jx = job;
             updateView(job);
             MainCnx = cnx;
             _jobcell = job;
             loaded = true;
+            
             
         }
 
@@ -48,7 +50,7 @@ namespace ProQuant
             {
                 await Navigation.PushAsync(new main(MainCnx)
                 {
-                    BarBackgroundColor = Color.FromHex("#fe0000"),
+                    BarBackgroundColor = Color.FromHex("#B80000"),
                     BarTextColor = Color.White
 
                 });
