@@ -3,83 +3,133 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProQuant.JobSpecific">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="White">
-            <StackLayout Orientation="Vertical"
-                         Padding="20,8,20,20">
-                <!--ID AND PAID-->
-                <Label x:Name="IDLabel"
-                       FontSize="Large"
-                       FontAttributes="Bold"
-                       TextColor="Black"/>
-                <Label x:Name="SJLabel" FontSize="12"
-                       FontAttributes="Bold"/>
-                <Image x:Name="Paid" Source="PAID.PNG"/>
-            </StackLayout>
+        <AbsoluteLayout x:Name="BackroundStack"
+                     BackgroundColor="Red">
+                    <!--ID AND PAID-->
+                    <Label x:Name="IDLabel"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            BackgroundColor="White"
+                            AnchorX="0"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".1,.03,.6,.05"
+                           />
+            
+                    <Label x:Name="SJLabel" FontSize="Medium"
+                            FontAttributes="Bold"
+                            BackgroundColor="White"
+                            AnchorX="0"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".1,.1,.6,.045"
+                           />
+            
+                    <!--< Reintroduce this Image
+            
+                           Image x:Name="Paid" Source="PAID.PNG"
+                           AbsoluteLayout.LayoutFlags="All"
+                           AbsoluteLayout.LayoutBounds="0,0,0,0"
+                           />-->
 
-            <StackLayout Orientation="Horizontal"
-                         Padding="20,0,20,0">
-                <!--ADDRESS VALUE AND STATUS-->
-                <StackLayout Orientation="Vertical"
-                             HorizontalOptions="Start">
-                    <!--ADDRESS-->
                     <Label x:Name="Add1"
-                           Text="Add1"/>
+                            Text="Add1"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".1,.25,.6,.045"
+                            BackgroundColor="White"
+                        />
+            
                     <Label x:Name="Add2"
-                           Text="Add2"/>
+                            Text="Add2"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".1,.3,.6,.045"
+                            BackgroundColor="White"
+                        />
+            
                     <Label x:Name="Add3"
-                           Text="Add3"/>
+                            Text="Add3"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".1,.35,.6,.045"
+                            BackgroundColor="White"
+                        />
+            
                     <Label x:Name="Add4"
-                           Text="Add4"/>
+                            Text="Add4"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".1,.4,.6,.045"
+                            BackgroundColor="White"
+                        />
+            
                     <Label x:Name="AddPC"
-                           Text="AddPC"/>
-                </StackLayout>
+                            Text="AddPC"   
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".1,.45,.6,.045"
+                            BackgroundColor="White"
+                        />
+            
+                    <Label x:Name="Status"
+                            FontAttributes="Bold"
+                            FontSize="Medium"
+                            Text="STATUS"
+                            BackgroundColor="White"
+                            AnchorX="1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".9,.03,.25,.05"
+                        />
+            
+                    <Label x:Name="Description"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            BackgroundColor="White"
+                            AnchorX="0"
+                            AnchorY=".9"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".475,.68,.9,.2"
+                        />
 
-                <StackLayout Orientation="Vertical"
-                             HorizontalOptions="EndAndExpand">
-                    <!--Status-->
-                    <StackLayout HorizontalOptions="End">
-                        <Label x:Name="Status"
-                               FontAttributes="Bold"
-                               FontSize="Medium"
-                               Text="STATUS"/>
-                        
-                    </StackLayout>
+                    <Picker x:Name="AwardedPicker" Title="Awarded?" SelectedIndexChanged="AwardedPicker_SelectedIndexChanged"
+                            BackgroundColor="White"
+                            AnchorX="1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".9,.40,.2,.07"
+                            >
+                        <Picker.Items>
+                            <x:String>Won</x:String>
+                            <x:String>Lost</x:String>
+                            <x:String>Neither</x:String>
+                        </Picker.Items>
+                    </Picker>
 
-                    <StackLayout HorizontalOptions="Start">
-                        <Label x:Name="Description"
-                               FontAttributes="Bold"
-                               TextColor="Black"/>
-                        <Picker x:Name="AwardedPicker" Title="Awarded?" SelectedIndexChanged="AwardedPicker_SelectedIndexChanged">
-                            <Picker.Items>
-                                <x:String>Won</x:String>
-                                <x:String>Lost</x:String>
-                                <x:String>Neither</x:String>
-                            </Picker.Items>
-                        </Picker>
-                    </StackLayout>
-                </StackLayout>
-            </StackLayout>
-
-            <StackLayout VerticalOptions="StartAndExpand"/>
-            <StackLayout Padding="0,0,0,20">
                     <!--PAY BUTTON-->
                     <Button x:Name="PayButton"
-                        Clicked="PayButton_Clicked"/>
+                            Clicked="PayButton_Clicked"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".5,.85,.8,.1"
+                        />
 
-                </StackLayout>
-
-                <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="Center"
-                         Padding="0,0,0,40">
-                    <!--SEND PDF AND EXTRA BUTTONS-->
                     <Button Text="Send PDF"
-                        x:Name="SendPDFButton"
-                        Clicked="SendPDFButton_Clicked"/>
+                            x:Name="SendPDFButton"
+                            Clicked="SendPDFButton_Clicked"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".25,.975,.25,.1"
+                        />
+            
                     <Button Text="Call Us"
-                        x:Name="CallUsButton"
-                        Clicked="CallUsButton_Clicked_1"/>
-                </StackLayout>
+                            x:Name="CallUsButton"
+                            Clicked="CallUsButton_Clicked_1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".75,.975,.25,.1"
+                        />
 
-        </StackLayout>
+            </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

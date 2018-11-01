@@ -20,17 +20,15 @@
             <StackLayout VerticalOptions="FillAndExpand"
                          Padding="0,20,0,0">
                 <Button x:Name="settingsButton"
-                        Text="Settings"
+                        Text="Your Settings"
                         TextColor="White"
-                        BackgroundColor="Red"
                         Clicked="SettingsClicked"
                         VerticalOptions="Center"/>
             </StackLayout>
             <StackLayout VerticalOptions="FillAndExpand">
                 <Button x:Name="materialsButton"
-                        Text="Materials"
+                        Text="Your Materials"
                         TextColor="White"
-                        BackgroundColor="Red"
                         Clicked="MaterialsClicked"
                         VerticalOptions="Center"/>
             </StackLayout>

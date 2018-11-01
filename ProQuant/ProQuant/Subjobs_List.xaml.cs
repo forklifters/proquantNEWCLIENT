@@ -125,6 +125,7 @@ namespace ProQuant
             {
                 Text = Cells[0].Add1,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                TextColor = Color.Black,
                 HorizontalOptions = LayoutOptions.Center
             };
 
