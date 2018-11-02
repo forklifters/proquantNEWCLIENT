@@ -2,68 +2,32 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProQuant.Register"
-             BackgroundColor="White">
+             BackgroundColor="White"
+             BackgroundImage="Sign_up.png">
     <ContentPage.Content>
-        <StackLayout Margin="0,20,0,20"
-                     HorizontalOptions="FillAndExpand"
-                     Padding="0">
-            <StackLayout Padding="0,0,0,20"
-                         VerticalOptions="FillAndExpand"
-                         HorizontalOptions="FillAndExpand">
-                <StackLayout BackgroundColor="Blue"
-                             HorizontalOptions="FillAndExpand">
-                    <Label Text="Existing Customers"
-                           HorizontalTextAlignment="Center"
-                           HorizontalOptions="CenterAndExpand"
-                           TextColor="White"
-                           FontSize="Medium"/>
-                </StackLayout>
-                
-                <StackLayout VerticalOptions="StartAndExpand"
-                             Padding="20,20,20,0">
-                    <Entry x:Name="EmailBar"
+        <AbsoluteLayout>
+            <Entry x:Name="EmailBar"
                    HorizontalOptions="FillAndExpand"
-                   Placeholder="Email Address:"/>
-                    <StackLayout Padding="20,0,20,20">
-                        <Button Text="Register"
-                        Clicked="RegisterButton"
-                        BackgroundColor="Red"
-                        TextColor="White"/>
-                    </StackLayout>
-                    <Label Text="An Email will be sent to this email with login instructions."
-                           HorizontalTextAlignment="Center"
-                       FontSize="Small"
-                           Margin="0"/>
-                    <Label Text="If you don't receive your email, please contact the office."
-                           HorizontalTextAlignment="Center"
-                       FontSize="Small"
-                       Margin="0"/>
-                </StackLayout>
-
-                <StackLayout VerticalOptions="End" Padding="0,0,0,20"
-                             HorizontalOptions="FillAndExpand">
-                    <StackLayout BackgroundColor="Blue"
-                                 HorizontalOptions="FillAndExpand">
-                        <Label Text="New Customers with no jobs on our systems"
-                               HorizontalTextAlignment="Center"
-                           TextColor="White"
-                           FontSize="Medium"/>
-                    </StackLayout>
-                    <StackLayout Padding="20,0,20,0">
-                        <Label Text="Please call the office so we can set up your account"
-                               HorizontalTextAlignment="Center"/>
-                        <StackLayout Padding="20,0,20,0">
-                            <Button TextColor="White"
-                            BackgroundColor="Blue"
-                            FontSize="Small"
-                            Text="Call Us"
-                            Clicked="CallOffice"/>
-                        </StackLayout>
-                    </StackLayout>
-                </StackLayout>
-
-
-            </StackLayout>
-        </StackLayout>
+                   HorizontalTextAlignment="Center"
+                   Placeholder="Email Address:"
+                   AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds=".5,.135,.5,.07"
+                   />
+            <Button Text="Register"
+                    Clicked="RegisterButton"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.22,.8,.08"
+                    />
+            <Button TextColor="Red"
+                    BackgroundColor="White"
+                    FontSize="Small"
+                    Text="Call Us"
+                    Clicked="CallOffice"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.885,.8,.08"
+                    />
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

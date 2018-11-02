@@ -139,6 +139,7 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\iconicon.png" />
     <AndroidResource Include="Resources\drawable\Specific_letusknow.png" />
     <AndroidResource Include="Resources\drawable\setting_specific.png" />
+    <AndroidResource Include="Resources\drawable\Sign_up.png" />
     <Content Include="Resources\mipmap-anydpi-v26\Icon.png" />
     <Content Include="Resources\drawable-hdpi\iconPQ.png" />
     <Content Include="Resources\drawable\ic_launcher.png" />
