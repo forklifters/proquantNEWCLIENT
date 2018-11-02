@@ -2,50 +2,73 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProQuant.SettingSpecific"
-             BackgroundColor="White">
+             BackgroundColor="White"
+             BackgroundImage="setting_specific.png">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="StartAndExpand"
-                     HorizontalOptions="StartAndExpand">
-            <StackLayout>
-                <!--Header-->
-                <Label x:Name="Description"
-                       FontAttributes="Bold"/>
-            </StackLayout>
-            <StackLayout>
-                <!--ORIGIONAL AND UPDATE-->
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="StartAndExpand">
-                    <StackLayout>
-                        <Label Text="Origional Value ="/>
-                    </StackLayout>
-                    <StackLayout HorizontalOptions="EndAndExpand">
-                         <Label x:Name="OrigionalValue"/>
-                    </StackLayout>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="StartAndExpand">
-                    <StackLayout>
-                        <Label Text="New Value ="/>
-                    </StackLayout>
-                    <StackLayout HorizontalOptions="EndAndExpand">
-                        <Entry x:Name="NewValue"
-                               TextChanged="NewValue_TextChanged"/>
-                    </StackLayout>
-                </StackLayout>
-                <StackLayout Padding="0,20,0,0"
-                             HorizontalOptions="CenterAndExpand">
-                    <Label x:Name="Warning"
-                           TextColor="Red"/>
-                </StackLayout>
-            </StackLayout>
-            <StackLayout VerticalOptions="CenterAndExpand"
-                         HorizontalOptions="CenterAndExpand">
-                <!--Update Button-->
-                <Button Text="Change"
-                        BackgroundColor="Green"
-                        TextColor="White"
-                        Clicked="UpdateClicked"/>
-            </StackLayout>
-        </StackLayout>
+        <AbsoluteLayout>
+            <Label x:Name="Description"
+                    HorizontalTextAlignment="Center"
+                    FontAttributes="Bold"
+                    TextColor="Black"             
+                    FontSize="Large"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.11,.9,.17"
+                   />
+
+
+            <Label Text="Original Value:"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    FontSize="Medium"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".09,.293,.4,.17"
+                   />
+
+            <Label x:Name="OrigionalValue"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    FontSize="Medium"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".835,.293,.4,.17"
+                   />
+
+            <Label Text="Enter Your New Value:"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    FontSize="Medium"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".475,.435,.4,.17"
+                   />
+
+            <Entry x:Name="NewValue"
+                    TextChanged="NewValue_TextChanged"
+                    Keyboard="Numeric"
+                    HorizontalTextAlignment="Center"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.565,.8,.07"
+                   />
+
+            <Label x:Name="Warning"
+                    TextColor="Red"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    FontSize="Medium"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.635,.8,.07"
+                   />
+
+            <Button Text="Change"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    Clicked="UpdateClicked"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.75,.8,.07"
+                    />
+
+
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

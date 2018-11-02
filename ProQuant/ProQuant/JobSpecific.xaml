@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProQuant.JobSpecific">
+             x:Class="ProQuant.JobSpecific"
+             BackgroundImage="Specific_letusknow.png">
     <ContentPage.Content>
         <AbsoluteLayout x:Name="BackroundStack"
-                     BackgroundColor="Red">
+                        >
                     <!--ID AND PAID-->
                     <Label x:Name="IDLabel"
                             FontSize="Large"
@@ -13,7 +14,7 @@
                             BackgroundColor="White"
                             AnchorX="0"
                             AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds=".1,.03,.6,.05"
+                            AbsoluteLayout.LayoutBounds=".1,.015,.58,.05"
                            />
             
                     <Label x:Name="SJLabel" FontSize="Medium"
@@ -21,7 +22,7 @@
                             BackgroundColor="White"
                             AnchorX="0"
                             AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds=".1,.1,.6,.045"
+                            AbsoluteLayout.LayoutBounds=".1,.075,.58,.045"
                            />
             
                     <!--< Reintroduce this Image
@@ -36,7 +37,7 @@
                             FontAttributes="Bold"
                             TextColor="Black"
                             AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds=".1,.25,.6,.045"
+                            AbsoluteLayout.LayoutBounds=".1,.25,.58,.045"
                             BackgroundColor="White"
                         />
             
@@ -79,11 +80,12 @@
                     <Label x:Name="Status"
                             FontAttributes="Bold"
                             FontSize="Medium"
+                            HorizontalTextAlignment="Center"
                             Text="STATUS"
                             BackgroundColor="White"
                             AnchorX="1"
                             AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds=".9,.03,.25,.05"
+                            AbsoluteLayout.LayoutBounds=".87,.17,.6,.05"
                         />
             
                     <Label x:Name="Description"
@@ -100,7 +102,7 @@
                             BackgroundColor="White"
                             AnchorX="1"
                             AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds=".9,.40,.2,.07"
+                            AbsoluteLayout.LayoutBounds=".9,.40,.23,.07"
                             >
                         <Picker.Items>
                             <x:String>Won</x:String>

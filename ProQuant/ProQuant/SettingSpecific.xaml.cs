@@ -88,7 +88,7 @@ namespace ProQuant
             }
             catch (Exception)
             {
-                await DisplayAlert("Error", "There has been an error converting your number to a value, please check it is written correctly  \n\n Error Code \"SS####\"", "Ok");
+                await DisplayAlert("Error", "There has been an error converting your number to a value, please check it is written correctly  \n\nError Code \"SS####\"", "Ok");
                 return;
             }
 
@@ -106,13 +106,13 @@ namespace ProQuant
             //do checks for max and min.
             if (newValue > max)
             {
-                await DisplayAlert("Value Too Big", $"Sorry the value you have entered is too large.\n\n Our largest allowed value is:  {_setting.uom}{_setting.max} \n\nIf this wasn't a mistake, please contact us to change it.", "Ok");
+                await DisplayAlert("Value Too Big", $"Sorry the value you have entered is too large.\n\nOur largest allowed value is:  {_setting.uom}{_setting.max} \n\nIf this wasn't a mistake, please contact us to change it.", "Ok");
                 return;
             }
 
             if (newValue < min)
             {
-                await DisplayAlert("Value Too Small", $"Sorry the value you have entered is too small.\n\n Our smallest allowed value is:  {_setting.uom}{_setting.min} \n\n If this wasn't a mistake, please contact us to change it.", "Ok");
+                await DisplayAlert("Value Too Small", $"Sorry the value you have entered is too small.\n\nOur smallest allowed value is:  {_setting.uom}{_setting.min} \n\nIf this wasn't a mistake, please contact us to change it.", "Ok");
                 return;
             }
             _setting.value = NewValue.Text;

@@ -95,6 +95,8 @@
     <Content Include="$(MSBuildThisFileDirectory)256.png" />
     <Content Include="$(MSBuildThisFileDirectory)LoginBackround.png" />
     <Content Include="$(MSBuildThisFileDirectory)Proquant_logo.PNG" />
+    <Content Include="$(MSBuildThisFileDirectory)setting_specific.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Specific_letusknow.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Register.xaml">
