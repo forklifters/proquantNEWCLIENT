@@ -37,14 +37,18 @@
             <Button Text="Log in"
                     Clicked="LogInClicked"
                     AbsoluteLayout.LayoutFlags="All"
-                    AbsoluteLayout.LayoutBounds=".5,.65,.8,.07" />
+                    AbsoluteLayout.LayoutBounds=".5,.65,.8,.07" 
+                    CornerRadius="30"
+                    />
 
             
                 
             <Button Text="Sign Up"
                     Clicked="SignUpClicked"
                     AbsoluteLayout.LayoutFlags="All"
-                    AbsoluteLayout.LayoutBounds=".5,.75,.5,.07" />
+                    AbsoluteLayout.LayoutBounds=".5,.75,.5,.07" 
+                    CornerRadius="30"
+                    />
                 
         </AbsoluteLayout>
     </ContentPage.Content>

@@ -36,6 +36,7 @@ namespace ProQuant
             if (!string.IsNullOrWhiteSpace(tokenInfo.Temp))
             {
                 BackButton.IsEnabled = false;
+                BackButton.IsVisible = false;
                 OldPassword.Text = tokenInfo.Temp;
                 OldPassword.IsEnabled = false;
             }           

@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProQuant.Register"
-             BackgroundColor="White"
              BackgroundImage="Sign_up.png">
     <ContentPage.Content>
         <AbsoluteLayout>
@@ -11,7 +10,7 @@
                    HorizontalTextAlignment="Center"
                    Placeholder="Email Address:"
                    AbsoluteLayout.LayoutFlags="All"
-                   AbsoluteLayout.LayoutBounds=".5,.135,.5,.07"
+                   AbsoluteLayout.LayoutBounds=".5,.135,.8,.07"
                    />
             <Button Text="Register"
                     Clicked="RegisterButton"

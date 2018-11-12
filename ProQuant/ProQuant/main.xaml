@@ -16,52 +16,62 @@
 
     <!--CUSTOMISE-->
     <ContentPage Title="Customise" BackgroundColor="White">
-        <StackLayout VerticalOptions="FillAndExpand">
-            <StackLayout VerticalOptions="FillAndExpand"
-                         Padding="0,20,0,0">
-                <Button x:Name="settingsButton"
-                        Text="Your Settings"
-                        TextColor="White"
-                        Clicked="SettingsClicked"
-                        VerticalOptions="Center"/>
-            </StackLayout>
-            <StackLayout VerticalOptions="FillAndExpand">
-                <Button x:Name="materialsButton"
-                        Text="Your Materials"
-                        TextColor="White"
-                        Clicked="MaterialsClicked"
-                        VerticalOptions="Center"/>
-            </StackLayout>
-        </StackLayout>
+        <AbsoluteLayout>
+
+            <Button x:Name="settingsButton"
+                    Text="Your Settings"
+                    TextColor="White"
+                    Clicked="SettingsClicked"
+                    VerticalOptions="Center"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.25,.75,.09"
+                    CornerRadius="30"
+                    />
+            
+            
+            <Button x:Name="materialsButton"
+                    Text="Your Materials"
+                    TextColor="White"
+                    Clicked="MaterialsClicked"
+                    VerticalOptions="Center"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.65,.75,.09"
+                    CornerRadius="30"
+                    />
+
+         </AbsoluteLayout>
 
     </ContentPage>
 
     <!--ACCOUNT-->
     <ContentPage Title="Account" BackgroundColor="White">
-        <StackLayout Padding="20,20,20,20"
-                     HorizontalOptions="CenterAndExpand"
-                     VerticalOptions="CenterAndExpand">
-            
+        <AbsoluteLayout>
             <Button x:Name="contactButton"
                     Text="Contact Us"
-                    
                     TextColor="White"
-                    Clicked="ContactUsButtonClicked"/>
-            
+                    Clicked="ContactUsButtonClicked"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.3,.75,.09"
+                    CornerRadius="30"
+                    />
+
             <Button x:Name="passwordButton" 
                     Text="Change Password"
-                    BackgroundColor="Red"
                     TextColor="White"
-                    Clicked="ChangePasswordButtonClicked"/>
-            
+                    Clicked="ChangePasswordButtonClicked"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.5,.75,.09"
+                    CornerRadius="30"
+                    />
+
             <Button Text="Log Out"
                     BackgroundColor="LightGray"
                     TextColor="DarkRed"
-                    Clicked="LogOutButtonClicked"/>
-        </StackLayout>
-        
-        
-
-
+                    Clicked="LogOutButtonClicked"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds=".5,.7,.75,.09"
+                    CornerRadius="30"
+                    />
+        </AbsoluteLayout>
     </ContentPage>
 </TabbedPage>

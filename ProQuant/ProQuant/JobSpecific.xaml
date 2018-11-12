@@ -115,7 +115,8 @@
                     <Button x:Name="PayButton"
                             Clicked="PayButton_Clicked"
                             AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds=".5,.85,.8,.1"
+                            AbsoluteLayout.LayoutBounds=".5,.855,.8,.1"
+                            CornerRadius="10"
                         />
 
                     <Button Text="Send PDF"
@@ -123,6 +124,7 @@
                             Clicked="SendPDFButton_Clicked"
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds=".25,.975,.25,.1"
+                            CornerRadius="10"
                         />
             
                     <Button Text="Call Us"
@@ -130,6 +132,7 @@
                             Clicked="CallUsButton_Clicked_1"
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds=".75,.975,.25,.1"
+                            CornerRadius="10"
                         />
 
             </AbsoluteLayout>
