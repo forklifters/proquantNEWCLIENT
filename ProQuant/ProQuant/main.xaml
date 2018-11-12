@@ -58,7 +58,6 @@
             <Button x:Name="passwordButton" 
                     Text="Change Password"
                     TextColor="White"
-                    Clicked="ChangePasswordButtonClicked"
                     AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds=".5,.5,.75,.09"
                     CornerRadius="30"

@@ -31,6 +31,7 @@ namespace ProQuant
         public ChangePassword (TokenInfo _tokenInfo)
 		{
 			InitializeComponent ();
+            warning.IsVisible = false;
             tokenInfo = _tokenInfo;
             EmailLabel.Text = tokenInfo.Email;
             if (!string.IsNullOrWhiteSpace(tokenInfo.Temp))
@@ -39,17 +40,38 @@ namespace ProQuant
                 BackButton.IsVisible = false;
                 OldPassword.Text = tokenInfo.Temp;
                 OldPassword.IsEnabled = false;
+                OldPassword.IsPassword = false;
             }           
 		}
 
-        private async void Button_Clicked(object sender, EventArgs e)
+        async void Button_Clicked(object sender, EventArgs e)
         {
-            if(ConfirmPassword.Text != NewPassword.Text)
+            if (string.IsNullOrEmpty(NewPassword.Text) || string.IsNullOrEmpty(ConfirmPassword.Text))
+            {
+                await DisplayAlert("Password Error", "You must input a password.", "Ok");
+                return;
+            }
+
+            if (NewPassword.Text.Length < 5)
+            {
+                if (warning.IsVisible == false)
+                {
+                    warning.IsVisible = true;
+                }
+                else
+                {
+                    await DisplayAlert("Password Error","Your password must contain more that 5 characters.", "Ok");
+                }
+                return;
+            }
+
+            if (ConfirmPassword.Text != NewPassword.Text)
             {
                 await DisplayAlert("Password Error", "Your new password doesn't match the password confirmation.", "Ok");
             }
             else
             {
+
                 //correct request layout:
                 // https://pqapi.co.uk:58330/api/api/5?id=id$~9999~cmd$~setpassword
                 // header -->
@@ -73,16 +95,34 @@ namespace ProQuant
                 //do a check to see if it came back ok, or try catch exceptions here.
 
                 TokenInfo newTokenInfo = TokenInfo.FromJson(response);
+                if (string.IsNullOrEmpty(newTokenInfo.Error))
+                {
+                    Connection cnx = new Connection();
+                    cnx.ID = newTokenInfo.Id;
+                    cnx.Name = newTokenInfo.Name;
+                    cnx.Token = newTokenInfo.Token;
+                    cnx.TokenInfoJsonProps = newTokenInfo;
 
-                Connection cnx = new Connection();
-                cnx.ID = newTokenInfo.Id;
-                cnx.Name = newTokenInfo.Name;
-                cnx.Token = newTokenInfo.Token;
-                cnx.TokenInfoJsonProps = newTokenInfo;
-
-                LoginPage.cnx = cnx;
-                await DisplayAlert("Password Changed", "Your password has been changed.", "Ok");
-                await Navigation.PopModalAsync(true);
+                    LoginPage.cnx = cnx;
+                    if (string.IsNullOrWhiteSpace(tokenInfo.Temp))
+                    {
+                        MessagingCenter.Send(this, "sendcnx", cnx);
+                    }
+                    await DisplayAlert("Password Changed", "Your password has been changed.", "Ok");
+                    await Navigation.PopModalAsync(true);
+                }
+                else
+                {
+                    if(string.IsNullOrWhiteSpace(tokenInfo.Temp))
+                    {
+                        await DisplayAlert("Password Change Error", "Please check you have entered the old password correctly.\n\nIf this keeps happening please contact the office\n\n Error Code:CP####", "Ok");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Password Change Error", "Please try again.\n\nIf this keeps happening please contact the office\n\n Error Code:CP####", "Ok");
+                    }
+                }
+                    
             }
         }
 

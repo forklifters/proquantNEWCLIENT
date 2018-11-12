@@ -54,6 +54,9 @@ namespace ProQuant
                 CancelButtonColor = Color.Red
             };
 
+            searchbar.SearchButtonPressed += Searchbar_SearchButtonPressed;
+            searchbar.TextChanged += Searchbar_TextChanged;
+
             listView = new ListView()
             {
                 HasUnevenRows = true,
@@ -140,18 +143,61 @@ namespace ProQuant
             };
         }
 
-        private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void Searchbar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            SettingsObject settings = e.SelectedItem as SettingsObject;
-            await gotoSpecificPage(settings);
+            if (string.IsNullOrWhiteSpace(searchbar.Text))
+            {
+                listView.ItemsSource = UpdatedSettings;
+            }
+        }
+
+        private async void Searchbar_SearchButtonPressed(object sender, EventArgs e)
+        {
+            string search = "";
+            if (!string.IsNullOrWhiteSpace(searchbar.Text))
+            {
+                search = searchbar.Text.ToLower();
+            }
+            else {
+                return;
+            }
             
+            List<SettingsObject> settingsList = UpdatedSettings;
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                try
+                {
+                    var results = settingsList.Where(item => item.description.ToLower().Contains(search));
+                    var results2 = settingsList.Where(item => item.key.ToLower().Contains(search));
+
+                    List<SettingsObject> resultsList = results.ToList();
+                    List<SettingsObject> resultsList2 = results2.ToList();
+                    resultsList.Concat(resultsList2);
+
+                    resultsList.Sort((componentA, componentB) => componentA.description.CompareTo(componentB.description));
+
+                    listView.ItemsSource = resultsList;
+                }catch(Exception ex)
+                {
+                    await DisplayAlert("Error",ex.Message + "\n\nError code: S####\n\n If this keeps happening please call the office.","Ok");
+                }
+                
+            }
+            
+
 
 
         }
 
+        private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            SettingsObject settings = e.SelectedItem as SettingsObject;
+            await gotoSpecificPage(settings);
+        }
+
         private async Task gotoSpecificPage(SettingsObject settings)
         {
-            //This needs fixing... there is an exception being thrown... gotta find out from where
             SettingSpecific settingSpecific = new SettingSpecific(settings, Maincnx, Header);
             await Navigation.PushAsync(settingSpecific);
 

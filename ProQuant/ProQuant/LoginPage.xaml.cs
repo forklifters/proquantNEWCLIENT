@@ -92,7 +92,7 @@ namespace ProQuant
 
                     //################################################################ 
                     cnx.User = "oliver.filmer@proquantestimating.co.uk";                  //when not testing comment these lines out.
-                    cnx.Pass = "password";  
+                    cnx.Pass = "password2";  
                     //################################################################
 
                     //VV this works when not testing uncomment this and comment the user and other stuff

@@ -38,9 +38,19 @@ namespace ProQuant
             Maincnx = cnx;
             firstLoad = false;
             ConnectionCheck();
+
+            passwordButton.Clicked += PasswordButton_Clicked;
         }
 
-        
+        private async void PasswordButton_Clicked(object sender, EventArgs e)
+        {
+            ChangePassword changePassword = new ChangePassword(Maincnx.TokenInfoJsonProps);
+            await Navigation.PushModalAsync(changePassword);
+            MessagingCenter.Subscribe<ChangePassword, Connection>(changePassword, "sendcnx", (_sender, arg) =>
+            {
+                Maincnx = arg;
+            });
+        }
 
         public async void ConnectionCheck()
         {
@@ -783,11 +793,6 @@ namespace ProQuant
             }
         }
 
-        private async void ChangePasswordButtonClicked(object sender, EventArgs e)
-        {
-            //go to change password page.
-            await Navigation.PushModalAsync(new ChangePassword(Maincnx.TokenInfoJsonProps));
-        }
 
         private async void ContactUsButtonClicked(object sender, EventArgs e)
         {
