@@ -11,8 +11,6 @@
             <ToolbarItem Name="Refresh" Order="Primary" Icon="RefreshLogo.png" Priority="1" Clicked="RefreshClicked" />
         </ContentPage.ToolbarItems>
 
-
-
     </ContentPage>
 
     <!--CUSTOMISE-->

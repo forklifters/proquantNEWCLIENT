@@ -13,7 +13,9 @@ using Newtonsoft.Json;
 
 namespace ProQuant
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    //WORKING VERSION 3.0.0.561731
+
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class main : TabbedPage
     {
         bool connected = false;
