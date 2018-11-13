@@ -2,11 +2,22 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProQuant.JobSpecific"
-             BackgroundImage="Specific_letusknow.png">
+             >
     <ContentPage.Content>
         <AbsoluteLayout x:Name="BackroundStack"
                         >
+
+                    <Image
+                        Aspect="Fill"
+                        Source="Specific_letusknow.png"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        AbsoluteLayout.LayoutFlags="All"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+
+
                     <!--ID AND PAID-->
+            
                     <Label x:Name="IDLabel"
                             FontSize="Large"
                             FontAttributes="Bold"
@@ -89,16 +100,26 @@
                         />
             
                     <Label x:Name="Description"
+                           BackgroundColor="White"
                             FontAttributes="Bold"
-                            TextColor="Black"
-                            BackgroundColor="White"
+                            TextColor="Black"                        
                             AnchorX="0"
                             AnchorY=".9"
                             AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds=".475,.68,.9,.2"
+                            AbsoluteLayout.LayoutBounds=".475,.60,.9,.1"
                         />
 
-                    <Picker x:Name="AwardedPicker" Title="Awarded?" SelectedIndexChanged="AwardedPicker_SelectedIndexChanged"
+            <Label x:Name="Notes"
+                   BackgroundColor="White"
+                   FontAttributes="Bold"
+                   TextColor="Red"
+                   AnchorX="0"
+                   AnchorY=".9"
+                   AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds=".475,.72,.9,.1"
+                />
+
+            <Picker x:Name="AwardedPicker" Title="Awarded?" SelectedIndexChanged="AwardedPicker_SelectedIndexChanged"
                             BackgroundColor="White"
                             AnchorX="1"
                             AbsoluteLayout.LayoutFlags="All"

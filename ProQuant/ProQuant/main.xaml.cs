@@ -135,6 +135,7 @@ namespace ProQuant
                 string netvalue = i["netValue"];
                 string grossvalue = i["grossValue"];
                 string vatvalue = i["vatValue"];
+                
 
                 if (netvalue == null || netvalue == "")
                 {
@@ -319,7 +320,7 @@ namespace ProQuant
 
             this.Padding = new Thickness(10, 20, 10, 5);
 
-
+            
             Tab1.Content = new StackLayout
             {
                 Children =
@@ -665,6 +666,7 @@ namespace ProQuant
                     sj.GrossValue = i["grossValue"];
                     sj.NetValue = i["netValue"];
                     sj.VatValue = i["vatValue"];
+                    sj.Notes = i["notes"];
 
                     _subJobs.Add(sj);
 
@@ -749,6 +751,7 @@ namespace ProQuant
                     job.buildername = _item.buildername;
                     job.description = _sj.Description;
                     job.sentcount = _sj.Sent;
+                    job.Notes = _sj.Notes;
 
                     subjobs.Add(job);
                 }
@@ -776,9 +779,8 @@ namespace ProQuant
                         GrossValue = subjobs[0].grossValue,
                         NetValue = subjobs[0].netValue,
                         VatValue = subjobs[0].vatValue,
+                        Notes = subjobs[0].Notes,
                         noSubs = true,
-
-
 
                         job = _item
                     };

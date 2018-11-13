@@ -8,7 +8,8 @@
         <StackLayout BackgroundColor="White">
             <StackLayout VerticalOptions="StartAndExpand"/>
             <StackLayout Padding="20,0,20,80">
-                <Image HorizontalOptions="Center"
+                <Image 
+                   HorizontalOptions="Center"
                    VerticalOptions="Center"
                    x:Name="SplashImage"
                    Source="Proquant_logo.PNG"

@@ -40,6 +40,17 @@ namespace ProQuant
             MainCnx = cnx;
             _jobcell = job;
             loaded = true;
+            if (job.Status == "Completed")
+            {
+                SendPDFButton.IsEnabled = true;
+                SendPDFButton.IsVisible = true;
+            }
+            else
+            {
+                SendPDFButton.IsEnabled = false;
+                SendPDFButton.IsVisible = false;
+                AbsoluteLayout.SetLayoutBounds(CallUsButton, new Rectangle(.5,.975,.25,.1));
+            }
             
             
         }
@@ -74,6 +85,7 @@ namespace ProQuant
             Add3.Text = job.job.add3;
             Add4.Text = job.job.add4;
             AddPC.Text = job.job.addpc;
+            Notes.Text = job.Notes;
             Description.Text = job.Description;
             Total = job.GrossValue;
             Price = job.NetValue;
@@ -258,11 +270,6 @@ namespace ProQuant
             ConnectionCheck();
             if (connected == true)
             {
-                //string auth = "Bearer " + token;
-                //var nsAPI = RestService.For<IMakeUpApi>("https://proq.remotewebaccess.com:58330");
-                //var response = await nsAPI.GetKey(key, auth);
-
-                //IMPLEMENT A REFRESH BUTTON ON A TOOLBAR
                 var response = await Client.GET(token, key);
                 if (response == "errorerrorerror")
                 {

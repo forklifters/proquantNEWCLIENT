@@ -3,9 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProQuant.SettingSpecific"
              BackgroundColor="White"
-             BackgroundImage="setting_specific.png">
+             >
     <ContentPage.Content>
         <AbsoluteLayout>
+
+            <Image
+                    Aspect="Fill"
+                    Source="setting_specific.png"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+            />
+
             <Label x:Name="Description"
                     HorizontalTextAlignment="Center"
                     FontAttributes="Bold"

@@ -16,6 +16,7 @@ namespace ProQuant
         public string AddPC { get; set; }
         public string Awarded { get; set; }
         public string Builder { get; set; }
+        public string Notes { get; set; }
         public DateTime Created { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }

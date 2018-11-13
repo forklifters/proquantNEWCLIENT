@@ -47,6 +47,7 @@
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
     <BundleAssemblies>false</BundleAssemblies>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -141,6 +142,7 @@
     <AndroidResource Include="Resources\drawable\setting_specific.png" />
     <AndroidResource Include="Resources\drawable\Sign_up.png" />
     <AndroidResource Include="Resources\drawable\ChangePassword.png" />
+    <AndroidResource Include="Resources\drawable\TitleIcon.png" />
     <Content Include="Resources\mipmap-anydpi-v26\Icon.png" />
     <Content Include="Resources\drawable-hdpi\iconPQ.png" />
     <Content Include="Resources\drawable\ic_launcher.png" />

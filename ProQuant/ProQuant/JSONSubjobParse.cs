@@ -36,6 +36,9 @@ public partial class SubJob
 
     [JsonProperty("vatValue")]
     public string VatValue { get; set; }
+
+    [JsonProperty("notes")]
+    public string Notes { get; set; }
 }
 
 public partial class SubJob

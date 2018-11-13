@@ -19,12 +19,19 @@ namespace ProQuant
         public Splash()
         {
             InitializeComponent();
-            wait(1000);
+            SplashImage.Opacity = 0;
+            fade(2000);
+            wait(2500);
+        }
+
+        private async void fade(uint time)
+        {
+            await SplashImage.FadeTo(1, time);
         }
 
         async private void wait(int x)
-        {
-            await Task.Delay(x);
+        {          
+            await Task.Delay(x);           
             go();
 
         }

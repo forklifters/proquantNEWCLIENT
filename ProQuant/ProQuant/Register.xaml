@@ -2,9 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProQuant.Register"
-             BackgroundImage="Sign_up.png">
+             >
     <ContentPage.Content>
         <AbsoluteLayout>
+            <Image
+                    Aspect="Fill"
+                    Source="Sign_up.png"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+            />
+            
             <Entry x:Name="EmailBar"
                    HorizontalOptions="FillAndExpand"
                    HorizontalTextAlignment="Center"

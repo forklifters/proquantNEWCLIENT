@@ -29,6 +29,8 @@ namespace ProQuant
         public double netValue { get; set; }
         public double grossValue { get; set; }
         public double vatValue { get; set; }
+        public string Notes { get; set; }
+        
 
 
     }

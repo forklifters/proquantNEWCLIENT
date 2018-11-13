@@ -73,9 +73,11 @@ namespace ProQuant
                 cell.Builder = JR.buildername;
                 cell.JobNumber = JR.job.ToString();
                 cell.Awarded = JR.awarded;
+                
 
                 cell.subjob = job;
 
+                cell.Notes = job.Notes;
                 cell.SubJobNumber = job.subjob.ToString();
                 cell.Created = job.created;
                 cell.Description = job.description;
@@ -265,7 +267,6 @@ namespace ProQuant
         private async void go(JobCell _job)
         {
             await Navigation.PushAsync(new JobSpecific(MainCnx, _job, true));
-
         }
 
 

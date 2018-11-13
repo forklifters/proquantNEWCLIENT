@@ -154,12 +154,13 @@ namespace ProQuant
             ConnectionCheck();
             if (cnx != null)
             {
-                await Navigation.PushAsync(new main(cnx)
+                main main = new main(cnx)
                 {
                     BarBackgroundColor = Color.FromHex("#fe0000"),
                     BarTextColor = Color.White
-                    
-                });
+                };
+
+                await Navigation.PushAsync(main);
             }
         }
 
