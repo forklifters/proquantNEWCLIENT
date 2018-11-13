@@ -87,13 +87,7 @@ namespace ProQuant
                     PassEntry.Text = "";
 
                     string tokenKey = "/api/api/5?id=cmd$~gettoken";
-
-
-
-                    //################################################################ 
-                    cnx.User = "oliver.filmer@proquantestimating.co.uk";                  //when not testing comment these lines out.
-                    cnx.Pass = "password2";  
-                    //################################################################
+                    
 
                     //VV this works when not testing uncomment this and comment the user and other stuff
 

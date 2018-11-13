@@ -118,6 +118,7 @@
                    AnchorY=".9"
                    AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds=".475,.72,.9,.1"
+                   FontSize="Small"
                 />
 
             <Picker x:Name="AwardedPicker" Title="Awarded?" SelectedIndexChanged="AwardedPicker_SelectedIndexChanged"

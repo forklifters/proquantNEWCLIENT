@@ -21,9 +21,10 @@
                     HorizontalTextAlignment="Center"
                     FontAttributes="Bold"
                     TextColor="Black"             
-                    FontSize="Large"
+                    FontSize="Medium"
                     AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds=".5,.11,.9,.17"
+                   
                    />
 
 
