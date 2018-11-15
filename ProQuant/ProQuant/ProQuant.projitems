@@ -22,6 +22,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Client.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Connection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Firebase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Job.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JobCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JobSpecific.xaml.cs">

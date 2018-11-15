@@ -141,13 +141,15 @@ namespace ProQuant
             if (_type == "Estimating Settings")
             {
                 //REMEMBER WE NEED TO IMPLEMENT MD format;
-                key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~putestimatingsettings";
+                //key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~putestimatingsettings";
+                key = $"/api/api/5?id=";
                 command.command = "postsettings";
  
             }
             else if (_type == "Material Settings")
             {
-                key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~putmaterialsettings";
+                //key = $"/api/api/5?id={Maincnx.TokenInfoJsonProps.Md}$~{Maincnx.ID}~cmd$~putmaterialsettings";
+                key = $"/api/api/5?id=";
                 command.command = "postmaterials";
             }
             else

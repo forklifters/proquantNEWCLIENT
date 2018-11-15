@@ -11,6 +11,10 @@ using Xamarin.Essentials;
 using Refit;
 using Newtonsoft.Json;
 
+#if __ANDROID__
+using Firebase.Iid;
+#endif
+
 namespace ProQuant
 {
     //WORKING VERSION 3.0.0.561731
@@ -36,12 +40,72 @@ namespace ProQuant
             {
                 searchBarText = "";
             }
+
+            
+
             updateList(cnx, null);
             Maincnx = cnx;
+            SendFirebaseToken();
             firstLoad = false;
             ConnectionCheck();
 
             passwordButton.Clicked += PasswordButton_Clicked;
+        }
+
+        private async void SendFirebaseToken()
+        {
+            if (Device.RuntimePlatform == Device.Android)
+            {
+#if __ANDROID__
+
+                try
+                {
+                    Maincnx.FirebaseToken = FirebaseInstanceId.Instance.Token;
+                    Cmd cmd = new Cmd()
+                    {
+                        Command = "firebase"
+                    };
+
+                    User user = new User()
+                    {
+                        Token = Maincnx.Token,
+                        Id = Maincnx.ID,
+                        Md = Maincnx.TokenInfoJsonProps.Md,
+                        Name = Maincnx.Name,
+                        Email = Maincnx.TokenInfoJsonProps.Email,
+                        Error = "",
+                        Temp = ""
+                    };
+                    FirebaseProp firebase = new FirebaseProp()
+                    {
+                        Token = Maincnx.FirebaseToken,
+                        Device = "android"
+                    };
+
+                    FirebaseJson outgoingobject = new FirebaseJson()
+                    {
+                        Cmd = cmd,
+                        User = user,
+                        Firebase = firebase
+                    };
+
+                    var x = outgoingobject;
+                    string outgoingJson = outgoingobject.ToJson();
+
+                    Maincnx.FirebaseObject = outgoingJson;
+                    string key = $"/api/api/5?id=";
+                    var response = await Client.Post(Maincnx.Token, key, outgoingJson);
+                    var y = response;
+                }
+                catch (Exception e)
+                {
+                    await DisplayAlert("Error", "Error sending Notification Token\nError Code: M####", "Ok");
+                }
+#endif
+
+
+
+            }
         }
 
         private async void PasswordButton_Clicked(object sender, EventArgs e)

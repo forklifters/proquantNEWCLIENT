@@ -17,7 +17,7 @@ namespace ProQuant
             //string auth = "Basic " + encodedUP;
 
             string key = "/api/api/5?id=cmd$~gettoken";
-            string add = $"https://pqapi.co.uk:58330{key}";
+            string add = $"https://pqapi.co.uk{key}";
             List<string> TokenInfo = new List<string>();
             HttpClient _client = new HttpClient();
 
@@ -44,7 +44,7 @@ namespace ProQuant
             string encodedUP = Base64Encode(user + ":" + pass);
             //string auth = "Basic " + encodedUP;
 
-            string add = $"https://pqapi.co.uk:58330{key}";
+            string add = $"https://pqapi.co.uk{key}";
             //string add = $"https://proq.remotewebaccess.com:58330{key}";
             HttpClient _client = new HttpClient();
 
@@ -70,7 +70,7 @@ namespace ProQuant
         public static async Task<string> GET(string token, string key)
         {
 
-            string add = $"https://pqapi.co.uk:58330{key}";
+            string add = $"https://pqapi.co.uk{key}";
             //string add = $"https://proq.remotewebaccess.com:58330{key}"; - OLD API
 
             HttpClient _getClient = new HttpClient();
@@ -98,7 +98,7 @@ namespace ProQuant
         public static async Task<string> Post(string token, string key, string jsonContent)
         {
 
-            string add = $"https://pqapi.co.uk:58330{key}";
+            string add = $"https://pqapi.co.uk{key}";
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(add);
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Accept = "application/json";
@@ -122,11 +122,10 @@ namespace ProQuant
             }       
         }
 
-
         public static async Task<string> GETnoAuth(string key)
         {
 
-            string add = $"https://pqapi.co.uk:58330{key}";
+            string add = $"https://pqapi.co.uk{key}";
             //string add = $"https://proq.remotewebaccess.com:58330{key}"; - OLD API
 
             HttpClient _getClient = new HttpClient();
@@ -152,7 +151,7 @@ namespace ProQuant
         public static async Task<string> GETChangePassword(string passwordKey, string user, string key)
         {
 
-            string add = $"https://pqapi.co.uk:58330{key}";
+            string add = $"https://pqapi.co.uk{key}";
             string _passwordKey = Base64Encode(user + ":" + passwordKey);
             //string add = $"https://proq.remotewebaccess.com:58330{key}"; - OLD API
 

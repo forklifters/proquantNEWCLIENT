@@ -17,7 +17,6 @@ namespace ProQuant
         {
             InitializeComponent();
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
-            //MainPage = new NavigationPage(new Register());
             MainPage = new NavigationPage(new Splash())
             {
                 BarBackgroundColor = Color.FromHex("#B80000"),
@@ -53,5 +52,6 @@ namespace ProQuant
         {
             // Handle when your app resumes
         }
+
     }
 }

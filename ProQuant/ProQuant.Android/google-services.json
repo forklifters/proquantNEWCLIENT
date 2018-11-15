@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1029136153512",
+    "firebase_url": "https://proquant-d352a.firebaseio.com",
+    "project_id": "proquant-d352a",
+    "storage_bucket": "proquant-d352a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029136153512:android:ec30d6dc184ab09d",
+        "android_client_info": {
+          "package_name": "com.companyname.ProQuant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029136153512-2d83j28qgr1ak93o60nf03giidmou07u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPGDSksje3ovfs7TDnaGlr5VQpJrbBgU4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
