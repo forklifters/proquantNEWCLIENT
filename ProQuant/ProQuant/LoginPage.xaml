@@ -24,6 +24,7 @@
                    TextColor="White"
                    x:Name="EmailEntry"
                    Keyboard="Email"
+                   
                    AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds=".5,.5,.8,.07"  
                    />

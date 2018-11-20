@@ -13,6 +13,8 @@ namespace ProQuant
         public string FirebaseToken { get; set; }
 
         public string ID { get; set; }
+        public string MD { get; set; }
+
         public string Name { get; set; }
         public TokenInfo TokenInfoJsonProps { get; set; }
         public string FirebaseObject { get; set; }

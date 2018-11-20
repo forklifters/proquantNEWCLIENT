@@ -4,7 +4,8 @@
              x:Class="ProQuant.Register"
              >
     <ContentPage.Content>
-        <AbsoluteLayout>
+        <AbsoluteLayout
+            >
             <Image
                     Aspect="Fill"
                     Source="Sign_up.png"

@@ -74,9 +74,10 @@ namespace ProQuant
                 cell.JobNumber = JR.job.ToString();
                 cell.Awarded = JR.awarded;
                 
+                
 
                 cell.subjob = job;
-
+                cell.PO = job.PO;
                 cell.Notes = job.Notes;
                 cell.SubJobNumber = job.subjob.ToString();
                 cell.Created = job.created;
@@ -126,6 +127,14 @@ namespace ProQuant
             Label jobHeader = new Label
             {
                 Text = Cells[0].Add1,
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                TextColor = Color.Black,
+                HorizontalOptions = LayoutOptions.Center
+            };
+
+            Label builder = new Label
+            {
+                Text = Cells[0].Builder,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 TextColor = Color.Black,
                 HorizontalOptions = LayoutOptions.Center
@@ -241,15 +250,30 @@ namespace ProQuant
 
             this.Padding = new Thickness(10, 20, 10, 5);
 
-
-            this.Content = new StackLayout
+            if (MainCnx.MD == "md")
             {
-                Children =
+                this.Content = new StackLayout
                 {
-                    jobHeader,
-                    listView
-                }
-            };
+                    Children =
+                    {
+                        builder,
+                        jobHeader,
+                        listView
+                    }
+                };
+            }
+            else
+            {
+                this.Content = new StackLayout
+                {
+                    Children =
+                    {
+                        jobHeader,
+                        listView
+                    }
+                };
+            }
+            
 
 
         }

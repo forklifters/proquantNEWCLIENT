@@ -155,7 +155,7 @@ namespace ProQuant
         async Task<List<Job>> GetContent(int listStart, int listEnd, Connection cnx)
         {
 
-            string jobKey = String.Format("/api/api/5?id=id$~{0}~cmd$~getjob~{1}~{2}", cnx.ID, listStart, listEnd);
+            string jobKey = String.Format("/api/api/5?id={0}$~{1}~cmd$~getjob~{2}~{3}", cnx.MD, cnx.ID, listStart, listEnd);
 
             string jsonRaw = "";
 
@@ -201,6 +201,7 @@ namespace ProQuant
                 string netvalue = i["netValue"];
                 string grossvalue = i["grossValue"];
                 string vatvalue = i["vatValue"];
+                string PO = i["ponumber"];
                 
 
                 if (netvalue == null || netvalue == "")
@@ -232,6 +233,7 @@ namespace ProQuant
                 job.netValue = Convert.ToDouble(netvalue);
                 job.grossValue = Convert.ToDouble(grossvalue);
                 job.vatValue = Convert.ToDouble(vatvalue);
+                job.PO = PO;
 
                 Jobs.Add(job);
 
@@ -242,11 +244,22 @@ namespace ProQuant
 
         async Task updateList(Connection cnx, List<JobCell> JOBCELLS)
         {
+            
+
             this.BarBackgroundColor = Color.FromHex("#B80000");
             settingsButton.BackgroundColor = Color.FromHex("#B80000");
             materialsButton.BackgroundColor = Color.FromHex("#B80000");
             contactButton.BackgroundColor = Color.FromHex("#B80000");
             passwordButton.BackgroundColor = Color.FromHex("#B80000");
+
+            bool isMerchant = false;
+            if (Maincnx.MD == "md")
+            {
+                isMerchant = true;
+                settingsButton.IsVisible = false;
+                settingsButton.IsEnabled = false;
+                AbsoluteLayout.SetLayoutBounds(materialsButton, new Rectangle(.5,.5,.75,.09));
+            }
 
             List<Job> Jobs = new List<Job>(); ;
             List<JobCell> Cells = new List<JobCell>();
@@ -261,13 +274,13 @@ namespace ProQuant
                     Jobs = await GetContent(0, endNumber, cnx);
                     if(Jobs == null)
                     {
-                        await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                        await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.\n\nError Code: M###1\n\nIf this keeps happening please restart the app.", "Ok");
                         return;
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Error", "There has been an issue retreiving your job count. Please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                    await DisplayAlert("Error", "There has been an issue retreiving your job count. Please try again.\n\nError Code: M##2\n\nIf this keeps happening please restart the app.", "Ok");
                 }
 
                 foreach (Job job in Jobs)
@@ -276,10 +289,13 @@ namespace ProQuant
                     {
                         JobNumber = job.job.ToString(),
                         Add1 = job.add1,
+                        
                         JobColor = StatusSorter.JobNumberColor(job),
                         Status = StatusSorter.StatusText(job),
                         StatusColor = StatusSorter.StatusColor(job),
                         CellColor = StatusSorter.CellColor(job),
+                        Builder = job.buildername,
+                        PO = job.PO,
                         job = job
                     };
                     Cells.Add(cell);
@@ -336,6 +352,22 @@ namespace ProQuant
                     JobNumber.SetBinding(Label.TextProperty, "JobNumber");
                     JobNumber.SetBinding(Label.TextColorProperty, "JobColor");
 
+                    Label PoNumber = new Label()
+                    {
+                        FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+                        FontAttributes = FontAttributes.Bold
+                    };
+                    PoNumber.SetBinding(Label.TextProperty, "PO");
+                    PoNumber.HorizontalOptions = LayoutOptions.EndAndExpand;
+
+                    Label Builder = new Label()
+                    {
+                        FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+                        FontAttributes = FontAttributes.None
+                    };
+                    Builder.SetBinding(Label.TextProperty, "Builder");
+                    Builder.HorizontalOptions = LayoutOptions.EndAndExpand;
+
 
 
                     Label JobAddress = new Label()
@@ -350,13 +382,55 @@ namespace ProQuant
                     Status.SetBinding(Label.TextProperty, "Status");
                     Status.SetBinding(Label.TextColorProperty, "StatusColor");
 
-                    return new ViewCell
+
+                    if (isMerchant == true)
                     {
-                        View = new StackLayout
+                        return new ViewCell
                         {
-                            Padding = new Thickness(0, 5),
-                            Orientation = StackOrientation.Horizontal,
-                            Children =
+                            View = new StackLayout
+                            {
+                                Padding = new Thickness(0, 15),
+                                Orientation = StackOrientation.Horizontal,
+                                Children =
+                                {
+                                    JobNumber,
+                                    //stick in an image here for whatever you want.
+                                    new StackLayout
+                                    {
+                                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                                        Spacing = 0,
+                                        Children =
+                                        {
+                                            JobAddress,
+                                            Status
+                                        }
+                                    },
+                                    new StackLayout
+                                    {
+                                        Orientation = StackOrientation.Vertical,
+                                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                                        HorizontalOptions = LayoutOptions.EndAndExpand,
+                                        Spacing = 0,
+                                        Margin = 0,
+                                        Children =
+                                        {                                           
+                                            PoNumber,
+                                            Builder
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                    }
+                    else
+                    {
+                        return new ViewCell
+                        {
+                            View = new StackLayout
+                            {
+                                Padding = new Thickness(0, 5),
+                                Orientation = StackOrientation.Horizontal,
+                                Children =
                             {
                                 JobNumber,
                                 //stick in an image here for whatever you want.
@@ -370,15 +444,16 @@ namespace ProQuant
                                         Status
                                     }
                                 }
+                                
 
                             }
 
 
-                        }
+                            }
 
-                    };
-
-
+                        };
+                    }
+                    
                 })
             };
 
@@ -586,6 +661,44 @@ namespace ProQuant
                         }
                     }
 
+                    if (Maincnx.MD == "md")
+                    {
+                        if (!string.IsNullOrEmpty(x.PO) && !string.IsNullOrWhiteSpace(x.PO))
+                        {
+                            indexer++;
+                            string y = "";
+
+                            try
+                            {
+                                y = x.Builder.ToLower();
+                            }
+                            catch (NullReferenceException)
+                            {
+                                indexerList.Add(indexer);
+                                Console.WriteLine("CAUGHT AT " + indexer);
+                            }
+                            Console.WriteLine(indexer + "     " + "Add1" + "     " + y + "\n");
+
+
+                            if (y.Contains(_text))
+                            {
+                                addToList = true;
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(x.Builder) && !string.IsNullOrWhiteSpace(x.Builder))
+                        {
+                            indexer++;
+                            string y = x.PO;
+
+
+                            if (y.Contains(_text) && _text.Length > 5)
+                            {
+                                addToList = true;
+                            }
+                        }
+                    }
+                   
                     if (addToList == true)
                     {
                         try
@@ -653,7 +766,7 @@ namespace ProQuant
 
         private async Task<JobAmounts> GetAmounts(Connection cnx)
         {
-            string key = string.Format("/api/api/5?id=id$~{0}~cmd$~getjobnums", cnx.ID);
+            string key = string.Format("/api/api/5?id={0}$~{1}~cmd$~getjobnums", cnx.MD ,cnx.ID);
             var jsonRaw = await Client.GET(cnx.Token, key);
             if (jsonRaw == "errorerrorerror")
             {
@@ -672,14 +785,13 @@ namespace ProQuant
         {
             var cnx = Maincnx;
 
-
             var item = e.SelectedItem as JobCell;
 
             Job _item = new Job();
             _item = item.job;
 
 
-            string jobKey = String.Format("/api/api/5?id=id$~{0}~cmd$~getjobdetails~{1}", cnx.ID, item.JobNumber);
+            string jobKey = String.Format("/api/api/5?id={0}$~{1}~cmd$~getjobdetails~{2}", cnx.MD , cnx.ID, item.JobNumber);
 
             //List<MegaParser.groupitem> groupitems = MegaParser.ParseJobs(await GetJob(jobKey, cnx.Token));
 
@@ -733,6 +845,7 @@ namespace ProQuant
                     sj.NetValue = i["netValue"];
                     sj.VatValue = i["vatValue"];
                     sj.Notes = i["notes"];
+                    sj.PO = i["ponumber"];
 
                     _subJobs.Add(sj);
 
@@ -818,6 +931,7 @@ namespace ProQuant
                     job.description = _sj.Description;
                     job.sentcount = _sj.Sent;
                     job.Notes = _sj.Notes;
+                    job.PO = _sj.PO;
 
                     subjobs.Add(job);
                 }
@@ -933,7 +1047,10 @@ namespace ProQuant
         private async void SettingsClicked(object sender, EventArgs e)
         {
             //Get Settings
-            string key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~getestimatingsettings";
+
+
+            //NOT FOR MERCHANTS!!!
+            string key = $"/api/api/5?id={Maincnx.MD}$~{Maincnx.ID}~cmd$~getestimatingsettings";
             var response = await Client.GET(Maincnx.Token, key);
             if (response == "errorerrorerror")
             {
@@ -959,7 +1076,7 @@ namespace ProQuant
         private async void MaterialsClicked(object sender, EventArgs e)
         {
             //Get Materials
-            string key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~getmaterialsettings";
+            string key = $"/api/api/5?id={Maincnx.MD}$~{Maincnx.ID}~cmd$~getmaterialsettings";
             var response = await Client.GET(Maincnx.Token, key);
             if (response == "errorerrorerror")
             {

@@ -175,6 +175,11 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Sign_up.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\Sign_up.png" />
     <AndroidResource Include="Resources\drawable-hdpi\Sign_up.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Specific_Merchant.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Specific_Merchant.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Specific_Merchant.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Specific_Merchant.png" />
+    <AndroidResource Include="Resources\drawable\Specific_Merchant.png" />
     <Content Include="Resources\mipmap-anydpi-v26\Icon.png" />
     <Content Include="Resources\drawable-hdpi\iconPQ.png" />
     <Content Include="Resources\drawable\ic_launcher.png" />

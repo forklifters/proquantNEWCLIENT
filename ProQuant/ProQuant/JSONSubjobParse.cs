@@ -39,6 +39,9 @@ public partial class SubJob
 
     [JsonProperty("notes")]
     public string Notes { get; set; }
+
+    [JsonProperty("ponumber")]
+    public string PO { get; set; }
 }
 
 public partial class SubJob

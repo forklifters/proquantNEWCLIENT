@@ -20,6 +20,7 @@ namespace ProQuant
         public DateTime Created { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
+        public string PO { get; set; }
         public Color JobColor { get; set; }
         public Color CellColor { get; set; }
         public Color StatusColor { get; set; }

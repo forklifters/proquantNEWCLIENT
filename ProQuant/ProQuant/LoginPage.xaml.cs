@@ -90,6 +90,10 @@ namespace ProQuant
 
                     cnx.User = "oliver.filmer@proquantestimating.co.uk";
                     cnx.Pass = "password2";
+
+                    //cnx.User = "dominic.bright@jewson.co.uk";
+                    //cnx.Pass = "proQuant97";
+
                     //VV this works when not testing uncomment this and comment the user and other stuff
 
                     string response = await Client.GET_Token(tokenKey, "Basic", cnx.User, cnx.Pass);
@@ -103,6 +107,7 @@ namespace ProQuant
 
                     cnx.Token = tokenInfo.Token;
                     cnx.ID = tokenInfo.Id;
+                    cnx.MD = tokenInfo.Md;
                     cnx.Name = tokenInfo.Name;
                     cnx.TokenInfoJsonProps = tokenInfo;
 

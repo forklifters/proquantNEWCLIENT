@@ -8,7 +8,8 @@
         <AbsoluteLayout x:Name="BackroundStack"
                         >
 
-                    <Image
+            <Image
+                        x:Name="specificBackround"
                         Aspect="Fill"
                         Source="Specific_letusknow.png"
                         HorizontalOptions="Center"
@@ -17,9 +18,9 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"/>
 
 
-                    <!--ID AND PAID-->
-            
-                    <Label x:Name="IDLabel"
+            <!--ID AND PAID-->
+
+            <Label x:Name="IDLabel"
                             FontSize="Large"
                             FontAttributes="Bold"
                             TextColor="Black"
@@ -28,23 +29,23 @@
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds=".1,.015,.58,.05"
                            />
-            
-                    <Label x:Name="SJLabel" FontSize="Medium"
+
+            <Label x:Name="SJLabel" FontSize="Medium"
                             FontAttributes="Bold"
                             BackgroundColor="White"
                             AnchorX="0"
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds=".1,.075,.58,.045"
                            />
-            
-                    <!--< Reintroduce this Image
+
+            <!--< Reintroduce this Image
             
                            Image x:Name="Paid" Source="PAID.PNG"
                            AbsoluteLayout.LayoutFlags="All"
                            AbsoluteLayout.LayoutBounds="0,0,0,0"
                            />-->
 
-                    <Label x:Name="Add1"
+            <Label x:Name="Add1"
                             Text="Add1"
                             FontAttributes="Bold"
                             TextColor="Black"
@@ -52,8 +53,8 @@
                             AbsoluteLayout.LayoutBounds=".1,.25,.58,.045"
                             BackgroundColor="White"
                         />
-            
-                    <Label x:Name="Add2"
+
+            <Label x:Name="Add2"
                             Text="Add2"
                             FontAttributes="Bold"
                             TextColor="Black"
@@ -61,8 +62,8 @@
                             AbsoluteLayout.LayoutBounds=".1,.3,.6,.045"
                             BackgroundColor="White"
                         />
-            
-                    <Label x:Name="Add3"
+
+            <Label x:Name="Add3"
                             Text="Add3"
                             FontAttributes="Bold"
                             TextColor="Black"
@@ -70,8 +71,8 @@
                             AbsoluteLayout.LayoutBounds=".1,.35,.6,.045"
                             BackgroundColor="White"
                         />
-            
-                    <Label x:Name="Add4"
+
+            <Label x:Name="Add4"
                             Text="Add4"
                             FontAttributes="Bold"
                             TextColor="Black"
@@ -79,8 +80,8 @@
                             AbsoluteLayout.LayoutBounds=".1,.4,.6,.045"
                             BackgroundColor="White"
                         />
-            
-                    <Label x:Name="AddPC"
+
+            <Label x:Name="AddPC"
                             Text="AddPC"   
                             FontAttributes="Bold"
                             TextColor="Black"
@@ -88,8 +89,30 @@
                             AbsoluteLayout.LayoutBounds=".1,.45,.6,.045"
                             BackgroundColor="White"
                         />
-            
-                    <Label x:Name="Status"
+
+            <Label x:Name="PONumber"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".84,.2675,.4,.045"
+                            BackgroundColor="White"
+                            FontSize="Medium"
+                            IsVisible="False"
+                            IsEnabled="False"
+                        />
+
+            <Label x:Name="POText"
+                            Text="PO:"   
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".46,.273,.07,.045"
+                            BackgroundColor="White"
+                            IsVisible="False"
+                            IsEnabled="False"
+                        />
+
+            <Label x:Name="Status"
                             FontAttributes="Bold"
                             FontSize="Medium"
                             HorizontalTextAlignment="Center"
@@ -99,8 +122,8 @@
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds=".87,.17,.6,.05"
                         />
-            
-                    <Label x:Name="Description"
+
+            <Label x:Name="Description"
                            BackgroundColor="White"
                             FontAttributes="Bold"
                             TextColor="Black"                        
@@ -127,30 +150,30 @@
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds=".9,.40,.23,.07"
                             >
-                        <Picker.Items>
-                            <x:String>Won</x:String>
-                            <x:String>Lost</x:String>
-                            <x:String>Neither</x:String>
-                        </Picker.Items>
-                    </Picker>
+                <Picker.Items>
+                    <x:String>Won</x:String>
+                    <x:String>Lost</x:String>
+                    <x:String>Neither</x:String>
+                </Picker.Items>
+            </Picker>
 
-                    <!--PAY BUTTON-->
-                    <Button x:Name="PayButton"
+            <!--PAY BUTTON-->
+            <Button x:Name="PayButton"
                             Clicked="PayButton_Clicked"
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds=".5,.855,.8,.1"
                             CornerRadius="10"
                         />
 
-                    <Button Text="Send PDF"
+            <Button Text="Send PDF"
                             x:Name="SendPDFButton"
                             Clicked="SendPDFButton_Clicked"
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds=".25,.975,.25,.1"
                             CornerRadius="10"
                         />
-            
-                    <Button Text="Call Us"
+
+            <Button Text="Call Us"
                             x:Name="CallUsButton"
                             Clicked="CallUsButton_Clicked_1"
                             AbsoluteLayout.LayoutFlags="All"
@@ -158,6 +181,6 @@
                             CornerRadius="10"
                         />
 
-            </AbsoluteLayout>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -36,8 +36,8 @@ namespace ProQuant
             BackgroundColor = Color.FromHex("#B80000");
             _comingFromSubjob = comingFromSubjob;
             jx = job;
-            updateView(job);
             MainCnx = cnx;
+            updateView(job);   
             _jobcell = job;
             loaded = true;
             if (job.Status == "Completed")
@@ -71,6 +71,12 @@ namespace ProQuant
 
         private void updateView(JobCell job)
         {
+            if (MainCnx.MD == "md")
+            {
+                ConvertToMerchantView();
+                PONumber.Text = job.PO;
+            }
+
             if (job.Status != "Sent")
             {
                 SendPDFButton.IsEnabled = false;
@@ -130,6 +136,26 @@ namespace ProQuant
             }
 
 
+        }
+
+        private void ConvertToMerchantView()
+        {
+            specificBackround.Source = "Specific_Merchant.png";
+            PayButton.IsEnabled = false;
+            PayButton.IsVisible = false;
+            AwardedPicker.IsEnabled = false;
+            AwardedPicker.IsVisible = false;
+            PONumber.IsVisible = true;
+            POText.IsVisible = true;
+            PONumber.IsEnabled = true;
+            POText.IsEnabled = true;
+            AbsoluteLayout.SetLayoutBounds(Add1, new Rectangle(.12, .375, .58, .045));
+            AbsoluteLayout.SetLayoutBounds(Add2, new Rectangle(.12, .415, .58, .045));
+            AbsoluteLayout.SetLayoutBounds(Add3, new Rectangle(.12, .455, .58, .045));
+            AbsoluteLayout.SetLayoutBounds(Add4, new Rectangle(.12, .495, .58, .045));
+            AbsoluteLayout.SetLayoutBounds(AddPC, new Rectangle(.12, .535, .58, .045));
+            AbsoluteLayout.SetLayoutBounds(Description, new Rectangle(.475, .69, .9, .1));
+            AbsoluteLayout.SetLayoutBounds(Notes, new Rectangle(.475, .81, .9, .1));
         }
 
         private async void PayButton_Clicked(object sender, EventArgs e)
@@ -230,7 +256,7 @@ namespace ProQuant
 
             string jobnumber = _jobcell.job.job.ToString();
             string subjobnumber = _jobcell.SubJobNumber;
-            string key = string.Format("/api/api/5?id=id$~{0}~cmd$~emailpdfs~{1}~{2}~{3}", MainCnx.ID, jobnumber, subjobnumber, "oliver.filmer@proquantestimating.co.uk"); //replace this with builder email.
+            string key = string.Format("/api/api/5?id=id$~{0}~cmd$~emailpdfs~{1}~{2}~{3}", MainCnx.ID, jobnumber, subjobnumber, MainCnx.User);
 
             ConnectionCheck();
             if (connected == true)
@@ -240,18 +266,10 @@ namespace ProQuant
                 {
                     await DisplayAlert("Error", "There has been an issue sending this pdf. Please try again.", "Ok");
                 }
-                await DisplayAlert("PDF Sent!", "Email containing PDF has been sent to the email associated with this account", "Ok");
+                await DisplayAlert("PDF Sent!", $"Email containing PDF has been sent to:\n\n{MainCnx.User}", "Ok");
             }
         }
 
-
-        //async Task<string> GetJob(string key, string token)
-        //{
-        //    string auth = "Bearer " + token;
-        //    var nsAPI = RestService.For<IMakeUpApi>("https://proq.remotewebaccess.com:58330");
-        //    var response = await nsAPI.GetKey(key, auth);
-        //    return response;
-        //}
 
         public async void ConnectionCheck()
         {
@@ -273,7 +291,7 @@ namespace ProQuant
                 var response = await Client.GET(token, key);
                 if (response == "errorerrorerror")
                 {
-                    await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                    await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: JS####\n\nIf this keeps happening, please contact us.", "Ok");
                     return null;
                 }
                 var x = response;

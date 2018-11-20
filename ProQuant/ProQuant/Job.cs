@@ -14,6 +14,7 @@ namespace ProQuant
         }
 
         public int job { get; set; }
+        public string PO { get; set; }
         public int subjob { get; set; }
         public string status { get; set; }
         public DateTime created { get; set; }

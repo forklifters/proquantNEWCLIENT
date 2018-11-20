@@ -100,6 +100,7 @@
     <Content Include="$(MSBuildThisFileDirectory)setting_specific.png" />
     <Content Include="$(MSBuildThisFileDirectory)Sign_up.png" />
     <Content Include="$(MSBuildThisFileDirectory)Specific_letusknow.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Specific_Merchant.png" />
     <Content Include="$(MSBuildThisFileDirectory)TitleIcon.png" />
   </ItemGroup>
   <ItemGroup>
