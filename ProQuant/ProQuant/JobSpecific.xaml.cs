@@ -74,7 +74,15 @@ namespace ProQuant
             if (MainCnx.MD == "md")
             {
                 ConvertToMerchantView();
-                PONumber.Text = job.PO;
+                if (string.IsNullOrEmpty(job.PO))
+                {
+                    PONumber.Text = job.job.PO;
+                }
+                else
+                {
+                    PONumber.Text = job.PO;
+                }
+                
             }
 
             if (job.Status != "Sent")

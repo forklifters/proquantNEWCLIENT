@@ -88,11 +88,11 @@ namespace ProQuant
 
                     string tokenKey = "/api/api/5?id=cmd$~gettoken";
 
-                    cnx.User = "oliver.filmer@proquantestimating.co.uk";
-                    cnx.Pass = "password2";
+                    //cnx.User = "oliver.filmer@proquantestimating.co.uk";
+                    //cnx.Pass = "password2";
 
-                    //cnx.User = "dominic.bright@jewson.co.uk";
-                    //cnx.Pass = "proQuant97";
+                    cnx.User = "dominic.bright@jewson.co.uk";
+                    cnx.Pass = "proQuant97";
 
                     //VV this works when not testing uncomment this and comment the user and other stuff
 
