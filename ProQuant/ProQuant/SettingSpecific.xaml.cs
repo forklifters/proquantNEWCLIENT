@@ -88,7 +88,7 @@ namespace ProQuant
             }
             catch (Exception)
             {
-                await DisplayAlert("Error", "There has been an error converting your number to a value, please check it is written correctly  \n\nError Code \"SS####\"", "Ok");
+                await DisplayAlert("Error", "There has been an error converting your number to a value, please check it is written correctly.\n\nError Code: SS01", "Ok");
                 return;
             }
 
@@ -99,7 +99,7 @@ namespace ProQuant
             }
             catch (Exception)
             {
-                await DisplayAlert("Error", "There has been an error with our database value, please contact us and state:\n\n Error Code \"SS####\"", "Ok");
+                await DisplayAlert("Error", "There has been an error with our database value, please contact us.\n\nError Code: SS02", "Ok");
                 return;
             }
 
@@ -155,8 +155,8 @@ namespace ProQuant
             else
             {
                 await DisplayAlert("Error", "There has been an error communticating with our server\n\n" +
-                                            "Please call us and state:\n\n" +
-                                             "\"Error Code: SS####\"", "Ok");
+                                            "Please call us.\n\n" +
+                                             "Error Code: SS03", "Ok");
                 return;
             }
 

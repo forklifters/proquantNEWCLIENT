@@ -201,7 +201,7 @@ namespace ProQuant
                         string message = await Client.GET(MainCnx.Token, payrequest);
                         if (message == "errorerrorerror")
                         {
-                            await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                            await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: JS01\n\nIf this keeps happening, please contact us.", "Ok");
                             return;
                         }
 
@@ -272,7 +272,7 @@ namespace ProQuant
                 string response = await GetJob(key, MainCnx.Token);
                 if (string.IsNullOrEmpty(response))
                 {
-                    await DisplayAlert("Error", "There has been an issue sending this pdf. Please try again.", "Ok");
+                    await DisplayAlert("Error", "There has been an issue sending this pdf. \n\nError Code: JS02\n\n Please try again.", "Ok");
                 }
                 await DisplayAlert("PDF Sent!", $"Email containing PDF has been sent to:\n\n{MainCnx.User}", "Ok");
             }
@@ -299,7 +299,7 @@ namespace ProQuant
                 var response = await Client.GET(token, key);
                 if (response == "errorerrorerror")
                 {
-                    await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: JS####\n\nIf this keeps happening, please contact us.", "Ok");
+                    await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: JS03\n\nIf this keeps happening, please contact us.", "Ok");
                     return null;
                 }
                 var x = response;
@@ -366,7 +366,7 @@ namespace ProQuant
                 var response = await Client.GET(MainCnx.Token, key);
                 if(response == "errorerrorerror")
                 {
-                    await DisplayAlert("Error", "There was some difficulty contacting the server, please try again", "Ok.");
+                    await DisplayAlert("Error", "There was some difficulty contacting the server, please try again \n\nError Code JS04", "Ok.");
                 }
                 
 

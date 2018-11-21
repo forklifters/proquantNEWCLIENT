@@ -89,7 +89,7 @@ namespace ProQuant
                 var response = await Client.GETChangePassword(passwordkey, user, key);
                 if (response == "errorerrorerror")
                 {
-                    await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                    await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: CP01\n\nIf this keeps happening, please contact us.", "Ok");
                     return;
                 }
                 //do a check to see if it came back ok, or try catch exceptions here.
@@ -115,11 +115,11 @@ namespace ProQuant
                 {
                     if(string.IsNullOrWhiteSpace(tokenInfo.Temp))
                     {
-                        await DisplayAlert("Password Change Error", "Please check you have entered the old password correctly.\n\nIf this keeps happening please contact the office\n\n Error Code:CP####", "Ok");
+                        await DisplayAlert("Password Change Error", "Please check you have entered the old password correctly.\n\nIf this keeps happening please contact the office\n\n Error Code:CP02", "Ok");
                     }
                     else
                     {
-                        await DisplayAlert("Password Change Error", "Please try again.\n\nIf this keeps happening please contact the office\n\n Error Code:CP####", "Ok");
+                        await DisplayAlert("Password Change Error", "Please try again.\n\nIf this keeps happening please contact the office\n\n Error Code:CP03", "Ok");
                     }
                 }
                     

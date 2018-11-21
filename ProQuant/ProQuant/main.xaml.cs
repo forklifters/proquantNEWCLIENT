@@ -99,7 +99,7 @@ namespace ProQuant
                 }
                 catch (Exception e)
                 {
-                    await DisplayAlert("Error", "Error sending Notification Token\nError Code: M####", "Ok");
+                    await DisplayAlert("Error", "Error sending Notification Token\n\nError Code: M01", "Ok");
                 }
 #endif
 
@@ -140,7 +140,7 @@ namespace ProQuant
                 var response = await Client.GET(token, key);
                 if (response == "errorerrorerror")
                 {
-                    await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                    await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: M02\n\nIf this keeps happening, please contact us.", "Ok");
                     return null;
                 }
                 //string auth = "Bearer " + token;
@@ -163,7 +163,7 @@ namespace ProQuant
             jsonRaw = await Client.GET(cnx.Token, jobKey);
             if (jsonRaw == "errorerrorerror")
             {
-                await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: M03\n\nIf this keeps happening, please contact us.", "Ok");
 
                 //make sure that if you do return null here it doesnt break the app.
                 return null;
@@ -271,16 +271,17 @@ namespace ProQuant
                 if (!string.IsNullOrEmpty(jobamounts.jobs))
                 {
                     int endNumber = Int32.Parse(jobamounts.jobs);
-                    Jobs = await GetContent(0, endNumber, cnx);
-                    if(Jobs == null)
+                    Jobs = GetContent(0, endNumber, cnx).Result;
+
+                    if (Jobs == null)
                     {
-                        await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.\n\nError Code: M###1\n\nIf this keeps happening please restart the app.", "Ok");
+                        await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.\n\nError Code: M04\n\nIf this keeps happening please restart the app.", "Ok");
                         return;
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Error", "There has been an issue retreiving your job count. Please try again.\n\nError Code: M##2\n\nIf this keeps happening please restart the app.", "Ok");
+                    await DisplayAlert("Error", "There has been an issue retreiving your job count. Please try again.\n\nError Code: M05\n\nIf this keeps happening please restart the app.", "Ok");
                 }
 
                 foreach (Job job in Jobs)
@@ -770,7 +771,7 @@ namespace ProQuant
             var jsonRaw = await Client.GET(cnx.Token, key);
             if (jsonRaw == "errorerrorerror")
             {
-                await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: M06\n\nIf this keeps happening, please contact us.", "Ok");
                 //Make sure that if you return null here it doesnt break the app.
                 return null;
             }
@@ -986,7 +987,7 @@ namespace ProQuant
             }
             catch (FeatureNotSupportedException ex)
             {
-                await DisplayAlert("ERROR", "Dialer feature not supported.", "OK");
+                await DisplayAlert("ERROR", "Dialer feature not supported.\n\nError Code: M07", "OK");
                 return;
 
             }
@@ -1004,20 +1005,27 @@ namespace ProQuant
             if(logout == true)
             {
                 //is it id dependant?
-                
+                try
+                {
+                    SecureStorage.RemoveAll();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
                 string key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~logout";
 
                 string response = await Client.GET(Maincnx.Token, key);
                 if(response == "errorerrorerror")
                 {
-                    await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                    await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nError Code: M08\n\nIf this keeps happening please restart the app.", "Ok");
                     return;
                 }
 
                 
                 if (response.Contains("error unautherised user"))
                 {
-                    await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                    await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nError Code: M09\n\nIf this keeps happening please restart the app.", "Ok");
                 }
                 else
                 {
@@ -1054,7 +1062,7 @@ namespace ProQuant
             var response = await Client.GET(Maincnx.Token, key);
             if (response == "errorerrorerror")
             {
-                await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nError Code: M10\n\nIf this keeps happening please restart the app.", "Ok");
                 return;
             }
 
@@ -1080,7 +1088,7 @@ namespace ProQuant
             var response = await Client.GET(Maincnx.Token, key);
             if (response == "errorerrorerror")
             {
-                await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nIf this keeps happening please restart the app.", "Ok");
+                await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nError Code: M11\n\nIf this keeps happening please restart the app.", "Ok");
                 return;
             }
 

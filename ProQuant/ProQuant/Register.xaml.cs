@@ -28,7 +28,7 @@ namespace ProQuant
             var response = await Client.GETnoAuth(key);
             if (response == "errorerrorerror")
             {
-                await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: R01\n\nIf this keeps happening, please contact us.", "Ok");
                 return;
             }
 
@@ -43,12 +43,12 @@ namespace ProQuant
                 }
                 else
                 {
-                    await DisplayAlert("Error", "Message: " + RegResponse.error, "Ok");
+                    await DisplayAlert("Error", "Message: " + RegResponse.error + "\n\nError Code: R02", "Ok");
                 }
             }
             else
             {
-                await DisplayAlert("Error", "No response from server. \nPlease call us for assistance.", "Ok");
+                await DisplayAlert("Error", "No response from server. \nPlease call us for assistance.\n\nError Code: R03", "Ok");
             }
             
             

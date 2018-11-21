@@ -18,6 +18,7 @@ namespace ProQuant
     public partial class LoginPage : ContentPage
     {
         bool busy = false;
+        
 
         public static bool connected = false;
 
@@ -29,6 +30,94 @@ namespace ProQuant
         {
             InitializeComponent();
             ConnectionCheck();
+            SavedPassCheck();
+            
+        }
+
+        
+
+        private async void SavedPassCheck()
+        {
+            string posUsername = null;
+            string posPassword = null;
+
+            try
+            {
+                 posUsername = await SecureStorage.GetAsync("username");
+                 posPassword = await SecureStorage.GetAsync("password");
+            }catch(Exception ex)
+            {
+                //send details to the proquant log.
+            }
+
+            if (!string.IsNullOrEmpty(posUsername) && !string.IsNullOrEmpty(posPassword))
+            {
+                busy = true;
+                busyNow();
+
+                string tokenKey = "/api/api/5?id=cmd$~gettoken";
+
+                string response = await Client.GET_Token(tokenKey, "Basic", posUsername, posPassword);
+                if (response == "errorerrorerror")
+                    return;
+
+                TokenInfo tokenInfo = TokenInfo.FromJson(response);
+
+                cnx.Token = tokenInfo.Token;
+                cnx.ID = tokenInfo.Id;
+                cnx.MD = tokenInfo.Md;
+                cnx.Name = tokenInfo.Name;
+                cnx.TokenInfoJsonProps = tokenInfo;
+
+                if (!string.IsNullOrEmpty(tokenInfo.Temp))
+                {
+                    try
+                    {
+                        SecureStorage.RemoveAll();
+                    }
+                    catch (Exception ex)
+                    {
+                        // sent details to proquant log
+                    }
+
+                    busy = false;
+                    Notbusy();
+                    return;   
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(tokenInfo.Error))
+                    {
+                        go();
+                        busy = false;
+                        Notbusy();
+                    }
+                    else
+                    {
+                        if (tokenInfo.Error.Contains("error unautherised user"))
+                        {
+                            try
+                            {
+                                SecureStorage.RemoveAll();
+                            }
+                            catch (Exception ex)
+                            {
+                                // sent details to proquant log
+                            }
+                            busy = false;
+                            Notbusy();
+                            return;
+                        }
+                        else
+                        {
+                            busy = false;
+                            Notbusy();
+                            return;
+                        }
+                    }
+                }
+            }
+            
         }
 
         public async void ConnectionCheck()
@@ -51,6 +140,7 @@ namespace ProQuant
                 if (busy == false)
                 {
                     busy = true;
+                    busyNow();
                     await Navigation.PushAsync(new Register()
                     {
                         Title = "Sign Up"
@@ -62,6 +152,7 @@ namespace ProQuant
 
 
                     busy = false;
+                    Notbusy();
                 }
             }
 
@@ -82,6 +173,8 @@ namespace ProQuant
                 if (busy == false)
                 {
                     busy = true;
+                    busyNow();
+
                     cnx.User = EmailEntry.Text;
                     cnx.Pass = PassEntry.Text;
                     PassEntry.Text = "";
@@ -91,16 +184,17 @@ namespace ProQuant
                     //cnx.User = "oliver.filmer@proquantestimating.co.uk";
                     //cnx.Pass = "password2";
 
-                    cnx.User = "dominic.bright@jewson.co.uk";
-                    cnx.Pass = "proQuant97";
+                    //cnx.User = "dominic.bright@jewson.co.uk";
+                    //cnx.Pass = "proQuant97";
 
                     //VV this works when not testing uncomment this and comment the user and other stuff
 
                     string response = await Client.GET_Token(tokenKey, "Basic", cnx.User, cnx.Pass);
                     if(response == "errorerrorerror")
                     {
-                        await DisplayAlert("Http Request Error", "Please try again.\n\nIf this keeps happening, please contact us.", "Ok");
+                        await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: LP01\n\nIf this keeps happening, please contact us.", "Ok");
                         busy = false;
+                        Notbusy();
                         return;
                     }
                     TokenInfo tokenInfo = TokenInfo.FromJson(response);
@@ -122,7 +216,28 @@ namespace ProQuant
                     {
                         if (string.IsNullOrEmpty(tokenInfo.Error))
                         {
+                            try
+                            {
+                                SecureStorage.RemoveAll();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+
+                            try
+                            {
+                                await SecureStorage.SetAsync("username", cnx.User);
+                                await SecureStorage.SetAsync("password", cnx.Pass);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                //TODO: send exception log to proquant.
+                            }
+
                             go();
+
                         }
                         else
                         {
@@ -131,7 +246,7 @@ namespace ProQuant
                                 await DisplayAlert("User Not Recognised",
                                     "Your Email and/or Password has not been recognised.\n\n" +
                                     "If you were using a temporary password it may have expired.\n\n" +
-                                    "If problems persist, try signing up again, or call us", "Ok");
+                                    "If problems persist, try signing up again, or call us\n\nError Code: LP02", "Ok");
                             }
                             else
                             {
@@ -144,6 +259,7 @@ namespace ProQuant
                     
 
                     busy = false;
+                    Notbusy();
                 }
             }
         }
@@ -168,6 +284,22 @@ namespace ProQuant
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        public void busyNow()
+        {
+            PassEntry.IsEnabled = false;
+            LogInButton.IsEnabled = false;
+            EmailEntry.IsEnabled = false;
+            SignUpButton.IsEnabled = false;
+        }
+
+        public void Notbusy()
+        {
+            PassEntry.IsEnabled = true;
+            LogInButton.IsEnabled = true;
+            EmailEntry.IsEnabled = true;
+            SignUpButton.IsEnabled = true;
         }
 
 

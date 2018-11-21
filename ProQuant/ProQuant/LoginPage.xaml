@@ -19,26 +19,29 @@
 
             <Label x:Name="Tester"/>
 
-            <Entry Placeholder="Email"
+            <Entry 
+                   x:Name="EmailEntry"
+                   Placeholder="Email"
                    PlaceholderColor="White"
                    TextColor="White"
-                   x:Name="EmailEntry"
                    Keyboard="Email"
-                   
                    AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds=".5,.5,.8,.07"  
                    />
 
-            <Entry Placeholder="Password"
+            <Entry 
+                   x:Name="PassEntry"
+                   Placeholder="Password"
                    IsPassword="True"
                    TextColor="White"
                    PlaceholderColor="White"
-                   x:Name="PassEntry"
                    AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds=".5,.57,.8,.07" 
                    />
 
-            <Button Text="Log in"
+            <Button 
+                    x:Name="LogInButton"
+                    Text="Log in"
                     Clicked="LogInClicked"
                     AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds=".5,.65,.8,.07" 
@@ -47,7 +50,9 @@
 
             
                 
-            <Button Text="Sign Up"
+            <Button 
+                    x:Name="SignUpButton"
+                    Text="Sign Up"
                     Clicked="SignUpClicked"
                     AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds=".5,.75,.5,.07" 

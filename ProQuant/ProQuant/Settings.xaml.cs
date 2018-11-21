@@ -180,7 +180,7 @@ namespace ProQuant
                     listView.ItemsSource = resultsList;
                 }catch(Exception ex)
                 {
-                    await DisplayAlert("Error",ex.Message + "\n\nError code: S####\n\n If this keeps happening please call the office.","Ok");
+                    await DisplayAlert("Error", ex.Message + "\n\nError code: S01\n\n If this keeps happening please call the office.","Ok");
                 }
                 
             }

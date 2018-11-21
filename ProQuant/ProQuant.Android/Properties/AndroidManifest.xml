@@ -5,7 +5,7 @@
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<application android:label="ProQuant.Android" android:icon="@drawable/iconicon">
+	<application android:label="ProQuant.Android" android:icon="@drawable/iconicon" android:allowBackup="false">
     <receiver
     android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver"
     android:exported="false" />

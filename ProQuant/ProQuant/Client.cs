@@ -45,7 +45,6 @@ namespace ProQuant
             //string auth = "Basic " + encodedUP;
 
             string add = $"https://pqapi.co.uk{key}";
-            //string add = $"https://proq.remotewebaccess.com:58330{key}";
             HttpClient _client = new HttpClient();
 
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(authType, encodedUP);
@@ -71,8 +70,6 @@ namespace ProQuant
         {
 
             string add = $"https://pqapi.co.uk{key}";
-            //string add = $"https://proq.remotewebaccess.com:58330{key}"; - OLD API
-
             HttpClient _getClient = new HttpClient();
             
 
@@ -126,7 +123,6 @@ namespace ProQuant
         {
 
             string add = $"https://pqapi.co.uk{key}";
-            //string add = $"https://proq.remotewebaccess.com:58330{key}"; - OLD API
 
             HttpClient _getClient = new HttpClient();
 
