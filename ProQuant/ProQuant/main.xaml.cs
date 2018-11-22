@@ -43,7 +43,7 @@ namespace ProQuant
 
             
 
-            updateList(cnx, null);
+            //updateList(cnx, null);
             Maincnx = cnx;
             SendFirebaseToken();
             firstLoad = false;
@@ -244,6 +244,11 @@ namespace ProQuant
 
         async Task updateList(Connection cnx, List<JobCell> JOBCELLS)
         {
+            List<Log> logs = new List<Log>();
+            Log log = new Log() { LogLog = $"[MOBILE]: {cnx.User} called UpdateList()", Datetime = $"{DateTime.Now:r}" };
+            logs.Add(log);
+
+            //LoginPage.SendLogs(logs, cnx);
             
 
             this.BarBackgroundColor = Color.FromHex("#B80000");
@@ -271,13 +276,13 @@ namespace ProQuant
                 if (!string.IsNullOrEmpty(jobamounts.jobs))
                 {
                     int endNumber = Int32.Parse(jobamounts.jobs);
-                    Jobs = GetContent(0, endNumber, cnx).Result;
+                    Jobs = await GetContent(0, endNumber, cnx);
 
-                    if (Jobs == null)
-                    {
-                        await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.\n\nError Code: M04\n\nIf this keeps happening please restart the app.", "Ok");
-                        return;
-                    }
+                    //if (Jobs == null)
+                    //{
+                    //    await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.\n\nError Code: M04\n\nIf this keeps happening please restart the app.", "Ok");
+                    //    return;
+                    //}
                 }
                 else
                 {
@@ -979,11 +984,12 @@ namespace ProQuant
 
         private async void ContactUsButtonClicked(object sender, EventArgs e)
         {
-            //call the office
+            string phoneNumber = await LoginPage.GetPhoneNumber();
+
             try
             {
                 //CHANGE TO REQUEST NUMBER
-                PhoneDialer.Open("+441625420821");
+                PhoneDialer.Open(phoneNumber);
             }
             catch (FeatureNotSupportedException ex)
             {
@@ -996,6 +1002,8 @@ namespace ProQuant
                 return;
             }
         }
+
+        
 
         private async void LogOutButtonClicked(object sender, EventArgs e)
         {

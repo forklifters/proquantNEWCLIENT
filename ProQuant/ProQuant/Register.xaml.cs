@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 namespace ProQuant
 {
@@ -56,9 +57,25 @@ namespace ProQuant
 
         }
 
-        private void CallOffice(object sender, EventArgs e)
+        private async void CallOffice(object sender, EventArgs e)
         {
-            //CALL OFFICE
+            string phoneNumber = await LoginPage.GetPhoneNumber();
+
+            try
+            {
+                //CHANGE TO REQUEST NUMBER
+                PhoneDialer.Open(phoneNumber);
+            }
+            catch (FeatureNotSupportedException ex)
+            {
+                await DisplayAlert("ERROR", "Dialer feature not supported.\n\nError Code: R04", "OK");
+                return;
+
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
         }
 
         public async void ConnectionCheck()

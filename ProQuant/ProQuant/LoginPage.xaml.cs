@@ -68,6 +68,8 @@ namespace ProQuant
                 cnx.MD = tokenInfo.Md;
                 cnx.Name = tokenInfo.Name;
                 cnx.TokenInfoJsonProps = tokenInfo;
+                cnx.User = tokenInfo.Email;
+                
 
                 if (!string.IsNullOrEmpty(tokenInfo.Temp))
                 {
@@ -277,13 +279,97 @@ namespace ProQuant
                 };
 
                 await Navigation.PushAsync(main);
+
+                //test write to log
+              
+                Log log = new Log()
+                {
+                    LogLog = $"[MOBILE]: {cnx.User} list entry log 1",
+                    Datetime = $"{DateTime.Now:r}"
+                };
+
+                Log log2 = new Log()
+                {
+                    LogLog = $"[MOBILE]: {cnx.User} list entry log 2",
+                    Datetime = $"{DateTime.Now:r}"
+                };
+
+
+                List<Log> logs = new List<Log>();
+                logs.Add(log);
+                logs.Add(log2);
+
+                //SendLogs(logs, cnx);
             }
+        }
+
+        public static async void SendLogs(List<Log> logs, Connection cnx)
+        {
+            Cmd cmd = new Cmd()
+            {
+                Command = "writetologs"
+            };
+
+            User user = new User()
+            {
+                Token = cnx.Token,
+                Id = cnx.ID,
+                Md = cnx.MD,
+                Name = cnx.Name,
+                Email = cnx.User,
+                Error = "",
+                Temp = "",
+            };
+
+            WriteToLogs outgoing = new WriteToLogs()
+            {
+                Cmd = cmd,
+                User = user,
+                Logs = logs
+            };
+
+            string outgoingJson = outgoing.ToJson();
+
+            string key = $"/api/api/5?id=";
+            var response = await Client.Post(cnx.Token, key, outgoingJson);
+
+
+            var x = response;
+        
         }
 
         public static string Base64Encode(string plainText)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static async Task<string> GetPhoneNumber()
+        {
+            string phoneNumber = "";
+            string key = "/api/api";
+            string response = await Client.GETnoAuth(key);
+
+            try
+            {
+                string[] resPts = response.Split(' ');
+                foreach (string x in resPts)
+                {
+                    if (x.Contains("Tel:"))
+                    {
+                        string[] prts = x.Split(':');
+                        phoneNumber = prts[1];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string x = "";
+                return x;
+                //TODO: ERROR REFORMAT PING - SEND LOG
+            }
+
+            return phoneNumber;
         }
 
         public void busyNow()

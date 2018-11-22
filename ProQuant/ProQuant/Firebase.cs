@@ -20,6 +20,18 @@ namespace ProQuant
         public FirebaseProp Firebase { get; set; }
     }
 
+    public partial class WriteToLogs
+    {
+        [JsonProperty("cmd")]
+        public Cmd Cmd { get; set; }
+
+        [JsonProperty("user")]
+        public User User { get; set; }
+
+        [JsonProperty("logs")]
+        public List<Log> Logs { get; set; }
+    }
+
     public partial class Cmd
     {
         [JsonProperty("command")]
@@ -59,6 +71,17 @@ namespace ProQuant
         public string Temp { get; set; }
     }
 
+    public partial class Log
+    {
+        [JsonProperty("log")]
+        public string LogLog { get; set; }
+
+        [JsonProperty("datetime")]
+        public string Datetime { get; set; }
+    }
+
+
+
     public partial class FirebaseJson
     {
         public static FirebaseJson FromJson(string json) => JsonConvert.DeserializeObject<FirebaseJson>(json, ConverterFirebase.Settings);
@@ -67,6 +90,11 @@ namespace ProQuant
     public static class SerializeFireBase
     {
         public static string ToJson(this FirebaseJson self) => JsonConvert.SerializeObject(self, ConverterFirebase.Settings);
+    }
+
+    public static class SerializeLogs
+    {
+        public static string ToJson(this WriteToLogs self) => JsonConvert.SerializeObject(self, ConverterFirebase.Settings);
     }
 
     internal static class ConverterFirebase
