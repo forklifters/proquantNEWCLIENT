@@ -29,6 +29,7 @@ namespace ProQuant
             var response = await Client.GETnoAuth(key);
             if (response == "errorerrorerror")
             {
+                LoginPage.SendError("R01", "Http GET request error on Client.GetnoAuth() call.");
                 await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: R01\n\nIf this keeps happening, please contact us.", "Ok");
                 return;
             }
@@ -44,11 +45,14 @@ namespace ProQuant
                 }
                 else
                 {
-                    await DisplayAlert("Error", "Message: " + RegResponse.error + "\n\nError Code: R02", "Ok");
+                    LoginPage.SendError("R02", "There has been an error returned with Register Response", RegResponse.error);
+                    await DisplayAlert("Error", "There has been an error.\n\nPlease contact the office\n\nError Code: R02", "Ok");
                 }
             }
             else
             {
+
+                LoginPage.SendError("R03", "Nothing in response string.");
                 await DisplayAlert("Error", "No response from server. \nPlease call us for assistance.\n\nError Code: R03", "Ok");
             }
             
@@ -69,11 +73,13 @@ namespace ProQuant
             catch (FeatureNotSupportedException ex)
             {
                 await DisplayAlert("ERROR", "Dialer feature not supported.\n\nError Code: R04", "OK");
+                LoginPage.SendError("R04", "Dialer is unsupported on this device.");
                 return;
 
             }
             catch (Exception ex)
             {
+                LoginPage.SendError("R05", "Unknown exception", ex.Message);
                 return;
             }
         }

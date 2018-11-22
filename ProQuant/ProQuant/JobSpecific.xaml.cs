@@ -9,6 +9,7 @@ using Xamarin.Forms.Xaml;
 using Refit;
 using Xamarin.Essentials;
 using System.Net;
+using Microsoft.AppCenter.Analytics;
 
 namespace ProQuant
 {
@@ -201,6 +202,7 @@ namespace ProQuant
                         string message = await Client.GET(MainCnx.Token, payrequest);
                         if (message == "errorerrorerror")
                         {
+                            LoginPage.SendError("JS01", "Http GET request error on Client.GET() call. - Payment Link");
                             await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: JS01\n\nIf this keeps happening, please contact us.", "Ok");
                             return;
                         }
@@ -212,17 +214,40 @@ namespace ProQuant
                         {
                             Uri link = new Uri(PayLinkJson.Message, UriKind.Absolute);
                             await Browser.OpenAsync(link, BrowserLaunchMode.SystemPreferred);
+
+                            string amount = "";
+
+                            try
+                            {
+                                amount = Price.ToString();
+                            }catch(Exception ex)
+                            {
+                                amount = "ExceptionOccured";
+                            }
+
+                            Analytics.TrackEvent("Payment Browser Opened", new Dictionary<string, string>
+                            {
+                                {"Job", jobnumber},
+                                {"SubJob", subjobnumber},
+                                {"Amount", amount},
+                                {"ID", MainCnx.ID},
+                                {"Email", MainCnx.User},
+                                {"Name", MainCnx.Name}
+                            });
                         }
                         else
                         {
-                            await DisplayAlert("ERROR", PayLinkJson.Error, "Ok");
+                            LoginPage.SendError("JS05", "PaymentLinkJson Error", PayLinkJson.Error);
+                            await DisplayAlert("ERROR", "There was an error transferring you to our payment portal, your have not been charged. \n\nError Code: JS05", "Ok");
+                            
                         }
 
                     }
                     catch (UriFormatException Ex)
                     {
                         Console.WriteLine(Ex.Message);
-                        await DisplayAlert("Error", Ex.Message, "Cancel");
+                        LoginPage.SendError("JS06", "Url Format Exception", Ex.Message);
+                        await DisplayAlert("Error", Ex.Message + "\n\n Error Code: JS06", "Cancel");
                     }
                 }
             }
@@ -272,9 +297,22 @@ namespace ProQuant
                 string response = await GetJob(key, MainCnx.Token);
                 if (string.IsNullOrEmpty(response))
                 {
+                    LoginPage.SendError("JS02", " Response of sendpdf request has returned null.");
                     await DisplayAlert("Error", "There has been an issue sending this pdf. \n\nError Code: JS02\n\n Please try again.", "Ok");
+                    return;
                 }
+
                 await DisplayAlert("PDF Sent!", $"Email containing PDF has been sent to:\n\n{MainCnx.User}", "Ok");
+
+                Analytics.TrackEvent("PDF Sent", new Dictionary<string, string>
+                            {
+                                {"Job", jobnumber},
+                                {"SubJob", subjobnumber},
+                                {"ID", MainCnx.ID},
+                                {"Email", MainCnx.User},
+                                {"Name", MainCnx.Name}
+                            }
+                );
             }
         }
 
@@ -299,6 +337,7 @@ namespace ProQuant
                 var response = await Client.GET(token, key);
                 if (response == "errorerrorerror")
                 {
+                    LoginPage.SendError("JS03", "Http GET request error on Client.GET() call - TASK<string> GetJob()");
                     await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: JS03\n\nIf this keeps happening, please contact us.", "Ok");
                     return null;
                 }
@@ -317,12 +356,14 @@ namespace ProQuant
             }
             catch (FeatureNotSupportedException ex)
             {
+                LoginPage.SendError("JS07", "Dialer feature supported", ex.Message);
                 await DisplayAlert("ERROR", "Dialer feature not supported.", "OK");
                 return;
 
             }
             catch (Exception ex)
             {
+                LoginPage.SendError("", "Call us button unknown exception", ex.Message);
                 return;
             }
         }
@@ -366,9 +407,21 @@ namespace ProQuant
                 var response = await Client.GET(MainCnx.Token, key);
                 if(response == "errorerrorerror")
                 {
+                    LoginPage.SendError("JS04", "Http GET request error on Client.GET() call - Set Awarded.");
                     await DisplayAlert("Error", "There was some difficulty contacting the server, please try again \n\nError Code JS04", "Ok.");
+                    return;
                 }
-                
+
+                Analytics.TrackEvent("Awarded Status Changed", new Dictionary<string, string>
+                            {
+                                {"Job", _jobcell.JobNumber},
+                                {"SubJob", _jobcell.SubJobNumber},
+                                {"Awarded?", effect},
+                                {"ID", MainCnx.ID},
+                                {"Email", MainCnx.User},
+                                {"Name", MainCnx.Name}
+                            });
+
 
             }
         }

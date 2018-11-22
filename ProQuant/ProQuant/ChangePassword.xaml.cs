@@ -90,6 +90,7 @@ namespace ProQuant
                 if (response == "errorerrorerror")
                 {
                     await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: CP01\n\nIf this keeps happening, please contact us.", "Ok");
+                    LoginPage.SendError("CP01", "Http GET request error on Client.GetChangePassword() call.");
                     return;
                 }
                 //do a check to see if it came back ok, or try catch exceptions here.
@@ -115,11 +116,15 @@ namespace ProQuant
                 {
                     if(string.IsNullOrWhiteSpace(tokenInfo.Temp))
                     {
+                        LoginPage.SendError("CP02", "There is a newTokenInfo.Error & No tokenInfo.Temp - Possibly entered old password incorrectly.");
                         await DisplayAlert("Password Change Error", "Please check you have entered the old password correctly.\n\nIf this keeps happening please contact the office\n\n Error Code:CP02", "Ok");
+
                     }
                     else
                     {
+                        LoginPage.SendError("CP03", "There is a newTokenInfo. Error & the temp password is correct. Further investigation required.");
                         await DisplayAlert("Password Change Error", "Please try again.\n\nIf this keeps happening please contact the office\n\n Error Code:CP03", "Ok");
+
                     }
                 }
                     

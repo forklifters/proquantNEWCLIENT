@@ -11,6 +11,7 @@ using System.Net;
 using Xamarin.Essentials;
 using Plugin.Connectivity;
 using System.Net.Http;
+using Microsoft.AppCenter.Analytics;
 
 namespace ProQuant
 {
@@ -47,7 +48,7 @@ namespace ProQuant
                  posPassword = await SecureStorage.GetAsync("password");
             }catch(Exception ex)
             {
-                //send details to the proquant log.
+                SendError("LP06", "Exception occured when getting username/password from securedstorage.", ex.Message);
             }
 
             if (!string.IsNullOrEmpty(posUsername) && !string.IsNullOrEmpty(posPassword))
@@ -59,8 +60,11 @@ namespace ProQuant
 
                 string response = await Client.GET_Token(tokenKey, "Basic", posUsername, posPassword);
                 if (response == "errorerrorerror")
+                {
+                    SendError("LP05", "Http GET request error on Client.GET_Token() call. - Returning user information");
                     return;
-
+                }
+                   
                 TokenInfo tokenInfo = TokenInfo.FromJson(response);
 
                 cnx.Token = tokenInfo.Token;
@@ -79,7 +83,7 @@ namespace ProQuant
                     }
                     catch (Exception ex)
                     {
-                        // sent details to proquant log
+                        SendError("LP03", "Unable to remove secure storage Entries", ex.Message);
                     }
 
                     busy = false;
@@ -104,8 +108,10 @@ namespace ProQuant
                             }
                             catch (Exception ex)
                             {
-                                // sent details to proquant log
+                                //Error Code LP03 - Unable to remove Secure Storage Entries
+                                SendError("LP04","Unable to remove secure storage Entries", ex.Message);
                             }
+
                             busy = false;
                             Notbusy();
                             return;
@@ -148,17 +154,10 @@ namespace ProQuant
                         Title = "Sign Up"
                     });
                    
-
-                   
-
-
-
                     busy = false;
                     Notbusy();
                 }
             }
-
-            //potentially a pop up to ring us
         }
 
         protected override bool OnBackButtonPressed()
@@ -195,6 +194,7 @@ namespace ProQuant
                     if(response == "errorerrorerror")
                     {
                         await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: LP01\n\nIf this keeps happening, please contact us.", "Ok");
+                        SendError("LP01", "Http GET request error on Client.GET_Token() call during login.");
                         busy = false;
                         Notbusy();
                         return;
@@ -235,7 +235,8 @@ namespace ProQuant
                             }
                             catch (Exception ex)
                             {
-                                //TODO: send exception log to proquant.
+                                //Error Code: LP09
+                                SendError("LP09", "Error when saving username/password to Secure Storage");
                             }
 
                             go();
@@ -249,10 +250,12 @@ namespace ProQuant
                                     "Your Email and/or Password has not been recognised.\n\n" +
                                     "If you were using a temporary password it may have expired.\n\n" +
                                     "If problems persist, try signing up again, or call us\n\nError Code: LP02", "Ok");
+                                SendError("LP02", "User Not Recognised");
                             }
                             else
                             {
                                 await DisplayAlert("ERROR", tokenInfo.Error, "Ok");
+                                SendError("LP07", "Error that isn't unauthorised user", tokenInfo.Error);
                             }
                         }
                     }
@@ -300,6 +303,14 @@ namespace ProQuant
                 logs.Add(log2);
 
                 //SendLogs(logs, cnx);
+
+                Analytics.TrackEvent("Successful Login", new Dictionary<string, string>
+                {
+                    {"MD",cnx.MD},
+                    {"ID",cnx.ID},
+                    {"Email",cnx.User},
+                    {"Name",cnx.Name}
+                });
             }
         }
 
@@ -364,12 +375,51 @@ namespace ProQuant
             }
             catch (Exception ex)
             {
-                string x = "";
-                return x;
-                //TODO: ERROR REFORMAT PING - SEND LOG
+                SendError("LP08", "Error occured whilst trying to parse phone number", ex.Message);
             }
 
             return phoneNumber;
+        }
+
+        public static List<Log> MakeSingleLog(string v)
+        {
+            List<Log> logs = new List<Log>();
+            Log log = new Log()
+            {
+                LogLog = v,
+                Datetime = $"{DateTime.Now:r}"
+            };
+            logs.Add(log);
+
+            return logs;
+        }
+
+        public static void SendError(string ErrorCode, string ErrorDescription, string info = "")
+        {
+            List<Log> logs = MakeSingleLog($"[MOBILE]: Error Code: {ErrorCode}");
+            SendLogs(logs, cnx);
+            try
+            {
+                Analytics.TrackEvent("", new Dictionary<string, string>
+                                    {
+                                        {"MD",cnx.MD},
+                                        {"ID",cnx.ID},
+                                        {"Email",cnx.User},
+                                        {"Name",cnx.Name},
+                                        {"ErrorCode", ErrorCode},
+                                        {"ErrorDesc", ErrorDescription},
+                                        {"Device", DeviceInfo.Model},
+                                        {"Manufacturer", DeviceInfo.Manufacturer},
+                                        {"OS_v.", DeviceInfo.VersionString},
+                                        {"Platform",DeviceInfo.Platform},
+                                        {"Info", info}
+                                    }
+                );
+            }
+            catch (Exception)
+            {
+                return;
+            }
         }
 
         public void busyNow()
@@ -387,7 +437,5 @@ namespace ProQuant
             EmailEntry.IsEnabled = true;
             SignUpButton.IsEnabled = true;
         }
-
-
     }
 }

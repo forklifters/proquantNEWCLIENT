@@ -99,6 +99,7 @@ namespace ProQuant
                 }
                 catch (Exception e)
                 {
+                    LoginPage.SendError("M01", "Exception caught when trying to send server Firebase Notification Token", e.Message);
                     await DisplayAlert("Error", "Error sending Notification Token\n\nError Code: M01", "Ok");
                 }
 #endif
@@ -140,6 +141,7 @@ namespace ProQuant
                 var response = await Client.GET(token, key);
                 if (response == "errorerrorerror")
                 {
+                    LoginPage.SendError("M02", "Http GET request error on Client.GET() call - TASK<string> GetJob()");
                     await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: M02\n\nIf this keeps happening, please contact us.", "Ok");
                     return null;
                 }
@@ -163,6 +165,7 @@ namespace ProQuant
             jsonRaw = await Client.GET(cnx.Token, jobKey);
             if (jsonRaw == "errorerrorerror")
             {
+                LoginPage.SendError("M03", "Http GET request error on Client.GET() call - TASK<List<Job>> GetContent()");
                 await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: M03\n\nIf this keeps happening, please contact us.", "Ok");
 
                 //make sure that if you do return null here it doesnt break the app.
@@ -280,12 +283,14 @@ namespace ProQuant
 
                     //if (Jobs == null)
                     //{
+                    //    LoginPage.SendError("M04", "Jobs list still is null after GetContent() call.", ex.Message);
                     //    await DisplayAlert("Error", "There has been an issue retreiving your jobs. Please try again.\n\nError Code: M04\n\nIf this keeps happening please restart the app.", "Ok");
                     //    return;
                     //}
                 }
                 else
                 {
+                    LoginPage.SendError("M05", "Get job amounts request is coming back as null or empty.");
                     await DisplayAlert("Error", "There has been an issue retreiving your job count. Please try again.\n\nError Code: M05\n\nIf this keeps happening please restart the app.", "Ok");
                 }
 
@@ -499,9 +504,10 @@ namespace ProQuant
                     _text = Text.ToLower();
 
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException ex)
                 {
                     Console.WriteLine("CAUGHT THE EXCEPTION 1");
+                    LoginPage.SendError("M12", "Search List Parse Error part 1", ex.Message);
                 }
 
                 int indexer = 0;
@@ -521,8 +527,9 @@ namespace ProQuant
                         {
                             y = x.Add1.ToLower();
                         }
-                        catch (NullReferenceException)
+                        catch (NullReferenceException ex)
                         {
+                            LoginPage.SendError("M13", "Search List Parse Error part 2", ex.Message);
                             indexerList.Add(indexer);
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
@@ -543,8 +550,9 @@ namespace ProQuant
                         {
                             y = x.Add2.ToLower();
                         }
-                        catch (NullReferenceException)
+                        catch (NullReferenceException ex)
                         {
+                            LoginPage.SendError("M14", "Search List Parse Error part 3", ex.Message);
                             indexerList.Add(indexer);
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
@@ -565,8 +573,9 @@ namespace ProQuant
                         {
                             y = x.Add3.ToLower();
                         }
-                        catch (NullReferenceException)
+                        catch (NullReferenceException ex)
                         {
+                            LoginPage.SendError("M15", "Search List Parse Error part 4", ex.Message);
                             indexerList.Add(indexer);
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
@@ -587,8 +596,9 @@ namespace ProQuant
                         {
                             y = x.Add4.ToLower();
                         }
-                        catch (NullReferenceException)
+                        catch (NullReferenceException ex)
                         {
+                            LoginPage.SendError("M16", "Search List Parse Error part 5", ex.Message);
                             indexerList.Add(indexer);
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
@@ -609,8 +619,9 @@ namespace ProQuant
                         {
                             y = x.AddPC.ToLower();
                         }
-                        catch (NullReferenceException)
+                        catch (NullReferenceException ex)
                         {
+                            LoginPage.SendError("M17", "Search List Parse Error part 6", ex.Message);
                             indexerList.Add(indexer);
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
@@ -631,8 +642,9 @@ namespace ProQuant
                         {
                             y = x.Description.ToLower();
                         }
-                        catch (NullReferenceException)
+                        catch (NullReferenceException ex)
                         {
+                            LoginPage.SendError("M18", "Search List Parse Error part 7", ex.Message);
                             indexerList.Add(indexer);
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
@@ -653,8 +665,9 @@ namespace ProQuant
                         {
                             y = x.JobNumber.ToLower();
                         }
-                        catch (NullReferenceException)
+                        catch (NullReferenceException ex)
                         {
+                            LoginPage.SendError("M19", "Search List Parse Error part 8", ex.Message);
                             indexerList.Add(indexer);
                             Console.WriteLine("CAUGHT AT " + indexer);
                         }
@@ -678,8 +691,9 @@ namespace ProQuant
                             {
                                 y = x.Builder.ToLower();
                             }
-                            catch (NullReferenceException)
+                            catch (NullReferenceException ex)
                             {
+                                LoginPage.SendError("M20", "Search List Parse Error part 9", ex.Message);
                                 indexerList.Add(indexer);
                                 Console.WriteLine("CAUGHT AT " + indexer);
                             }
@@ -711,9 +725,9 @@ namespace ProQuant
                         {
                             List.Add(cell);
                         }
-                        catch (NullReferenceException)
+                        catch (NullReferenceException ex)
                         {
-
+                            LoginPage.SendError("M21", "Search List Parse Error part 10 - adding to cell", ex.Message);
                             Console.WriteLine("Found Putting in Cell");
                         }
 
@@ -776,6 +790,7 @@ namespace ProQuant
             var jsonRaw = await Client.GET(cnx.Token, key);
             if (jsonRaw == "errorerrorerror")
             {
+                LoginPage.SendError("M06", "Http GET request error on Client.GET() call. - Task<JobAmounts> GetAmounts()");
                 await DisplayAlert("Http Request Error", "Please try again.\n\nError Code: M06\n\nIf this keeps happening, please contact us.", "Ok");
                 //Make sure that if you return null here it doesnt break the app.
                 return null;
@@ -993,12 +1008,14 @@ namespace ProQuant
             }
             catch (FeatureNotSupportedException ex)
             {
+                LoginPage.SendError("M07", "Dialer feature not supported. Application can't access dialer", ex.Message);
                 await DisplayAlert("ERROR", "Dialer feature not supported.\n\nError Code: M07", "OK");
                 return;
 
             }
             catch (Exception ex)
             {
+                LoginPage.SendError("M22", "Phone Dialer Unkown Exception", ex.Message);
                 return;
             }
         }
@@ -1019,6 +1036,7 @@ namespace ProQuant
                 }
                 catch (Exception ex)
                 {
+                    LoginPage.SendError("M23", "Exception thrown during logout - SecureStorage.RemoveAll()", ex.Message);
                     Console.WriteLine(ex.Message);
                 }
                 string key = $"/api/api/5?id=id$~{Maincnx.ID}~cmd$~logout";
@@ -1026,6 +1044,7 @@ namespace ProQuant
                 string response = await Client.GET(Maincnx.Token, key);
                 if(response == "errorerrorerror")
                 {
+                    LoginPage.SendError("M08", "Http GET request error on Client.GET() call. - Logout request.");
                     await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nError Code: M08\n\nIf this keeps happening please restart the app.", "Ok");
                     return;
                 }
@@ -1033,6 +1052,7 @@ namespace ProQuant
                 
                 if (response.Contains("error unautherised user"))
                 {
+                    LoginPage.SendError("M09", "Logout request has returned unauthorised user error, (See Olly)");
                     await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nError Code: M09\n\nIf this keeps happening please restart the app.", "Ok");
                 }
                 else
@@ -1070,6 +1090,7 @@ namespace ProQuant
             var response = await Client.GET(Maincnx.Token, key);
             if (response == "errorerrorerror")
             {
+                LoginPage.SendError("M10", "Http GET request error on Client.GET() call. - estimator settings");
                 await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nError Code: M10\n\nIf this keeps happening please restart the app.", "Ok");
                 return;
             }
@@ -1096,6 +1117,7 @@ namespace ProQuant
             var response = await Client.GET(Maincnx.Token, key);
             if (response == "errorerrorerror")
             {
+                LoginPage.SendError("M11", "Http GET request error on Client.GET() call. - material settings");
                 await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nError Code: M11\n\nIf this keeps happening please restart the app.", "Ok");
                 return;
             }

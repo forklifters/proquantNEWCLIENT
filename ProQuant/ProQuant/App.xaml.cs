@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using Refit;
 using Plugin.Connectivity;
 
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
 namespace ProQuant
 {
@@ -26,7 +30,12 @@ namespace ProQuant
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            AppCenter.Start("android=d3d541a3-9fd1-4a9b-b729-02b80d478a25;"
+                //+
+                //"uwp={Your UWP App secret here};" +
+                //"ios={Your iOS App secret here}"
+                ,typeof(Analytics), typeof(Crashes));
+
         }
 
         public static bool CheckConnection()

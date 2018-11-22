@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using Newtonsoft.Json;
+using Microsoft.AppCenter.Analytics;
 
 namespace ProQuant
 {
@@ -44,7 +45,7 @@ namespace ProQuant
             {
                 newValue = Convert.ToDouble(NewValue.Text);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return;
             }
@@ -86,8 +87,9 @@ namespace ProQuant
             {
                 newValue = Convert.ToDouble(NewValue.Text);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LoginPage.SendError("SS01", "New Value of setting isn't converting, incompatible value", ex.Message);
                 await DisplayAlert("Error", "There has been an error converting your number to a value, please check it is written correctly.\n\nError Code: SS01", "Ok");
                 return;
             }
@@ -97,8 +99,9 @@ namespace ProQuant
                 max = Convert.ToDouble(_setting.max);
                 min = Convert.ToDouble(_setting.min);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LoginPage.SendError("SS02", "Our database value can't be converted to a double.", ex.Message);
                 await DisplayAlert("Error", "There has been an error with our database value, please contact us.\n\nError Code: SS02", "Ok");
                 return;
             }
@@ -154,6 +157,7 @@ namespace ProQuant
             }
             else
             {
+                LoginPage.SendError("SS03", "_type issue, can't tell if material or setting.");
                 await DisplayAlert("Error", "There has been an error communticating with our server\n\n" +
                                             "Please call us.\n\n" +
                                              "Error Code: SS03", "Ok");
@@ -166,10 +170,26 @@ namespace ProQuant
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
+
             var response = await Client.Post(Maincnx.Token, key, outgoingJson);
             var x = response;
 
+            Analytics.TrackEvent("Setting Changed", new Dictionary<string, string>
+                            {
+                                {"Type", _type},
+                                {"Description", _setting.description},
+                                {"Key", _setting.key},
+                                {"NewVal", NewValue.Text},
+                                {"OrigVal", _setting.original},
+                                {"ID", Maincnx.ID},
+                                {"Email", Maincnx.User},
+                                {"Name", Maincnx.Name}
+                            }
+            );
+
             MessagingCenter.Send<SettingSpecific, SettingsObject>(this, "send", _setting);
+
+            await DisplayAlert("Setting Changed", "Your setting has been changed", "Ok");
         }
     }
 }
