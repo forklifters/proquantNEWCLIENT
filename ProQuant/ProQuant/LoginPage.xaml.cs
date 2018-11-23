@@ -303,6 +303,7 @@ namespace ProQuant
                 logs.Add(log2);
 
                 //SendLogs(logs, cnx);
+                //SendError("TestError", "This is a description");
 
                 Analytics.TrackEvent("Successful Login", new Dictionary<string, string>
                 {
@@ -400,7 +401,7 @@ namespace ProQuant
             SendLogs(logs, cnx);
             try
             {
-                Analytics.TrackEvent("", new Dictionary<string, string>
+                Analytics.TrackEvent("Error Occured", new Dictionary<string, string>
                                     {
                                         {"MD",cnx.MD},
                                         {"ID",cnx.ID},

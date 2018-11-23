@@ -1122,16 +1122,26 @@ namespace ProQuant
                 return;
             }
 
-            SettingsObject[] receivedMatSettings = SettingsObject.FromJson(response);
-            List<SettingsObject> MatSettings = new List<SettingsObject>();
-
-            foreach (SettingsObject setting in receivedMatSettings)
+            try
             {
-                MatSettings.Add(setting);
+                SettingsObject[] receivedMatSettings = SettingsObject.FromJson(response);
+                List<SettingsObject> MatSettings = new List<SettingsObject>();
+
+                foreach (SettingsObject setting in receivedMatSettings)
+                {
+                    MatSettings.Add(setting);
+                }
+
+                await Navigation.PushAsync(new Settings(Maincnx, MatSettings, "Material Settings"));
+
             }
-
-            await Navigation.PushAsync(new Settings(Maincnx, MatSettings, "Material Settings"));
-
+            catch (Exception ex)
+            {
+                LoginPage.SendError("M24", "Error Occured putting setting response into List<SettingObject>", ex.Message);
+                await DisplayAlert("Error", "An Error has occured, please try again\n\nError Code: M24", "Ok");
+                return;
+            }
+           
 
             //Go to materials page as a navigation page with list.
 
