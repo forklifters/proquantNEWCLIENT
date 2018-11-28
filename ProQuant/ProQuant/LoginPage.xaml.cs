@@ -149,11 +149,19 @@ namespace ProQuant
                 {
                     busy = true;
                     busyNow();
-                    await Navigation.PushAsync(new Register()
+                    Register register = new Register()
                     {
                         Title = "Sign Up"
+                    };
+
+                    
+                    await Navigation.PushAsync(register);
+
+                    MessagingCenter.Subscribe<string>(register, "RegisteringEmail", (arg) =>
+                    {
+                        EmailEntry.Text = arg;
                     });
-                   
+
                     busy = false;
                     Notbusy();
                 }

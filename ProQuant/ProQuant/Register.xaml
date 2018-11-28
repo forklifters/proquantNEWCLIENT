@@ -18,6 +18,7 @@
             <Entry x:Name="EmailBar"
                    HorizontalOptions="FillAndExpand"
                    HorizontalTextAlignment="Center"
+                   Keyboard="Email"
                    Placeholder="Email Address:"
                    AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds=".5,.135,.8,.07"

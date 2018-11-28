@@ -41,6 +41,7 @@ namespace ProQuant
                 {
                     await DisplayAlert("Temporary Password", $"A temporary password has been sent to:\n {email}\n\nIf you have not received this, please ring us.", "Ok");
                     await DisplayAlert("Temporary Password", $"You will be asked to change the temporary password after your first log in.", "Ok");
+                    MessagingCenter.Send(this, "RegisteringEmail", EmailBar.Text);
                     await Navigation.PopAsync();
                 }
                 else
@@ -55,8 +56,7 @@ namespace ProQuant
                 LoginPage.SendError("R03", "Nothing in response string.");
                 await DisplayAlert("Error", "No response from server. \nPlease call us for assistance.\n\nError Code: R03", "Ok");
             }
-            
-            
+
 
 
         }

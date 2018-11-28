@@ -95,11 +95,7 @@ namespace ProQuant
             IDLabel.Text = string.Format("Job: {0}", job.job.job.ToString());
             SJLabel.Text = string.Format("Subjob: {0}", job.SubJobNumber);
 
-            Add1.Text = job.job.add1;
-            Add2.Text = job.job.add2;
-            Add3.Text = job.job.add3;
-            Add4.Text = job.job.add4;
-            AddPC.Text = job.job.addpc;
+            RearrangeAndDisplayAddress(job);
             Notes.Text = job.Notes;
             Description.Text = job.Description;
             Total = job.GrossValue;
@@ -145,6 +141,42 @@ namespace ProQuant
             }
 
 
+        }
+
+        private void RearrangeAndDisplayAddress(JobCell job)
+        {
+            List<string> address = new List<string>();
+            if (!string.IsNullOrWhiteSpace(job.job.add1))
+            {
+                address.Add(job.job.add1);
+            }
+            if (!string.IsNullOrWhiteSpace(job.job.add2))
+            {
+                address.Add(job.job.add2);
+            }
+            if (!string.IsNullOrWhiteSpace(job.job.add3))
+            {
+                address.Add(job.job.add3);
+            }
+            if (!string.IsNullOrWhiteSpace(job.job.add4))
+            {
+                address.Add(job.job.add4);
+            }
+            if (!string.IsNullOrWhiteSpace(job.job.addpc))
+            {
+                address.Add(job.job.addpc);
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                address.Add("");
+            }
+
+            Add1.Text = address[0];
+            Add2.Text = address[1];
+            Add3.Text = address[2];
+            Add4.Text = address[3];
+            AddPC.Text = address[4];
         }
 
         private void ConvertToMerchantView()
