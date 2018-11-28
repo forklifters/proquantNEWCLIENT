@@ -1057,9 +1057,11 @@ namespace ProQuant
                 }
                 else
                 {
+                    LoginPage.loggedin = false;
                     //CHECK THAT THIS ACTUALLY WORKS
                     await DisplayAlert("Logged Off", "You have been logged off", "Ok");
                     await Navigation.PopAsync();
+                    
                 }
             }
         }
@@ -1141,10 +1143,15 @@ namespace ProQuant
                 await DisplayAlert("Error", "An Error has occured, please try again\n\nError Code: M24", "Ok");
                 return;
             }
-           
+        }
 
-            //Go to materials page as a navigation page with list.
-
+        protected override bool OnBackButtonPressed()
+        {
+            if (LoginPage.loggedin)
+            {
+                return true;
+            }
+            return base.OnBackButtonPressed();
         }
     }
 }

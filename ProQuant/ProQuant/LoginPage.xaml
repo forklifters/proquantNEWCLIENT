@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
              x:Class="ProQuant.LoginPage"
              NavigationPage.HasNavigationBar="False"
             >
@@ -14,8 +15,6 @@
                     AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
             />
-
-
 
             <Label x:Name="Tester"/>
 
@@ -47,9 +46,7 @@
                     AbsoluteLayout.LayoutBounds=".5,.65,.8,.07" 
                     CornerRadius="30"
                     />
-
-            
-                
+              
             <Button 
                     x:Name="SignUpButton"
                     Text="Sign Up"
@@ -58,7 +55,22 @@
                     AbsoluteLayout.LayoutBounds=".5,.75,.5,.07" 
                     CornerRadius="30"
                     />
-                
+
+            <BoxView
+                x:Name="AnimationBackround"
+                IsVisible="False"
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                />
+
+            <forms:AnimationView 
+	                x:Name="AnimationView" 
+                    Animation="Loading.json"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False"
+                    />
+
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

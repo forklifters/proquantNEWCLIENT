@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie">
-      <Version>2.7.0</Version>
+      <Version>2.6.3</Version>
     </PackageReference>
     <PackageReference Include="LiveXAML">
       <Version>2.1.44</Version>
@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <GoogleServicesJson Include="google-services.json" />
+    <AndroidAsset Include="Assets\Loading.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -152,7 +153,7 @@
     <AndroidResource Include="Resources\drawable\PQICONxhd.png" />
     <AndroidResource Include="Resources\drawable\Proquant_logo.PNG" />
     <AndroidResource Include="Resources\drawable\RefreshLogo.png" />
-    <AndroidResource Include="Resources\drawable\LoginBackround.png" />
+    <Content Include="Resources\drawable\LoginBackround.png" />
     <AndroidResource Include="Resources\drawable\iconicon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\iconicon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\iconicon.png" />

@@ -165,7 +165,7 @@
                             CornerRadius="10"
                         />
 
-            <Button Text="Send PDF"
+            <Button Text="Email Job"
                             x:Name="SendPDFButton"
                             Clicked="SendPDFButton_Clicked"
                             AbsoluteLayout.LayoutFlags="All"

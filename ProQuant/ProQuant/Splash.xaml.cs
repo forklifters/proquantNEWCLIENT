@@ -7,6 +7,7 @@ using System.Reflection;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Lottie;
 
 namespace ProQuant
 {

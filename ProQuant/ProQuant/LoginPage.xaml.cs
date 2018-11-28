@@ -12,6 +12,7 @@ using Xamarin.Essentials;
 using Plugin.Connectivity;
 using System.Net.Http;
 using Microsoft.AppCenter.Analytics;
+using Lottie;
 
 namespace ProQuant
 {
@@ -19,11 +20,8 @@ namespace ProQuant
     public partial class LoginPage : ContentPage
     {
         bool busy = false;
-        
-
+        public static bool loggedin = false;
         public static bool connected = false;
-
-
         public static Connection cnx = new Connection();
 
 
@@ -31,14 +29,24 @@ namespace ProQuant
         {
             InitializeComponent();
             ConnectionCheck();
-            SavedPassCheck();
-            
+            SetUpAnimation();
+            //SavedPassCheck();
+            //AnimationView.IsVisible = true;
         }
 
-        
+        private void SetUpAnimation()
+        {
+            AnimationBackround.BackgroundColor = Color.FromRgba(0.0, 0.0, 0.0, 0.69);
+            AnimationView.Animation = "Loading.json";
+            AnimationView.AutoPlay = true;
+            AnimationView.Loop = true;
+            AnimationView.IsPlaying = true;
+            AnimationView.Play();
+        }
 
         private async void SavedPassCheck()
         {
+            
             string posUsername = null;
             string posPassword = null;
 
@@ -125,6 +133,8 @@ namespace ProQuant
                     }
                 }
             }
+
+            
             
         }
 
@@ -171,6 +181,15 @@ namespace ProQuant
         protected override bool OnBackButtonPressed()
         {
             return true;
+        }
+
+        protected override void OnAppearing()
+        {
+            if (loggedin)
+            {
+                go();
+            }
+            base.OnAppearing();
         }
 
 
@@ -290,9 +309,9 @@ namespace ProQuant
                 };
 
                 await Navigation.PushAsync(main);
-
+                loggedin = true;
                 //test write to log
-              
+
                 Log log = new Log()
                 {
                     LogLog = $"[MOBILE]: {cnx.User} list entry log 1",
@@ -312,7 +331,7 @@ namespace ProQuant
 
                 //SendLogs(logs, cnx);
                 //SendError("TestError", "This is a description");
-
+              
                 Analytics.TrackEvent("Successful Login", new Dictionary<string, string>
                 {
                     {"MD",cnx.MD},
@@ -433,6 +452,8 @@ namespace ProQuant
 
         public void busyNow()
         {
+            AnimationView.IsVisible = true;
+            AnimationBackround.IsVisible = true;
             PassEntry.IsEnabled = false;
             LogInButton.IsEnabled = false;
             EmailEntry.IsEnabled = false;
@@ -441,10 +462,13 @@ namespace ProQuant
 
         public void Notbusy()
         {
+            AnimationView.IsVisible = false;
+            AnimationView.IsVisible = false;
             PassEntry.IsEnabled = true;
             LogInButton.IsEnabled = true;
             EmailEntry.IsEnabled = true;
             SignUpButton.IsEnabled = true;
         }
+
     }
 }

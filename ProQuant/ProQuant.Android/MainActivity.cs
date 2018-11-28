@@ -10,7 +10,7 @@ using Android.Gms.Common;
 using Firebase.Messaging;
 using Firebase.Iid;
 using Android.Util;
-
+using Lottie.Forms.Droid;
 
 
 namespace ProQuant.Droid
@@ -33,7 +33,7 @@ namespace ProQuant.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-
+            AnimationViewRenderer.Init();
 
             IsPlayServicesAvailable();
             CreateNotificationChannel();
@@ -41,7 +41,6 @@ namespace ProQuant.Droid
             Console.WriteLine("###########################################################################################\n" +
             "###########################################################################################\n" +
                 "###########################################################################################\n" + TAG + "InstanceID token: " + FirebaseInstanceId.Instance.Token);
-            
             LoadApplication(new App());
         }
 
