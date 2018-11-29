@@ -56,7 +56,7 @@ namespace ProQuant
             
         }
 
-        protected async override void OnDisappearing()
+        protected override async void OnDisappearing()
         {
             if(toRefresh == true && _comingFromSubjob == true)
             {
@@ -93,7 +93,19 @@ namespace ProQuant
 
             _JobNumber = job.job.job.ToString();
             IDLabel.Text = string.Format("Job: {0}", job.job.job.ToString());
-            SJLabel.Text = string.Format("Subjob: {0}", job.SubJobNumber);
+            if(string.IsNullOrEmpty(job.SubJobNumber))
+            {
+                SJLabel.Text = "";
+            }
+            else
+            {
+                if(job.SubJobNumber == "0")
+                {
+                    job.SubJobNumber = "1";
+                }
+                SJLabel.Text = string.Format("Part: {0}", job.SubJobNumber);
+            }
+            
 
             RearrangeAndDisplayAddress(job);
             Notes.Text = job.Notes;
@@ -103,25 +115,27 @@ namespace ProQuant
             VatVal = job.VatValue;
             var awarded = job.job.awarded;
 
-            switch (awarded)
             {
-                case "Won":
+                switch (awarded)
+                {
+                    case "Won":
                     {
                         AwardedPicker.SelectedIndex = 0;
                         AwardedPicker.TextColor = Color.Green;
                         break;
                     }
-                case "Lost":
+                    case "Lost":
                     {
                         AwardedPicker.SelectedIndex = 1;
                         AwardedPicker.TextColor = Color.Red;
                         break;
                     }
-                default:
+                    default:
                     {
                         AwardedPicker.SelectedIndex = -1;
                         break;
                     }
+                }
             }
 
 
@@ -301,7 +315,8 @@ namespace ProQuant
 
             if (jx.SentCount >= 1)
             {
-                var response = await DisplayAlert("Send Completed Job?", string.Format("This has been sent {0} time(s) previously", jx.SentCount), "Send Again", "Cancel");
+                //var response = await DisplayAlert("Send Completed Job?", string.Format("This job has been sent {0} time(s) previously", jx.SentCount), "Send", "Cancel");
+                var response = await DisplayAlert("Send Completed Job?", $"Send email to:\n\n{MainCnx.User}", "Send", "Cancel");
                 if (response == true)
                 {
                     Console.WriteLine("SEND PDF");

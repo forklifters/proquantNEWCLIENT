@@ -1045,7 +1045,7 @@ namespace ProQuant
                 if(response == "errorerrorerror")
                 {
                     LoginPage.SendError("M08", "Http GET request error on Client.GET() call. - Logout request.");
-                    await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nError Code: M08\n\nIf this keeps happening please restart the app.", "Ok");
+                    await Logoff();
                     return;
                 }
 
@@ -1053,19 +1053,22 @@ namespace ProQuant
                 if (response.Contains("error unautherised user"))
                 {
                     LoginPage.SendError("M09", "Logout request has returned unauthorised user error, (See Olly)");
-                    await DisplayAlert("Error", "There has been an error logging you out, please try again.\n\nError Code: M09\n\nIf this keeps happening please restart the app.", "Ok");
+                    await Logoff();
                 }
                 else
                 {
-                    LoginPage.loggedin = false;
-                    //CHECK THAT THIS ACTUALLY WORKS
-                    await DisplayAlert("Logged Off", "You have been logged off", "Ok");
-                    await Navigation.PopAsync();
-                    
+                    await Logoff();
                 }
             }
         }
 
+        private async Task Logoff()
+        {
+            LoginPage.loggedin = false;
+            //CHECK THAT THIS ACTUALLY WORKS
+            await DisplayAlert("Logged Off", "You have been logged off", "Ok");
+            await Navigation.PopAsync();
+        }
 
         private async void RefreshClicked(object sender, EventArgs e)
         {

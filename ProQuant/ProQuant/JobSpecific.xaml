@@ -122,27 +122,27 @@
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds=".87,.17,.6,.05"
                         />
-
-            <Label x:Name="Description"
+            <StackLayout
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds=".475,.60,.9,.1">
+                <Label x:Name="Description"
                            BackgroundColor="White"
                             FontAttributes="Bold"
                             TextColor="Black"                        
                             AnchorX="0"
-                            AnchorY=".9"
-                            AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds=".475,.60,.9,.1"
+                            AnchorY=".9"                      
                         />
 
-            <Label x:Name="Notes"
-                   BackgroundColor="White"
-                   FontAttributes="Bold"
-                   TextColor="Red"
-                   AnchorX="0"
-                   AnchorY=".9"
-                   AbsoluteLayout.LayoutFlags="All"
-                   AbsoluteLayout.LayoutBounds=".475,.72,.9,.1"
-                   FontSize="Small"
-                />
+                <Label x:Name="Notes"
+                            BackgroundColor="White"
+                            FontAttributes="Bold"
+                            TextColor="Red"
+                            AnchorX="0"
+                            AnchorY=".9"
+                            FontSize="Small"
+                        />
+            </StackLayout>
+            
 
             <Picker x:Name="AwardedPicker" Title="Awarded?" SelectedIndexChanged="AwardedPicker_SelectedIndexChanged"
                             BackgroundColor="White"

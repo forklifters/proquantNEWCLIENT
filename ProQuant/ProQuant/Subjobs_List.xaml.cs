@@ -121,6 +121,14 @@ namespace ProQuant
                 //}
 
                 cell.job = JR;
+                if (job.subjob == 0)
+                {
+                    cell.NumberAndPart = $"{cell.JobNumber}";
+                }
+                else
+                {
+                    cell.NumberAndPart = $"{cell.JobNumber} part: {cell.SubJobNumber}";
+                }
                 Cells.Add(cell);
             }
 
@@ -147,19 +155,18 @@ namespace ProQuant
                 ItemsSource = Cells,
                 ItemTemplate = new DataTemplate(() =>
                 {
-                    //create views with bindings for displaying each property.
                     Label JobNumber = new Label()
                     {
                         FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label))
                     };
-                    JobNumber.SetBinding(Label.TextProperty, "JobNumber");
+                    JobNumber.SetBinding(Label.TextProperty, "NumberAndPart");
                     JobNumber.SetBinding(Label.TextColorProperty, "JobColor");
 
-                    Label SubJob = new Label()
-                    {
-                        FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
-                    };
-                    SubJob.SetBinding(Label.TextProperty, "SubJobNumber");
+                    //Label SubJob = new Label()
+                    //{
+                    //    FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+                    //};
+                    //SubJob.SetBinding(Label.TextProperty, "SubJobNumber");
 
                     Label JobDiscription = new Label()
                     {
@@ -233,7 +240,7 @@ namespace ProQuant
                                             Orientation = StackOrientation.Vertical,
                                             Children =
                                             {
-                                                SubJob
+                                                //SubJob
                                             }
                                         }
 

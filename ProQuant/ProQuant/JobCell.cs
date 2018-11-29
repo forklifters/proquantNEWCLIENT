@@ -31,5 +31,7 @@ namespace ProQuant
         public double NetValue { get; set; }
         public double VatValue { get; set; }
         public bool noSubs { get; set; } = true;
+
+        public string NumberAndPart { get; set; }
     }
 }

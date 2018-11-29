@@ -30,8 +30,7 @@ namespace ProQuant
             InitializeComponent();
             ConnectionCheck();
             SetUpAnimation();
-            //SavedPassCheck();
-            //AnimationView.IsVisible = true;
+            SavedPassCheck();
         }
 
         private void SetUpAnimation()
@@ -463,7 +462,7 @@ namespace ProQuant
         public void Notbusy()
         {
             AnimationView.IsVisible = false;
-            AnimationView.IsVisible = false;
+            AnimationBackround.IsVisible = false;
             PassEntry.IsEnabled = true;
             LogInButton.IsEnabled = true;
             EmailEntry.IsEnabled = true;
