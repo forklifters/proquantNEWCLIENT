@@ -208,12 +208,6 @@ namespace ProQuant
 
                     string tokenKey = "/api/api/5?id=cmd$~gettoken";
 
-                    //cnx.User = "oliver.filmer@proquantestimating.co.uk";
-                    //cnx.Pass = "password2";
-
-                    //cnx.User = "dominic.bright@jewson.co.uk";
-                    //cnx.Pass = "proQuant97";
-
                     //VV this works when not testing uncomment this and comment the user and other stuff
 
                     string response = await Client.GET_Token(tokenKey, "Basic", cnx.User, cnx.Pass);
@@ -250,6 +244,7 @@ namespace ProQuant
                             }
                             catch (Exception ex)
                             {
+                                SendError("LP09","Exception caused by trying to commit userinfo to secure storage", ex.Message);
                                 Console.WriteLine(ex.Message);
                             }
 

@@ -14,9 +14,6 @@ namespace ProQuant
 	[XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Splash : ContentPage
     {
-
-
-
         public Splash()
         {
             InitializeComponent();
@@ -47,6 +44,11 @@ namespace ProQuant
         {
             Navigation.RemovePage(this);
             base.OnDisappearing();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
         }
     }
 }

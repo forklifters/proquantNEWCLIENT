@@ -1100,16 +1100,32 @@ namespace ProQuant
                 return;
             }
 
-            SettingsObject[] receivedEstSettings = SettingsObject.FromJson(response);
-            List<SettingsObject> EstSettings = new List<SettingsObject>();
-
-            foreach(SettingsObject setting in receivedEstSettings)
+            if (string.IsNullOrEmpty(response))
             {
-                EstSettings.Add(setting);
+                LoginPage.SendError("M27", "Estimating settings response = null or empty", response);
+                await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nError Code: M27\n\nIf this keeps happening please restart the app.", "Ok");
+                return;
             }
 
+            try
+            {
+                SettingsObject[] receivedEstSettings = SettingsObject.FromJson(response);
+                List<SettingsObject> EstSettings = new List<SettingsObject>();
 
-            await Navigation.PushAsync(new Settings(Maincnx, EstSettings, "Estimating Settings"));
+                foreach(SettingsObject setting in receivedEstSettings)
+                {
+                    EstSettings.Add(setting);
+                }
+
+
+                await Navigation.PushAsync(new Settings(Maincnx, EstSettings, "Estimating Settings"));
+            }
+            catch (Exception ex)
+            {
+                LoginPage.SendError("M25", "Error Occured putting setting response into List<SettingObject>", ex.Message);
+                await DisplayAlert("Error", "An Error has occured, please try again\n\nError Code: M25", "Ok");
+                return;
+            }
 
             //Go To Settings Page as a navigation page with list.
 
@@ -1124,6 +1140,13 @@ namespace ProQuant
             {
                 LoginPage.SendError("M11", "Http GET request error on Client.GET() call. - material settings");
                 await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nError Code: M11\n\nIf this keeps happening please restart the app.", "Ok");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(response))
+            {
+                LoginPage.SendError("M26", "Material settings response = null or empty", response);
+                await DisplayAlert("Error", "There has been an error contacting our server, please try again.\n\nError Code: M26\n\nIf this keeps happening please restart the app.", "Ok");
                 return;
             }
 

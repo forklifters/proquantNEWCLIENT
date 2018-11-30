@@ -209,20 +209,19 @@ namespace ProQuant
             AbsoluteLayout.SetLayoutBounds(Add3, new Rectangle(.12, .455, .58, .045));
             AbsoluteLayout.SetLayoutBounds(Add4, new Rectangle(.12, .495, .58, .045));
             AbsoluteLayout.SetLayoutBounds(AddPC, new Rectangle(.12, .535, .58, .045));
-            AbsoluteLayout.SetLayoutBounds(Description, new Rectangle(.475, .69, .9, .1));
-            AbsoluteLayout.SetLayoutBounds(Notes, new Rectangle(.475, .81, .9, .1));
+            AbsoluteLayout.SetLayoutBounds(DescriptionStack, new Rectangle(.475, .69, .9, .1));        
         }
 
         private async void PayButton_Clicked(object sender, EventArgs e)
         {
             ConnectionCheck();
-            var response = await DisplayAlert(String.Format("Total: £{0}", Total),
-                                                String.Format("Our Price: £{0} \n" +
+            var response = await DisplayAlert(string.Format("Total: £{0}", Total),
+                                                string.Format("Our Price: £{0} \n" +
                                                                 "Vat: £{1} \n",
                                                                 Price,
                                                                 VatVal,
                                                                 Total),
-                                                String.Format("Pay £{0}", Total), "Cancel");
+                                                string.Format("Pay £{0}", Total), "Cancel");
 
             if (response == true)
             {
@@ -336,7 +335,7 @@ namespace ProQuant
 
             string jobnumber = _jobcell.job.job.ToString();
             string subjobnumber = _jobcell.SubJobNumber;
-            string key = string.Format("/api/api/5?id=id$~{0}~cmd$~emailpdfs~{1}~{2}~{3}", MainCnx.ID, jobnumber, subjobnumber, MainCnx.User);
+            string key = $"/api/api/5?id={MainCnx.MD}$~{MainCnx.ID}~cmd$~emailpdfs~{jobnumber}~{subjobnumber}~{MainCnx.User}";
 
             ConnectionCheck();
             if (connected == true)

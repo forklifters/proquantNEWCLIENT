@@ -21,7 +21,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>false</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
@@ -153,6 +153,8 @@
     <AndroidResource Include="Resources\drawable\PQICONxhd.png" />
     <AndroidResource Include="Resources\drawable\Proquant_logo.PNG" />
     <AndroidResource Include="Resources\drawable\RefreshLogo.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\iconicon.png" />
     <Content Include="Resources\drawable\LoginBackround.png" />
     <AndroidResource Include="Resources\drawable\iconicon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\iconicon.png" />
