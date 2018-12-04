@@ -30,9 +30,34 @@ namespace ProQuant
         public LoginPage()
         {
             InitializeComponent();
+            AppleCheck();
             ConnectionCheck();
             SetUpAnimation();
             SavedPassCheck();
+        }
+
+        public void AppleCheck()
+        {
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                //EmailEntry change pos
+                EmailEntry.TextColor = Color.DarkRed;
+                AbsoluteLayout.SetLayoutBounds(EmailEntry, new Rectangle(.5, .52, .8, .07));
+
+                //PassEntry change pos
+                PassEntry.TextColor = Color.DarkRed;
+                AbsoluteLayout.SetLayoutBounds(PassEntry, new Rectangle(.5, .6, .8, .07));
+                
+                //LoginButton
+                LogInButton.TextColor = Color.White;
+                LogInButton.BackgroundColor = Color.Gray;
+                AbsoluteLayout.SetLayoutBounds(LogInButton, new Rectangle(.5, .7, .8, .07));
+
+                //SignUpButton
+                SignUpButton.BackgroundColor = Color.Gray;
+                SignUpButton.TextColor = Color.White;
+                AbsoluteLayout.SetLayoutBounds(SignUpButton, new Rectangle(.5, .8, .5, .07));
+            }
         }
 
         private void SetUpAnimation()
@@ -211,6 +236,11 @@ namespace ProQuant
                     cnx.User = EmailEntry.Text;
                     cnx.Pass = PassEntry.Text;
                     PassEntry.Text = "";
+
+                    //######################################################################
+                    cnx.User = "oliver.filmer@proquantestimating.co.uk";
+                    cnx.Pass = "password";
+                    //######################################################################
 
                     string tokenKey = "/api/api/5?id=cmd$~gettoken";
 

@@ -14,7 +14,7 @@
     </ContentPage>
 
     <!--CUSTOMISE-->
-    <ContentPage Title="Customise" BackgroundColor="White">
+    <ContentPage Title="Customise" BackgroundColor="White" x:Name="Tab2">
         <AbsoluteLayout>
 
             <Button x:Name="settingsButton"
@@ -43,7 +43,7 @@
     </ContentPage>
 
     <!--ACCOUNT-->
-    <ContentPage Title="Account" BackgroundColor="White">
+    <ContentPage Title="Account" BackgroundColor="White" x:Name="Tab3">
         <AbsoluteLayout>
             <Button x:Name="contactButton"
                     Text="Contact Us"

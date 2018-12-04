@@ -34,6 +34,7 @@ namespace ProQuant
         public JobSpecific(Connection cnx, JobCell job, bool comingFromSubjob)
         {
             InitializeComponent();
+            AppleCheck();
             BackgroundColor = Color.FromHex("#B80000");
             _comingFromSubjob = comingFromSubjob;
             jx = job;
@@ -54,6 +55,22 @@ namespace ProQuant
             }
             
             
+        }
+
+        private void AppleCheck()
+        {
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                PayButton.TextColor = Color.White;
+                PayButton.BackgroundColor = Color.Gray;
+
+                CallUsButton.TextColor = Color.White;
+                CallUsButton.BackgroundColor = Color.Gray;
+
+                SendPDFButton.TextColor = Color.White;
+                SendPDFButton.BackgroundColor = Color.Gray;
+                
+            }
         }
 
         protected override async void OnDisappearing()
@@ -146,12 +163,20 @@ namespace ProQuant
 
 
             PayButton.IsEnabled = false;
+            PayButton.IsVisible = false;
             PayButton.Text = "No Payment Due";
 
             if (Total != 0)
             {
                 PayButton.IsEnabled = true;
+                PayButton.IsVisible = true;
                 PayButton.Text = String.Format("Pay: £{0}", Total);
+
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    PayButton.BackgroundColor = Color.DarkGreen;
+                    PayButton.TextColor = Color.White;
+                }
             }
 
 

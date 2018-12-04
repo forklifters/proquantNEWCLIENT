@@ -47,9 +47,23 @@ namespace ProQuant
             Maincnx = cnx;
             SendFirebaseToken();
             firstLoad = false;
+            AppleCheck();
             ConnectionCheck();
 
             passwordButton.Clicked += PasswordButton_Clicked;
+        }
+
+        private void AppleCheck()
+        {
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                materialsButton.CornerRadius = 25;
+                settingsButton.CornerRadius = 25;
+                //Tab1.Content.HorizontalOptions = LayoutOptions.CenterAndExpand;
+                //Tab1.Icon = 
+                //Tab2.Icon =
+                //Tab3.Icon = 
+            }
         }
 
         private async void SendFirebaseToken()
@@ -250,8 +264,6 @@ namespace ProQuant
             List<Log> logs = new List<Log>();
             Log log = new Log() { LogLog = $"[MOBILE]: {cnx.User} called UpdateList()", Datetime = $"{DateTime.Now:r}" };
             logs.Add(log);
-
-            //LoginPage.SendLogs(logs, cnx);
             
 
             this.BarBackgroundColor = Color.FromHex("#B80000");
@@ -1082,6 +1094,7 @@ namespace ProQuant
             {
                 updateList(Maincnx, null);
             }
+
             base.OnAppearing();
         }
 

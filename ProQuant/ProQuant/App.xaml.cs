@@ -30,11 +30,10 @@ namespace ProQuant
 
         protected override void OnStart()
         {
-            AppCenter.Start("android=d3d541a3-9fd1-4a9b-b729-02b80d478a25;"
-                //+
+            AppCenter.Start("android=d3d541a3-9fd1-4a9b-b729-02b80d478a25;" 
+                + "ios=3b9898ff-a95d-4553-9d41-9cb05d3e9746;"
                 //"uwp={Your UWP App secret here};" +
-                //"ios={Your iOS App secret here}"
-                ,typeof(Analytics), typeof(Crashes));
+                , typeof(Analytics), typeof(Crashes));
 
         }
 
