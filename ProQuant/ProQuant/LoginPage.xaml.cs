@@ -13,6 +13,7 @@ using Plugin.Connectivity;
 using System.Net.Http;
 using Microsoft.AppCenter.Analytics;
 using Lottie;
+using Microsoft.AppCenter.Crashes;
 
 namespace ProQuant
 {
@@ -22,6 +23,7 @@ namespace ProQuant
         bool busy = false;
         public static bool loggedin = false;
         public static bool connected = false;
+        public static bool comingFromPassChange = false;
         public static Connection cnx = new Connection();
 
 
@@ -43,7 +45,7 @@ namespace ProQuant
             AnimationView.Play();
         }
 
-        private async void SavedPassCheck()
+        public async void SavedPassCheck()
         {
             
             string posUsername = null;
@@ -152,7 +154,7 @@ namespace ProQuant
         private async void SignUpClicked(object sender, EventArgs e)
         {
             ConnectionCheck();
-            if (connected == true)
+            if (connected)
             {
                 if (busy == false)
                 {
@@ -163,14 +165,12 @@ namespace ProQuant
                         Title = "Sign Up"
                     };
 
-                    
+                    MessagingCenter.Subscribe<Register,string>(register, "message", (_sender, args) =>
+                        {
+                            EmailEntry.Text = args;
+                        });
+
                     await Navigation.PushAsync(register);
-
-                    MessagingCenter.Subscribe<string>(register, "RegisteringEmail", (arg) =>
-                    {
-                        EmailEntry.Text = arg;
-                    });
-
                     busy = false;
                     Notbusy();
                 }
@@ -187,6 +187,12 @@ namespace ProQuant
             if (loggedin)
             {
                 go();
+            }
+
+            if (comingFromPassChange)
+            {
+                comingFromPassChange = false;
+                SavedPassCheck();
             }
             base.OnAppearing();
         }
@@ -232,7 +238,6 @@ namespace ProQuant
                         //FORCE CHANGE PASSWORD
                         await Navigation.PushModalAsync(new ChangePassword(tokenInfo), true);
                         PassEntry.Text = "";
-                        go();
                     }
                     else
                     {

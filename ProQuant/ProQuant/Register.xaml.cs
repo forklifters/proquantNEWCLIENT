@@ -39,9 +39,9 @@ namespace ProQuant
                 RegisterResponse RegResponse = RegisterResponse.FromJson(response);
                 if (string.IsNullOrWhiteSpace(RegResponse.error))
                 {
+                    MessagingCenter.Send(this, "message", email);
                     await DisplayAlert("Temporary Password", $"A temporary password has been sent to:\n {email}\n\nIf you have not received this, please ring us.", "Ok");
-                    await DisplayAlert("Temporary Password", $"You will be asked to change the temporary password after your first log in.", "Ok");
-                    MessagingCenter.Send(this, "RegisteringEmail", EmailBar.Text);
+                    await DisplayAlert("Temporary Password", $"You will be asked to change the temporary password after your first log in.", "Ok");              
                     await Navigation.PopAsync();
                 }
                 else

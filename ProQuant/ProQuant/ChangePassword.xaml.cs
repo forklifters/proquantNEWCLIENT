@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.AppCenter.Crashes;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,19 +15,6 @@ namespace ProQuant
 	{
         TokenInfo tokenInfo;
         bool connected = false;
-
-        public async void ConnectionCheck()
-        {
-            bool Connected = App.CheckConnection();
-            if (Connected == false)
-            {
-                connected = false;
-                await DisplayAlert("No Connection", "Internet Connection is needed for this app to function", "Ok, Exit App");
-                App.ExitApp();
-
-            }
-            connected = true;
-        }
 
         public ChangePassword (TokenInfo _tokenInfo)
 		{
@@ -104,12 +92,26 @@ namespace ProQuant
                     cnx.Token = newTokenInfo.Token;
                     cnx.TokenInfoJsonProps = newTokenInfo;
 
+                    try
+                    {
+                        SecureStorage.RemoveAll();
+                        await SecureStorage.SetAsync("username", tokenInfo.Email);
+                        await SecureStorage.SetAsync("password", NewPassword.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        LoginPage.SendError("CP04",
+                            "There was an exception thrown putting new user info into Secure Storage.",
+                            ex.Message);
+                    }
+
                     LoginPage.cnx = cnx;
                     if (string.IsNullOrWhiteSpace(tokenInfo.Temp))
                     {
                         MessagingCenter.Send(this, "sendcnx", cnx);
                     }
                     await DisplayAlert("Password Changed", "Your password has been changed.", "Ok");
+                    LoginPage.comingFromPassChange = true;
                     await Navigation.PopModalAsync(true);
                 }
                 else
@@ -130,6 +132,19 @@ namespace ProQuant
                     
             }
         }
+
+	    public async void ConnectionCheck()
+	    {
+	        bool Connected = App.CheckConnection();
+	        if (Connected == false)
+	        {
+	            connected = false;
+	            await DisplayAlert("No Connection", "Internet Connection is needed for this app to function", "Ok, Exit App");
+	            App.ExitApp();
+
+	        }
+	        connected = true;
+	    }
 
         private async void Back_Clicked(object sender, EventArgs e)
         {
