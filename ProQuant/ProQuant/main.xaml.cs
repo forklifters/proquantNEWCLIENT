@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
@@ -13,6 +13,10 @@ using Newtonsoft.Json;
 
 #if __ANDROID__
 using Firebase.Iid;
+#endif
+
+#if __IOS__
+
 #endif
 
 namespace ProQuant
@@ -30,7 +34,7 @@ namespace ProQuant
         SearchBar searchbar;
         List<JobCell> _Cells = new List<JobCell>();
         string searchBarText;
-
+  
 
 
         public main(Connection cnx)
@@ -58,11 +62,7 @@ namespace ProQuant
             if (Device.RuntimePlatform == Device.iOS)
             {
                 materialsButton.CornerRadius = 25;
-                settingsButton.CornerRadius = 25;
-                //Tab1.Content.HorizontalOptions = LayoutOptions.CenterAndExpand;
-                //Tab1.Icon = 
-                //Tab2.Icon =
-                //Tab3.Icon = 
+                settingsButton.CornerRadius = 25;                
             }
         }
 
@@ -348,13 +348,27 @@ namespace ProQuant
                 HorizontalTextAlignment = TextAlignment.Center
             };
 
-            searchbar = new SearchBar()
+            if (Device.RuntimePlatform == Device.iOS)
             {
-                Placeholder = "Search:",
-                Text = searchBarText,
-                CancelButtonColor = Color.Red
-            };
-
+                searchbar = new SearchBar()
+                {
+                    Placeholder = "Search:",
+                    Text = searchBarText,
+                    CancelButtonColor = Color.Red,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    Margin = new Thickness(15, 0,0,0)
+                };
+            }
+            else
+            {
+                searchbar = new SearchBar()
+                {
+                    Placeholder = "Search:",
+                    Text = searchBarText,
+                    CancelButtonColor = Color.Red
+                };
+            }
+            
             searchbar.SearchButtonPressed += SearchBarButtonPressedChanged;
             searchbar.TextChanged += Searchbar_TextChanged;
 
@@ -406,77 +420,140 @@ namespace ProQuant
                     Status.SetBinding(Label.TextColorProperty, "StatusColor");
 
 
-                    if (isMerchant == true)
+                    if (isMerchant)
                     {
-                        return new ViewCell
+                        if (Device.RuntimePlatform == Device.iOS)
                         {
-                            View = new StackLayout
+                            return new ViewCell
                             {
-                                Padding = new Thickness(0, 15),
-                                Orientation = StackOrientation.Horizontal,
-                                Children =
+                                View = new StackLayout
                                 {
-                                    JobNumber,
-                                    //stick in an image here for whatever you want.
-                                    new StackLayout
+                                    Padding = new Thickness(10, 15),
+                                    //Margin = new Thickness(15,0),
+                                    Orientation = StackOrientation.Horizontal,
+                                    Children =
                                     {
-                                        VerticalOptions = LayoutOptions.CenterAndExpand,
-                                        Spacing = 0,
-                                        Children =
+                                        JobNumber,
+                                        new StackLayout
                                         {
-                                            JobAddress,
-                                            Status
-                                        }
-                                    },
-                                    new StackLayout
-                                    {
-                                        Orientation = StackOrientation.Vertical,
-                                        VerticalOptions = LayoutOptions.CenterAndExpand,
-                                        HorizontalOptions = LayoutOptions.EndAndExpand,
-                                        Spacing = 0,
-                                        Margin = 0,
-                                        Children =
-                                        {                                           
-                                            PoNumber,
-                                            Builder
+                                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                                            Spacing = 0,
+                                            Children =
+                                            {
+                                                JobAddress,
+                                                Status
+                                            }
+                                        },
+                                        new StackLayout
+                                        {
+                                            Orientation = StackOrientation.Vertical,
+                                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                                            HorizontalOptions = LayoutOptions.EndAndExpand,
+                                            Spacing = 0,
+                                            Margin = 0,
+                                            Children =
+                                            {
+                                                PoNumber,
+                                                Builder
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        };
+                            };
+                        }
+                        else
+                        {
+                            return new ViewCell
+                            {
+                                View = new StackLayout
+                                {
+                                    Padding = new Thickness(0, 15),
+                                    Orientation = StackOrientation.Horizontal,
+                                    Children =
+                                    {
+                                        JobNumber,
+                                        new StackLayout
+                                        {
+                                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                                            Spacing = 0,
+                                            Children =
+                                            {
+                                                JobAddress,
+                                                Status
+                                            }
+                                        },
+                                        new StackLayout
+                                        {
+                                            Orientation = StackOrientation.Vertical,
+                                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                                            HorizontalOptions = LayoutOptions.EndAndExpand,
+                                            Spacing = 0,
+                                            Margin = 0,
+                                            Children =
+                                            {
+                                                PoNumber,
+                                                Builder
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+                        }                       
                     }
                     else
                     {
-                        return new ViewCell
+                        if (Device.RuntimePlatform == Device.iOS)
                         {
-                            View = new StackLayout
+                            return new ViewCell
                             {
-                                Padding = new Thickness(0, 5),
-                                Orientation = StackOrientation.Horizontal,
-                                Children =
-                            {
-                                JobNumber,
-                                //stick in an image here for whatever you want.
-                                new StackLayout
+                                View = new StackLayout
                                 {
-                                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                                    Spacing = 0,
+                                    Padding = new Thickness(10, 5),
+                                    //Margin = new Thickness(15, 0),
+                                    Orientation = StackOrientation.Horizontal,
                                     Children =
                                     {
-                                        JobAddress,
-                                        Status
+                                        JobNumber,
+                                        new StackLayout
+                                        {
+                                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                                            Spacing = 0,
+                                            Children =
+                                            {
+                                                JobAddress,
+                                                Status
+                                            }
+                                        }
                                     }
                                 }
-                                
-
-                            }
-
-
-                            }
-
-                        };
+                            };
+                        }
+                        else
+                        {                            
+                            return new ViewCell
+                            {
+                                View = new StackLayout
+                                {
+                                    Padding = new Thickness(0, 5),
+                                    Orientation = StackOrientation.Horizontal,
+                                    Children =
+                                    {
+                                        JobNumber,
+                                        new StackLayout
+                                        {
+                                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                                            Spacing = 0,
+                                            Children =
+                                            {
+                                                JobAddress,
+                                                Status
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+                        }
                     }
-                    
                 })
             };
 
@@ -484,21 +561,56 @@ namespace ProQuant
 
             this.Padding = new Thickness(10, 20, 10, 5);
 
-            
-            Tab1.Content = new StackLayout
+            if (Device.RuntimePlatform == Device.iOS)
             {
-                Children =
+                Tab1.Content = new StackLayout
                 {
-                    jobHeader,
-                    searchbar,
-                    listView,
-                    
-                }
-            };
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    Children =
+                    {
+                        jobHeader,
+                        searchbar,
+                        listView,
+                    }
+                };
+            }
+            else
+            {
+                Tab1.Content = new StackLayout
+                {
+                    Children =
+                    {
+                        jobHeader,
+                        searchbar,
+                        listView,
+                    }
+                };
+            }
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                listView.IsPullToRefreshEnabled = true;
+                listView.RefreshCommand = RefreshCommand;
+            }
 
             
-           
         }
+
+        //TODO: After changing this, the OnSearchButtonPressed now updates the list. Possibly because pull to refresh is now enabled?
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    IsBusy = true;
+                    searchbar.Text = "";
+                    await updateList(Maincnx, null);
+                    IsBusy = false;
+                });
+            }
+        }
+
 
         public List<JobCell> FormListFromText(string Text)
         {
@@ -778,7 +890,6 @@ namespace ProQuant
 
         public void SearchBarButtonPressedChanged (object sender, EventArgs e)
         {
-            listView.BeginRefresh();
             SearchBar SearchBarSender = sender as SearchBar;
             string Text = SearchBarSender.Text;
             List<JobCell> List = FormListFromText(Text);
@@ -791,9 +902,6 @@ namespace ProQuant
             {
                 updateList(Maincnx, null);
             }
-
-            listView.EndRefresh();
-
         }
 
         private async Task<JobAmounts> GetAmounts(Connection cnx)

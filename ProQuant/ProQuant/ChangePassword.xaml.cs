@@ -20,6 +20,7 @@ namespace ProQuant
 		{
 			InitializeComponent ();
             warning.IsVisible = false;
+		    AppleCheck();
             tokenInfo = _tokenInfo;
             EmailLabel.Text = tokenInfo.Email;
             if (!string.IsNullOrWhiteSpace(tokenInfo.Temp))
@@ -32,7 +33,16 @@ namespace ProQuant
             }           
 		}
 
-        async void Button_Clicked(object sender, EventArgs e)
+	    private void AppleCheck()
+	    {
+	        if (Device.RuntimePlatform == Device.iOS)
+	        {
+	            BackButton.BackgroundColor = Color.White;
+                BackButton.TextColor = Color.DarkRed;
+	        }
+	    }
+
+	    async void Button_Clicked(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(NewPassword.Text) || string.IsNullOrEmpty(ConfirmPassword.Text))
             {
