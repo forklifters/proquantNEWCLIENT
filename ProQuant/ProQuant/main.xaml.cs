@@ -563,6 +563,7 @@ namespace ProQuant
 
             if (Device.RuntimePlatform == Device.iOS)
             {
+                jobHeader.Margin = new Thickness(0,10,0,3);
                 Tab1.Content = new StackLayout
                 {
                     HorizontalOptions = LayoutOptions.CenterAndExpand,

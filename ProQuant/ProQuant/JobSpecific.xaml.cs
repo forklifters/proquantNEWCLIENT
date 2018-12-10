@@ -425,16 +425,10 @@ namespace ProQuant
                 //CHANGE TO REQUEST NUMBER
                 PhoneDialer.Open("+441625420821");
             }
-            catch (FeatureNotSupportedException ex)
+            catch (Exception ex)
             {
                 LoginPage.SendError("JS07", "Dialer feature supported", ex.Message);
                 await DisplayAlert("ERROR", "Dialer feature not supported.", "OK");
-                return;
-
-            }
-            catch (Exception ex)
-            {
-                LoginPage.SendError("", "Call us button unknown exception", ex.Message);
                 return;
             }
         }
