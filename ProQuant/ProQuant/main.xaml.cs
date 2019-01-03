@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,8 +35,8 @@ namespace ProQuant
         SearchBar searchbar;
         List<JobCell> _Cells = new List<JobCell>();
         string searchBarText;
-  
-
+        
+      
 
         public main(Connection cnx)
         {
@@ -44,6 +45,8 @@ namespace ProQuant
             {
                 searchBarText = "";
             }
+
+           
 
             
 
@@ -356,7 +359,7 @@ namespace ProQuant
                     Text = searchBarText,
                     CancelButtonColor = Color.Red,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
-                    Margin = new Thickness(15, 0,0,0)
+                    Margin = new Thickness(0,0,0,0)
                 };
             }
             else
@@ -529,7 +532,7 @@ namespace ProQuant
                             };
                         }
                         else
-                        {                            
+                        {
                             return new ViewCell
                             {
                                 View = new StackLayout
@@ -559,12 +562,28 @@ namespace ProQuant
 
             listView.ItemSelected += ListView_ItemSelected;
 
-            this.Padding = new Thickness(10, 20, 10, 5);
+            //this.Padding = new Thickness(10, 20, 10, 5);
+
+            //if (Device.RuntimePlatform == Device.iOS)
+            //{
+            //    jobHeader.Margin = new Thickness(0, 10, 0, 3);
+            //    Tab1.Content = new StackLayout
+            //    {
+            //        HorizontalOptions = LayoutOptions.CenterAndExpand,
+            //        Children =
+            //        {
+            //            jobHeader,
+            //            searchbar,
+            //            listView,
+            //        }
+            //    };
+            //}
+
+            
 
             if (Device.RuntimePlatform == Device.iOS)
             {
-                jobHeader.Margin = new Thickness(0,10,0,3);
-                Tab1.Content = new StackLayout
+                Tab1.Content = new AbsoluteLayout()
                 {
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                     Children =
@@ -574,6 +593,21 @@ namespace ProQuant
                         listView,
                     }
                 };
+
+                //jobHeader.BackgroundColor = Color.BurlyWood;
+                //searchbar.BackgroundColor = Color.CadetBlue;
+                //listView.BackgroundColor = Color.DarkGray;
+
+                jobHeader.VerticalTextAlignment = TextAlignment.Center;
+
+                AbsoluteLayout.SetLayoutFlags(jobHeader, AbsoluteLayoutFlags.All);
+                AbsoluteLayout.SetLayoutFlags(searchbar, AbsoluteLayoutFlags.All);
+                AbsoluteLayout.SetLayoutFlags(listView, AbsoluteLayoutFlags.All);
+
+                AbsoluteLayout.SetLayoutBounds(jobHeader, new Rectangle(.5, .02, .98, .1));
+                AbsoluteLayout.SetLayoutBounds(searchbar, new Rectangle(.5, .13, .98, .075));
+                AbsoluteLayout.SetLayoutBounds(listView, new Rectangle(.5, .9, .98, .78));
+
             }
             else
             {
@@ -594,10 +628,11 @@ namespace ProQuant
                 listView.RefreshCommand = RefreshCommand;
             }
 
-            
+
+            // on first load bool set false, capture content then set true. COMPARE;
+            var x = Tab1.Content;
         }
 
-        //TODO: After changing this, the OnSearchButtonPressed now updates the list. Possibly because pull to refresh is now enabled?
         public ICommand RefreshCommand
         {
             get
@@ -607,6 +642,7 @@ namespace ProQuant
                     IsBusy = true;
                     searchbar.Text = "";
                     await updateList(Maincnx, null);
+
                     IsBusy = false;
                 });
             }

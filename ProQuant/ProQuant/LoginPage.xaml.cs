@@ -237,6 +237,7 @@ namespace ProQuant
                     cnx.Pass = PassEntry.Text;
                     PassEntry.Text = "";
 
+                    //TODO: REMOVE THIS!! before any further updates.
                     //######################################################################
                     cnx.User = "oliver.filmer@proquantestimating.co.uk";
                     cnx.Pass = "password";
