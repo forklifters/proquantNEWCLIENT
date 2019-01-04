@@ -164,6 +164,7 @@ namespace ProQuant
             
         }
 
+
         public async void ConnectionCheck()
         {
             bool Connected = App.CheckConnection();

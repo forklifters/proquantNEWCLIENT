@@ -46,10 +46,6 @@ namespace ProQuant
                 searchBarText = "";
             }
 
-           
-
-            
-
             //updateList(cnx, null);
             Maincnx = cnx;
             SendFirebaseToken();
@@ -59,6 +55,7 @@ namespace ProQuant
 
             passwordButton.Clicked += PasswordButton_Clicked;
         }
+
 
         private void AppleCheck()
         {
@@ -71,10 +68,11 @@ namespace ProQuant
 
         private async void SendFirebaseToken()
         {
-            if (Device.RuntimePlatform == Device.Android)
-            {
+            
 #if __ANDROID__
 
+            if (Device.RuntimePlatform == Device.Android)
+            {
                 try
                 {
                     Maincnx.FirebaseToken = FirebaseInstanceId.Instance.Token;
@@ -119,12 +117,83 @@ namespace ProQuant
                     LoginPage.SendError("M01", "Exception caught when trying to send server Firebase Notification Token", e.Message);
                     await DisplayAlert("Error", "Error sending Notification Token\n\nError Code: M01", "Ok");
                 }
+            }
 #endif
 
 
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                try
+                {
+                    var appleToken = await SecureStorage.GetAsync("APNS");
+                    if (!string.IsNullOrWhiteSpace(appleToken))
+                    {
+                        Maincnx.APNSToken = appleToken;
+                    }
+                    else
+                    {
+                        appleToken = await SecureStorage.GetAsync("PushDeviceToken");
+                        if (!string.IsNullOrWhiteSpace(appleToken))
+                        {
+                            Maincnx.APNSToken = appleToken;
+                        }
+                        else
+                        {
+                            //TODO: IMPLEMENT
+                            //SHOW ERROR
+                        }
+                        
+                    }
+                    
+                    Cmd cmd = new Cmd()
+                    {
+                        Command = "firebase"
+                    };
 
+                    User user = new User()
+                    {
+                        Token = Maincnx.Token,
+                        Id = Maincnx.ID,
+                        Md = Maincnx.TokenInfoJsonProps.Md,
+                        Name = Maincnx.Name,
+                        Email = Maincnx.TokenInfoJsonProps.Email,
+                        Error = "",
+                        Temp = ""
+                    };
+                    FirebaseProp firebase = new FirebaseProp()
+                    {
+                        Token = Maincnx.APNSToken,
+                        Device = "iOS"
+                    };
+
+                    FirebaseJson outgoingobject = new FirebaseJson()
+                    {
+                        Cmd = cmd,
+                        User = user,
+                        Firebase = firebase
+                    };
+
+                    var x = outgoingobject;
+                    string outgoingJson = outgoingobject.ToJson();
+
+                    Maincnx.FirebaseObject = outgoingJson;
+                    string key = $"/api/api/5?id=";
+                    var response = await Client.Post(Maincnx.Token, key, outgoingJson);
+                    var y = response;
+
+                    await DisplayAlert("SENT", appleToken, "Ok"); //TODO REMOVE;
+                    await DisplayAlert("Response", response, "Ok"); //TODO REMOVE;
+                }
+                catch (Exception e)
+                {
+                    LoginPage.SendError("M###", "Exception caught when trying to send server Firebase Notification Token", e.Message);
+                    await DisplayAlert("Error", "Error sending Notification Token\n\nError Code: M##", "Ok");
+                }
+            
             }
         }
+
+
 
         private async void PasswordButton_Clicked(object sender, EventArgs e)
         {

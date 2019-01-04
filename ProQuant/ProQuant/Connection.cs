@@ -11,6 +11,7 @@ namespace ProQuant
         public string Pass { get; set; }
 
         public string FirebaseToken { get; set; }
+        public string APNSToken { get; set; }
 
         public string ID { get; set; }
         public string MD { get; set; }
