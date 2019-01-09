@@ -29,7 +29,7 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <CodesignProvision />
+    <CodesignProvision>tester</CodesignProvision>
     <CodesignExtraArgs />
     <CodesignResourceRules />
     <CodesignEntitlements />
@@ -43,6 +43,8 @@
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Distribution: Proquant Estimating Limited (J2HHHW2U3S)</CodesignKey>
+    <CodesignProvision>ProQuant_Distribution_ProvisionProf</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,8 +73,11 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>ProQuant_Distribution_ProvisionProf</CodesignProvision>
+    <MtouchDebug>false</MtouchDebug>
+    <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -164,6 +169,8 @@
       <Visible>false</Visible>
     </ImageAsset>
     <Content Include="Resources\Loading.json" />
+    <ITunesArtwork Include="iTunesArtwork" />
+    <ITunesArtwork Include="iTunesArtwork%402x" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\LaunchImages.launchimage\Contents.json">

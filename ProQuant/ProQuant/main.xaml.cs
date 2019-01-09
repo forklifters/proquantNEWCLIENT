@@ -35,6 +35,11 @@ namespace ProQuant
         SearchBar searchbar;
         List<JobCell> _Cells = new List<JobCell>();
         string searchBarText;
+
+        public bool APNSset = false;
+        public int APNSattemptLimit = 5;
+        public int APNSattemptDurationSeconds = 20;
+        public int APNSattempts = 0;
         
       
 
@@ -64,6 +69,12 @@ namespace ProQuant
                 materialsButton.CornerRadius = 25;
                 settingsButton.CornerRadius = 25;                
             }
+        }
+
+        public async void RetryFirebase()
+        {
+            await Task.Delay(TimeSpan.FromSeconds(APNSattemptDurationSeconds));
+            SendFirebaseToken();
         }
 
         private async void SendFirebaseToken()
@@ -125,71 +136,86 @@ namespace ProQuant
             {
                 try
                 {
-                    var appleToken = await SecureStorage.GetAsync("APNS");
+                    var appleToken = await SecureStorage.GetAsync("APNStemp");               
                     if (!string.IsNullOrWhiteSpace(appleToken))
                     {
+                        appleToken = appleToken.Replace(" ", "");
+                        await SecureStorage.SetAsync("APNS", appleToken);
                         Maincnx.APNSToken = appleToken;
+                        APNSset = true;
                     }
                     else
                     {
-                        appleToken = await SecureStorage.GetAsync("PushDeviceToken");
+                        appleToken = await SecureStorage.GetAsync("APNS");
                         if (!string.IsNullOrWhiteSpace(appleToken))
                         {
                             Maincnx.APNSToken = appleToken;
                         }
-                        else
-                        {
-                            //TODO: IMPLEMENT
-                            //SHOW ERROR
-                        }
-                        
+                      
                     }
-                    
-                    Cmd cmd = new Cmd()
+
+                    if (!string.IsNullOrWhiteSpace(Maincnx.APNSToken))
                     {
-                        Command = "firebase"
-                    };
+                        if (APNSset || APNSattempts == APNSattemptLimit)
+                        {
+                            Cmd cmd = new Cmd()
+                            {
+                                Command = "firebase"
+                            };
 
-                    User user = new User()
-                    {
-                        Token = Maincnx.Token,
-                        Id = Maincnx.ID,
-                        Md = Maincnx.TokenInfoJsonProps.Md,
-                        Name = Maincnx.Name,
-                        Email = Maincnx.TokenInfoJsonProps.Email,
-                        Error = "",
-                        Temp = ""
-                    };
-                    FirebaseProp firebase = new FirebaseProp()
-                    {
-                        Token = Maincnx.APNSToken,
-                        Device = "iOS"
-                    };
+                            User user = new User()
+                            {
+                                Token = Maincnx.Token,
+                                Id = Maincnx.ID,
+                                Md = Maincnx.TokenInfoJsonProps.Md,
+                                Name = Maincnx.Name,
+                                Email = Maincnx.TokenInfoJsonProps.Email,
+                                Error = "",
+                                Temp = ""
+                            };
+                            FirebaseProp firebase = new FirebaseProp()
+                            {
+                                Token = Maincnx.APNSToken,
+                                Device = "iOS"
+                            };
 
-                    FirebaseJson outgoingobject = new FirebaseJson()
-                    {
-                        Cmd = cmd,
-                        User = user,
-                        Firebase = firebase
-                    };
+                            FirebaseJson outgoingobject = new FirebaseJson()
+                            {
+                                Cmd = cmd,
+                                User = user,
+                                Firebase = firebase
+                            };
 
-                    var x = outgoingobject;
-                    string outgoingJson = outgoingobject.ToJson();
+                            var x = outgoingobject;
+                            string outgoingJson = outgoingobject.ToJson();
 
-                    Maincnx.FirebaseObject = outgoingJson;
-                    string key = $"/api/api/5?id=";
-                    var response = await Client.Post(Maincnx.Token, key, outgoingJson);
-                    var y = response;
+                            Maincnx.FirebaseObject = outgoingJson;
+                            string key = $"/api/api/5?id=";
+                            var response = await Client.Post(Maincnx.Token, key, outgoingJson);
+                            var y = response;
 
-                    await DisplayAlert("SENT", appleToken, "Ok"); //TODO REMOVE;
-                    await DisplayAlert("Response", response, "Ok"); //TODO REMOVE;
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
-                    LoginPage.SendError("M###", "Exception caught when trying to send server Firebase Notification Token", e.Message);
-                    await DisplayAlert("Error", "Error sending Notification Token\n\nError Code: M##", "Ok");
+                    LoginPage.SendError("M28", "Exception occured when sending Server APNS token.", e.Message);
+                    await DisplayAlert("Error", "Error sending Notification Token\n\nError Code: M28", "Ok");
+                    APNSset = true; //stops the error from looping
                 }
-            
+
+                if (APNSset == false)
+                {
+                    if (APNSattempts < APNSattemptLimit)
+                    {
+                        RetryFirebase();
+                    }
+                    else
+                    {
+                        LoginPage.SendError("M29", "APNS attempt limit reached (timeout).", $"Limit at: {APNSattemptLimit}"); 
+                    }
+                }
+
             }
         }
 

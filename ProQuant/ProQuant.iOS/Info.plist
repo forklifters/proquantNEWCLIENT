@@ -21,13 +21,13 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>8.0</string>
+	<string>10.1</string>
 	<key>CFBundleDisplayName</key>
 	<string>ProQuant</string>
 	<key>CFBundleIdentifier</key>
 	<string>proquant.ProQuantApp</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1</string>
 	<key>UILaunchStoryboardName</key>
 	<string>(not set)</string>
 	<key>CFBundleName</key>
@@ -38,5 +38,9 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>UIMainStoryboardFile</key>
+	<string>LaunchScreen</string>
 </dict>
 </plist>

@@ -234,7 +234,12 @@ namespace ProQuant
             AbsoluteLayout.SetLayoutBounds(Add3, new Rectangle(.12, .455, .58, .045));
             AbsoluteLayout.SetLayoutBounds(Add4, new Rectangle(.12, .495, .58, .045));
             AbsoluteLayout.SetLayoutBounds(AddPC, new Rectangle(.12, .535, .58, .045));
-            AbsoluteLayout.SetLayoutBounds(DescriptionStack, new Rectangle(.475, .69, .9, .1));        
+            AbsoluteLayout.SetLayoutBounds(DescriptionStack, new Rectangle(.475, .69, .9, .1));
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                AbsoluteLayout.SetLayoutBounds(PONumber, new Rectangle(.9, .278, .4, .045));        
+            }
         }
 
         private async void PayButton_Clicked(object sender, EventArgs e)

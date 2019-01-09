@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using UserNotifications;
 using Xamarin;
 using Xamarin.Forms;
 using Xamarin.Essentials;
@@ -24,12 +25,13 @@ namespace ProQuant.iOS
         //
         // You have 17 seconds to return from this method, or iOS will terminate your application.
         //
-        private string APNSToken;
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {        
             global::Xamarin.Forms.Forms.Init();
 
             new main(null); //non used stub to make compiler see that code is being written in this. 
+
+            DefaultTempToken();
 
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0)) //REGISTER FOR REMOTE NOTIFICATIONS WITH APNS!
             {
@@ -48,6 +50,17 @@ namespace ProQuant.iOS
 
             }
 
+            //Get rid of notifications
+            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
+                UNUserNotificationCenter.Current.RemoveAllPendingNotificationRequests(); // To remove all pending notifications which are not delivered yet but scheduled.
+                UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications(); // To remove all delivered notifications
+            }
+            else
+            {
+                UIApplication.SharedApplication.CancelAllLocalNotifications();
+            }
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
@@ -64,8 +77,7 @@ namespace ProQuant.iOS
                 DeviceToken = DeviceToken.Trim('<').Trim('>');
             }
 
-            SetToken(DeviceToken);
-            APNSToken = DeviceToken;
+            SetTempToken(DeviceToken);
 
             // Get previous device token
             var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
@@ -74,7 +86,7 @@ namespace ProQuant.iOS
             if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
             {
 
-                SetToken(DeviceToken);
+                SetTempToken(DeviceToken);
                 new UIAlertView("Registering Completed", DeviceToken, null, "OK", null).Show();
 
             }
@@ -88,13 +100,17 @@ namespace ProQuant.iOS
             new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
         }
 
-
-        public async void SetToken(string token)
+        public async void SetTempToken(string token)
         {
-            await SecureStorage.SetAsync("APNS", token);
+            await SecureStorage.SetAsync("APNStemp", token);
         }
-        
 
-        
+        public async void DefaultTempToken()
+        {
+            await SecureStorage.SetAsync("APNStemp", "");
+        }
+
+
+
     }
 }
