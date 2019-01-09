@@ -5,13 +5,12 @@
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
-		<integer>2</integer>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -29,7 +28,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>UILaunchStoryboardName</key>
-	<string>(not set)</string>
+	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>ProQuant</string>
 	<key>XSAppIconAssets</key>
